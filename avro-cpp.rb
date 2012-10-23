@@ -12,4 +12,25 @@ class AvroCpp < Formula
     system "cmake", ".", *std_cmake_args
     system "make install"
   end
+
+  def patches
+    DATA
+  end
 end
+
+
+__END__
+--- orig/impl/Compiler.cc	2012-05-20 09:51:44.000000000 -0700
++++ patched/impl/Compiler.cc	2012-10-17 14:18:21.376910023 -0700
+@@ -300,6 +300,11 @@
+         ::strlen(input));
+ }
+ 
++AVRO_DECL ValidSchema compileJsonSchemaFromString(const std::string& input)
++{
++  return compileJsonSchemaFromString(input.c_str());
++}
++
+ static ValidSchema compile(std::istream& is)
+ {
+     std::auto_ptr<InputStream> in = istreamInputStream(is);
