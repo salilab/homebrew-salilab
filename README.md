@@ -8,8 +8,10 @@ This provides formulas to build and install some Sali Lab software
 [homebrew](http://mxcl.github.com/homebrew/) package manager.
 
 To use, simply run on your Mac
+
     brew tap salilab/salilab
 
 then use regular homebrew commands to install packages; for example, to
 install MDT use
+
     brew install mdt
