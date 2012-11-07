@@ -1,5 +1,5 @@
-homebrew
-========
+homebrew-salilab
+================
 
 Sali Lab formulas for homebrew.
 
