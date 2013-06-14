@@ -8,7 +8,7 @@ class Mdt < Formula
   depends_on 'scons' => :build
   depends_on 'swig' => :build
   depends_on 'glib'
-  depends_on 'hdf5-188' # Need same version of HDF5 as Modeller
+  depends_on 'hdf5-189' # Need same version of HDF5 as Modeller
 
   def install
     system "scons", "-j #{ENV.make_jobs}",
