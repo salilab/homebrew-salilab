@@ -8,6 +8,8 @@ class Hdf51813 < Formula
   url 'http://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.13/src/hdf5-1.8.13.tar.bz2'
   sha1 '712955025f03db808f000d8f4976b8df0c0d37b5'
 
+  keg_only "Don't interfere with the regular HDF5 formula if installed."
+
   # TODO - warn that these options conflict
   option 'enable-fortran', 'Compile Fortran bindings'
   option 'enable-threadsafe', 'Trade performance and C++ or Fortran support for thread safety'
