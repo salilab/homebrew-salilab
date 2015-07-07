@@ -32,7 +32,7 @@ class Imp < Formula
         py3_lib = "#{python_framework}/lib/libpython#{version}.dylib"
         py3_inc = "#{python_framework}/Headers"
         args = ["..",
-                "-DCMAKE_INSTALL_PYTHONDIR=#{HOMEBREW_PREFIX}/lib/python#{version}/site-packages",
+                "-DCMAKE_INSTALL_PYTHONDIR=#{lib}/python#{version}/site-packages",
                 "-DSWIG_PYTHON_LIBRARIES=#{py3_lib}",
                 "-DPYTHON_LIBRARIES=#{py3_lib}",
                 "-DPYTHON_INCLUDE_DIRS=#{py3_inc}",
