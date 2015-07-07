@@ -20,6 +20,7 @@ class Imp < Formula
 
   def install
     args = std_cmake_args
+    args << "-DIMP_DISABLED_MODULES=scratch"
     args << ".."
     mkdir "build" do
       system "cmake", *args
