@@ -5,6 +5,11 @@ class Imp < Formula
   url 'http://integrativemodeling.org/2.5.0/download/imp-2.5.0.tar.gz'
   sha1 '6d4b2547bcc53cd2d704d874be8fddf75a33a601'
 
+  bottle do
+    root_url "http://integrativemodeling.org/2.5.0/download/homebrew"
+    sha256 "12c1a771a394ed6a124b0cb3e46313837abab2659b2cf07c7dd70635934ae2c6" => :yosemite
+  end
+
   depends_on 'cmake' => :build
   depends_on 'swig' => :build
 
