@@ -31,12 +31,12 @@ class Imp < Formula
         python_framework = (Formula["python3"].opt_prefix)/"Frameworks/Python.framework/Versions/#{version}"
         py3_lib = "#{python_framework}/lib/libpython#{version}.dylib"
         py3_inc = "#{python_framework}/Headers"
-        args = ["..", "-DCMAKE_INSTALL_PYTHONDIR",
-               "#{lib}/python#{version}/site-packages",
-                "-DSWIG_PYTHON_LIBRARIES", py3_lib,
-                "-DPYTHON_LIBRARIES", py3_lib,
-                "-DPYTHON_INCLUDE_DIRS", py3_inc,
-                "-DPYTHON_INCLUDE_PATH", py3_inc]
+        args = ["..",
+                "-DCMAKE_INSTALL_PYTHONDIR=#{HOMEBREW_PREFIX}/lib/python#{version}/site-packages",
+                "-DSWIG_PYTHON_LIBRARIES=#{py3_lib}",
+                "-DPYTHON_LIBRARIES=#{py3_lib}",
+                "-DPYTHON_INCLUDE_DIRS=#{py3_inc}",
+                "-DPYTHON_INCLUDE_PATH=#{py3_inc}"]
         system "cmake", *args
         system "make", "install"
       end
