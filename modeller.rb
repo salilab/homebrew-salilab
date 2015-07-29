@@ -5,20 +5,44 @@ class Modeller < Formula
   url 'http://salilab.org/modeller/9.15/modeller-9.15-mac.pax.gz'
   sha1 '046492cbd7894100d2a55efaca98db9a74e73142'
 
+  depends_on :python => :recommended
+  depends_on :python3 => :optional
+
+  depends_on 'swig' => :build
   depends_on 'hdf5-1813'
   depends_on 'glib'
   depends_on 'gettext'
   depends_on 'ifort-runtime'
 
+  # otherwise python3 setup.py build cannot find pkg-config
+  env :std
+
   def install
     modtop = "Library/modeller-#{version}"
+    pyver = Language::Python.major_minor_version "python"
     inreplace "#{modtop}/bin/mod#{version}" do |s|
       s.gsub! /^(MODINSTALL.*)=.*/, "\\1=#{prefix}"
       s.gsub! /\/bin\/\$\{EXECUTABLE\}/, "/modbin/${EXECUTABLE}"
+      # Find _modeller.so
+      s.gsub! /^exec/, "export PYTHONPATH=#{lib}/python#{pyver}/site-packages\nexec"
     end
 
+    # Rename Modeller's 'bin' directory to 'modbin', since the contents are
+    # (mostly) not binaries (and otherwise Homebrew will link them into
+    # /usr/local/bin). Also, point DYNLIB to a different location (see below)
     inreplace "#{modtop}/modlib/libs.lib" do |s|
       s.gsub! /^(BIN_MODELLER.*)\/bin/, "\\1/modbin"
+      s.gsub! /^(DYNLIB.*)\/lib/, "\\1/dynlib"
+    end
+
+    inreplace "#{modtop}/src/swig/setup.py" do |s|
+      # todo: support 32-bit too
+      s.gsub! /^exetype =.*$/, "exetype = \"mac10v4-intel64\""
+      s.gsub! /\/lib\//, "/dynlib/"
+      # to fix upstream: setup.py doesn't currently work with Python 3
+      s.gsub! /import commands/, "import subprocess"
+      s.gsub! /for token in.*$/, "for token in subprocess.check_output(['pkg-config', '--libs', '--cflags'] + list(packages), universal_newlines=True).split():"
+      s.gsub! /^.*join\(packages\).*$/, ""
     end
 
     bin.install "#{modtop}/bin/mod#{version}"
@@ -32,28 +56,33 @@ class Modeller < Formula
     prefix.install "#{modtop}/src"
 
     sover = "10"
+    ifort_libs = ["ifcore", "imf", "intlc", "irc", "svml"]
     modbins = [prefix/"modbin/mod#{version}_mac10v4",
                "#{modtop}/lib/mac10v4/_modeller.so",
                lib/"libmodeller.#{sover}.dylib",
                lib/"libsaxs.dylib"]
 
     modbins.each do |modbin|
+      # Point Modeller binaries to Homebrew-installed HDF5
       libs = ["hdf5.8", "hdf5_hl.8"]
       libs.each do |dep|
         system "install_name_tool", "-change",
                "/#{modtop}/lib/mac10v4/lib#{dep}.dylib",
                Formula["hdf5-1813"].lib/"lib#{dep}.dylib", modbin
       end
+
+      # Point Modeller binaries to Homebrew-installed libintl
       system "install_name_tool", "-change",
              "/#{modtop}/lib/mac10v4/libintl.8.dylib",
              Formula["gettext"].lib/"libintl.8.dylib", modbin
 
+      # Point Modeller binaries to Homebrew-installed glib2
       system "install_name_tool", "-change",
              "/#{modtop}/lib/mac10v4/libglib-2.0.0.dylib",
              Formula["glib"].lib/"libglib-2.0.0.dylib", modbin
 
-      libs = ["ifcore", "imf", "intlc", "irc", "svml"]
-      libs.each do |dep|
+      # Point Modeller binaries to Homebrew-installed ifort runtime libraries
+      ifort_libs.each do |dep|
         system "install_name_tool", "-change",
                "/#{modtop}/lib/mac10v4/lib#{dep}.dylib",
                Formula["ifort-runtime"].lib/"lib#{dep}.dylib", modbin
@@ -72,13 +101,66 @@ class Modeller < Formula
       file.puts "license = r'XXXX'"
     end
 
-    pyver = Language::Python.major_minor_version "python"
-    File.open('modeller.pth', 'w') do |file|
-      file.puts "#{prefix}/modlib"
+    # Make dynlib directory and symlinks so modXXX --libs works
+    Dir.mkdir("#{prefix}/dynlib")
+    ["mac10v4-intel64", "mac10v4-intel"].each do |arch|
+      File.symlink('.', "#{prefix}/dynlib/#{arch}")
     end
-    (lib/"python#{pyver}/site-packages").install "modeller.pth",
-                                       "#{modtop}/lib/mac10v4/_modeller.so"
+    File.open("#{prefix}/dynlib/README", 'w') do |file|
+      file.puts %Q("mod#{version} --libs" outputs a single directory containing the Modeller
+libraries and its HDF5 and Fortran runtime dependencies. Since the Homebrew
+package moves things around a little, the regular lib/ directory isn't
+suitable for this purpose. This directory contains symlinks to the necessary
+libraries.
+)
+    end
+    ["modeller", "saxs"].each do |l|
+      File.symlink("../lib/lib#{l}.dylib", "#{prefix}/dynlib/lib#{l}.dylib")
+    end
+    ifort_libs.each do |l|
+      File.symlink(Formula["ifort-runtime"].lib/"lib#{l}.dylib",
+                   "#{prefix}/dynlib/lib#{l}.dylib")
+    end
+    ["hdf5", "hdf5_hl"].each do |l|
+      File.symlink(Formula["hdf5-1813"].lib/"lib#{l}.dylib",
+                   "#{prefix}/dynlib/lib#{l}.dylib")
+    end
 
+    Language::Python.each_python(build) do |python, version|
+      File.open('modeller.pth', 'w') do |file|
+        file.puts "#{prefix}/modlib"
+      end
+      (lib/"python#{version}/site-packages").install "modeller.pth"
+    end
+
+    pyver = Language::Python.major_minor_version "python"
+    (lib/"python#{pyver}/site-packages").install "#{modtop}/lib/mac10v4/_modeller.so"
+
+    # Build Python 3 extension from SWIG inputs (todo: make universal)
+    if build.with? 'python3'
+      pyver = Language::Python.major_minor_version "python3"
+      Dir.chdir("#{prefix}/src/swig/") do
+        system "swig", "-python", "-keyword", "-nodefaultctor",
+               "-nodefaultdtor", "-noproxy", "modeller.i"
+        system "python3", "setup.py", "build"
+        (lib/"python#{pyver}/site-packages").install Dir["build/lib.*#{pyver}/_modeller.so"]
+        File.delete("modeller_wrap.c")
+        FileUtils.rm_rf("build")
+      end
+    end
+
+  end
+
+  def caveats; <<-EOS.undent
+    Edit #{prefix}/modlib/modeller/config.py
+    and replace XXXX with your Modeller license key.
+    EOS
+  end
+
+  test do
+    Language::Python.each_python(build) do |python, version|
+      system python, "-c", "import modeller"
+    end
   end
 
 end
