@@ -35,9 +35,14 @@ class Modeller < Formula
       s.gsub! /^(DYNLIB.*)\/lib/, "\\1/dynlib"
     end
 
+    if `uname -m` == "x86_64\n"
+      exetype = "mac10v4-intel64"
+    else
+      exetype = "mac10v4-intel"
+    end
+
     inreplace "#{modtop}/src/swig/setup.py" do |s|
-      # todo: support 32-bit too
-      s.gsub! /^exetype =.*$/, "exetype = \"mac10v4-intel64\""
+      s.gsub! /^exetype =.*$/, "exetype = \"#{exetype}\""
       s.gsub! /\/lib\//, "/dynlib/"
       # to fix upstream: setup.py doesn't currently work with Python 3
       s.gsub! /import commands/, "import subprocess"
