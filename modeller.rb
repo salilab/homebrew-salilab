@@ -3,7 +3,7 @@ require 'formula'
 class Modeller < Formula
   homepage 'http://salilab.org/modeller/'
   url 'http://salilab.org/modeller/9.15/modeller-9.15-mac.pax.gz'
-  sha1 '046492cbd7894100d2a55efaca98db9a74e73142'
+  sha256 'd1ef0b6b50680dbacc20bc3fb909d86b77026195f70dd5e0e2f07573592f1c22'
 
   depends_on :python => :recommended
   depends_on :python3 => :optional
