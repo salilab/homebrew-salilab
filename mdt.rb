@@ -11,10 +11,11 @@ class Mdt < Formula
   depends_on 'hdf5-1813' # Need same version of HDF5 as Modeller
 
   def install
+    hdf5_formula = Formula['hdf5-1813']
     system "scons", "-j #{ENV.make_jobs}",
                     "prefix=#{prefix}",
-                    "includepath=#{HOMEBREW_PREFIX}/Cellar/hdf5-1813/1.8.13/include",
-                    "libpath=#{HOMEBREW_PREFIX}/Cellar/hdf5-1813/1.8.13/lib",
+                    "includepath=#{hdf5_formula.include}",
+                    "libpath=#{hdf5_formula.lib}",
                     "install"
   end
 
