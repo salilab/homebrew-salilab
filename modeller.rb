@@ -154,6 +154,20 @@ libraries.
       end
     end
 
+    # Add pkg-config support
+    Dir.mkdir(lib/"pkgconfig")
+    File.open(lib/"pkgconfig/modeller.pc", 'w') do |file|
+      file.puts %Q(prefix=/usr
+exec_prefix=/usr
+
+Name: Modeller
+Description: Comparative modeling by satisfaction of spatial restraints
+Version: #{version}
+Libs: -L#{prefix}/dynlib/#{exetype} -lmodeller -lhdf5 -lhdf5_hl -lsaxs -limf -lsvml -lifcore -lirc
+Cflags: -I#{prefix}/src/include -I#{prefix}/src/include/#{exetype}
+)
+    end
+
   end
 
   def caveats; <<-EOS.undent
