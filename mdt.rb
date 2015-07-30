@@ -20,6 +20,8 @@ class Mdt < Formula
   end
 
   def test
-    system "scons", "test"
+    Language::Python.each_python(build) do |python, version|
+      system python, "-c", "import mdt"
+    end
   end
 end
