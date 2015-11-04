@@ -2,9 +2,9 @@ require 'formula'
 
 # libTAU is needed to build the IMP MultiFit modules
 class Libtau < Formula
-  homepage 'http://salilab.org/imp/libTAU.html'
-  url 'http://salilab.org/imp/libTAU/libTAU-1.0.1.zip'
-  sha256 '0eb798f9f5ae637e40b7befaaed91c8fd155a4f20c55fac4bdf8af24ef292f1f'
+  homepage 'http://integrativemodeling.org/libTAU.html'
+  url 'http://integrativemodeling.org/libTAU/libTAU-1.0.1.zip'
+  sha256 'f3a3319cdd6dda71ca1d6f04f4c401f15d6f715249fa476dca0d7e94580fe882'
 
   option :universal
 
