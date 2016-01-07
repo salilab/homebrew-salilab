@@ -2,14 +2,14 @@ require 'formula'
 
 class Modeller < Formula
   homepage 'http://salilab.org/modeller/'
-  url 'http://salilab.org/modeller/9.15/modeller-9.15-mac.pax.gz'
-  sha256 'd1ef0b6b50680dbacc20bc3fb909d86b77026195f70dd5e0e2f07573592f1c22'
+  url 'http://salilab.org/modeller/9.16/modeller-9.16-mac.pax.gz'
+  sha256 'f75c274abde04fe6d558cb92fc5637df8a740f80ed7c545f628b9ff92bbda3aa'
 
   depends_on :python => :recommended
   depends_on :python3 => :optional
 
   depends_on 'swig' => :build
-  depends_on 'hdf5-1813'
+  depends_on 'hdf5-1814'
   depends_on 'glib'
   depends_on 'gettext'
   depends_on 'ifort-runtime'
@@ -44,10 +44,6 @@ class Modeller < Formula
     inreplace "#{modtop}/src/swig/setup.py" do |s|
       s.gsub! /^exetype =.*$/, "exetype = \"#{exetype}\""
       s.gsub! /\/lib\//, "/dynlib/"
-      # to fix upstream: setup.py doesn't currently work with Python 3
-      s.gsub! /import commands/, "import subprocess"
-      s.gsub! /for token in.*$/, "for token in subprocess.check_output(['pkg-config', '--libs', '--cflags'] + list(packages), universal_newlines=True).split():"
-      s.gsub! /^.*join\(packages\).*$/, ""
     end
 
     bin.install "#{modtop}/bin/mod#{version}"
@@ -60,7 +56,7 @@ class Modeller < Formula
     prefix.install "#{modtop}/modlib"
     prefix.install "#{modtop}/src"
 
-    sover = "10"
+    sover = "11"
     ifort_libs = ["ifcore", "imf", "intlc", "irc", "svml"]
     modbins = [prefix/"modbin/mod#{version}_mac10v4",
                "#{modtop}/lib/mac10v4/_modeller.so",
@@ -69,11 +65,11 @@ class Modeller < Formula
 
     modbins.each do |modbin|
       # Point Modeller binaries to Homebrew-installed HDF5
-      libs = ["hdf5.8", "hdf5_hl.8"]
+      libs = ["hdf5.9", "hdf5_hl.9"]
       libs.each do |dep|
         system "install_name_tool", "-change",
                "/#{modtop}/lib/mac10v4/lib#{dep}.dylib",
-               Formula["hdf5-1813"].lib/"lib#{dep}.dylib", modbin
+               Formula["hdf5-1814"].lib/"lib#{dep}.dylib", modbin
       end
 
       # Point Modeller binaries to Homebrew-installed libintl
@@ -127,7 +123,7 @@ libraries.
                    "#{prefix}/dynlib/lib#{l}.dylib")
     end
     ["hdf5", "hdf5_hl"].each do |l|
-      File.symlink(Formula["hdf5-1813"].lib/"lib#{l}.dylib",
+      File.symlink(Formula["hdf5-1814"].lib/"lib#{l}.dylib",
                    "#{prefix}/dynlib/lib#{l}.dylib")
     end
 
