@@ -146,7 +146,7 @@ libraries.
         # Avoid possible confusion between Python 2 and Python 3 site modules
         ENV.delete("PYTHONPATH")
         system "python3", "setup.py", "build"
-        (lib/"python#{pyver}/site-packages").install Dir["build/lib.*#{pyver}/_modeller.so"]
+        (lib/"python#{pyver}/site-packages").install Dir["build/lib.*#{pyver}/_modeller.*so"]
         File.delete("modeller_wrap.c")
         FileUtils.rm_rf("build")
       end
