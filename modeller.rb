@@ -143,6 +143,8 @@ libraries.
       Dir.chdir("#{prefix}/src/swig/") do
         system "swig", "-python", "-keyword", "-nodefaultctor",
                "-nodefaultdtor", "-noproxy", "modeller.i"
+        # Avoid possible confusion between Python 2 and Python 3 site modules
+        ENV.delete("PYTHONPATH")
         system "python3", "setup.py", "build"
         (lib/"python#{pyver}/site-packages").install Dir["build/lib.*#{pyver}/_modeller.so"]
         File.delete("modeller_wrap.c")
