@@ -11,10 +11,10 @@ class Mdt < Formula
   depends_on 'scons' => :build
   depends_on 'swig' => :build
   depends_on 'glib'
-  depends_on 'hdf5-1813' # Need same version of HDF5 as Modeller
+  depends_on 'hdf5-1814' # Need same version of HDF5 as Modeller
 
   def install
-    hdf5_formula = Formula['hdf5-1813']
+    hdf5_formula = Formula['hdf5-1814']
     system "scons", "-j #{ENV.make_jobs}",
                     "prefix=#{prefix}",
                     "includepath=#{hdf5_formula.include}",
