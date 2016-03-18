@@ -12,6 +12,8 @@ class IfortRuntime < Formula
 
   keg_only "Don't conflict with other Intel ifort/icc libs"
 
+  depends_on 'patchelf' => :build if OS.linux?
+
   def install
     if OS.mac?
       libtop = "Library/modeller-9.15/lib/mac10v4"
@@ -31,6 +33,7 @@ class IfortRuntime < Formula
       libs = ["ifcore.so.5", "imf.so", "intlc.so.5", "svml.so"]
       libs.each do |l|
         lib.install "#{libtop}/lib#{l}"
+        system "patchelf", "--set-rpath", lib, "#{lib}/lib#{l}"
       end
     end
   end
