@@ -4,6 +4,7 @@ require 'formula'
 # with the version that Modeller uses. We also disable the questionably-licensed
 # szip compression.
 class Hdf51814 < Formula
+  desc "File format designed to store large amounts of data"
   homepage 'http://www.hdfgroup.org/HDF5'
   url 'http://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.14/src/hdf5-1.8.14.tar.bz2'
   sha1 '3c48bcb0d5fb21a3aa425ed035c08d8da3d5483a'

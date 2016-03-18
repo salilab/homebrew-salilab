@@ -1,6 +1,7 @@
 require 'formula'
 
 class Imp < Formula
+  desc "The Integrative Modeling Platform"
   homepage 'http://integrativemodeling.org/'
   url 'http://integrativemodeling.org/2.5.0/download/imp-2.5.0.tar.gz'
   sha256 '5510ffed71cb0a0bc3e8fddb6939dc0e75ca31eec0cc8b30650d169aa60a4aab'

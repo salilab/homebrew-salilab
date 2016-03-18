@@ -1,6 +1,7 @@
 require 'formula'
 
 class Modeller < Formula
+  desc "Homology or comparative modeling of protein structures"
   homepage 'http://salilab.org/modeller/'
   url 'http://salilab.org/modeller/9.16/modeller-9.16-mac.pax.gz'
   sha256 'f75c274abde04fe6d558cb92fc5637df8a740f80ed7c545f628b9ff92bbda3aa'

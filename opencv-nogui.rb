@@ -10,8 +10,9 @@ end
 
 # Since homebrew doesn't yet support optional dependencies, this is a slightly
 # modified version of opencv that disables some dependencies we don't use in
-# Sali lab, to reduce the libraries we need to bundle with IMP.
+# the Sali lab, to reduce the libraries we need to bundle with IMP.
 class OpencvNogui < Formula
+  desc "Open source computer vision library"
   homepage 'http://opencv.org/'
   url 'http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.4.2/OpenCV-2.4.2.tar.bz2'
   sha1 '96ff27b87e0f028d1d16201afebabec4e0c72367'

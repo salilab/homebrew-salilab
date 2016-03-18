@@ -1,6 +1,7 @@
 require 'formula'
 
 class IfortRuntime < Formula
+  desc "Intel Fortran runtime libraries"
   homepage 'http://salilab.org/modeller/'
   # Extract Intel Fortran runtime from the Modeller installer image
   url 'http://salilab.org/modeller/9.15/modeller-9.15-mac.pax.gz' if OS.mac?
