@@ -15,6 +15,11 @@ class Libtau < Formula
     args = ["#{prefix}"]
     args << "--universal" if build.universal?
 
-    system "./mac-install.py", *args
+    if OS.mac?
+      system "./mac-install.py", *args
+    elsif OS.linux?
+      lib.install "lib/Fedora23.x86_64/libTAU.so.1"
+      (include/"libTAU").install Dir["include/*"]
+    end
   end
 end
