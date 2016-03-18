@@ -19,6 +19,7 @@ class Libtau < Formula
       system "./mac-install.py", *args
     elsif OS.linux?
       lib.install "lib/Fedora23.x86_64/libTAU.so.1"
+      ln_s "libTAU.so.1", lib/"libTAU.so"
       (include/"libTAU").install Dir["include/*"]
     end
   end
