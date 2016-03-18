@@ -12,6 +12,7 @@ class Mdt < Formula
 
   depends_on 'scons' => :build
   depends_on 'swig' => :build
+  depends_on 'patchelf' => :build if OS.linux?
   depends_on 'glib'
   depends_on 'hdf5-1814' # Need same version of HDF5 as Modeller
 
@@ -19,9 +20,16 @@ class Mdt < Formula
     hdf5_formula = Formula['hdf5-1814']
     system "scons", "-j #{ENV.make_jobs}",
                     "prefix=#{prefix}",
+                    "libdir=#{lib}",
                     "includepath=#{hdf5_formula.include}",
                     "libpath=#{hdf5_formula.lib}",
                     "install"
+
+    if OS.linux?
+      python_version = Language::Python.major_minor_version "python"
+      system "patchelf", "--set-rpath", "#{HOMEBREW_PREFIX}/lib",
+             lib/"python#{python_version}/site-packages/_mdt.so"
+    end
 
     if build.with? 'python3'
       python_version = Language::Python.major_minor_version "python3"
@@ -31,6 +39,7 @@ class Mdt < Formula
 
       system "scons", "-j #{ENV.make_jobs}",
                       "prefix=#{prefix}",
+                      "libdir=#{lib}",
                       "includepath=#{hdf5_formula.include}",
                       "libpath=#{hdf5_formula.lib}",
                       "python=python3",
