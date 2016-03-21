@@ -25,6 +25,7 @@ class Imp < Formula
   depends_on 'libtau' => :recommended
   depends_on 'cgal' => :recommended
   depends_on 'gsl' => :recommended
+  depends_on 'opencv' => :recommended
 
   # We need boost compiled with c++11 support on Linux
   needs :cxx11 if OS.linux?
