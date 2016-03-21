@@ -30,9 +30,13 @@ class Imp < Formula
   needs :cxx11 if OS.linux?
 
   def install
+    pyver = Language::Python.major_minor_version "python"
     args = std_cmake_args
     args << "-DIMP_DISABLED_MODULES=scratch"
     args << ".."
+    # Don't install in lib64 on Linux systems
+    args << "-DCMAKE_INSTALL_LIBDIR=#{lib}"
+    args << "-DCMAKE_INSTALL_PYTHONDIR=#{lib}/python#{pyver}/site-packages"
     mkdir "build" do
       system "cmake", *args
       system "make"
