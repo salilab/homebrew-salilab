@@ -26,6 +26,9 @@ class Imp < Formula
   depends_on 'cgal' => :recommended
   depends_on 'gsl' => :recommended
 
+  # We need boost compiled with c++11 support on Linux
+  needs :cxx11 if OS.linux?
+
   def install
     args = std_cmake_args
     args << "-DIMP_DISABLED_MODULES=scratch"
