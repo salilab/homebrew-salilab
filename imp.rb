@@ -3,14 +3,13 @@ require 'formula'
 class Imp < Formula
   desc "The Integrative Modeling Platform"
   homepage 'http://integrativemodeling.org/'
-  url 'http://integrativemodeling.org/2.5.0/download/imp-2.5.0.tar.gz'
-  sha256 '5510ffed71cb0a0bc3e8fddb6939dc0e75ca31eec0cc8b30650d169aa60a4aab'
-  revision 1
+  url 'http://integrativemodeling.org/2.6.0/download/imp-2.6.0.tar.gz'
+  sha256 '66ab0edbb3226d0f88d1d34afcca88a34ffddb00d2c7400aad5520bc90e88d05'
 
   bottle do
-    root_url "http://integrativemodeling.org/2.5.0/download/homebrew"
-    sha256 "efcd3cead414a485389cab226347e159a36ffc967c01299c1ba96079f1658d94" => :el_capitan
-    sha256 "fbdfa912e0050c7066ffdad90db57b4182bd6ace710e953ba72e9f950ddb9855" => :yosemite
+    root_url "http://integrativemodeling.org/2.6.0/download/homebrew"
+    sha256 "351a39b679ca41708c7912231df288d84ef0575abcf2ae9757871b789b794af4" => :yosemite
+    sha256 "d7a6b6c494ccfc21a074dacb70c29c00758a69dc6f6cafc18f95174c4171f78c" => :el_capitan
   end
 
   depends_on 'cmake' => :build
@@ -42,6 +41,8 @@ class Imp < Formula
       system "cmake", *args
       system "make"
       system "make", "install"
+      # Avoid conflicting with the "cluster" binary provided by graphviz
+      mv bin/"cluster", bin/"rmsd_cluster"
       if build.with? 'python3'
         version = Language::Python.major_minor_version "python3"
         python_framework = (Formula["python3"].opt_prefix)/"Frameworks/Python.framework/Versions/#{version}"
@@ -55,6 +56,7 @@ class Imp < Formula
                 "-DPYTHON_INCLUDE_PATH=#{py3_inc}"]
         system "cmake", *args
         system "make", "install"
+        mv bin/"cluster", bin/"rmsd_cluster"
       end
     end
   end
