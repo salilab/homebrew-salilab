@@ -5,7 +5,7 @@ class Libtau < Formula
   desc "Support library needed for IMP's MultiFit module"
   homepage 'http://integrativemodeling.org/libTAU.html'
   url 'http://integrativemodeling.org/libTAU/libTAU-1.0.1.zip'
-  sha256 'ebb4c008b50d2cf665e51704887353aa1901dd9de83ccd3e7680d5f955edd5b2'
+  sha256 'b6dd528bcced1d0f67366f84d2476162c91d97349e5eb9b7fd18b75075d11360'
 
   option :universal
 
