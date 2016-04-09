@@ -4,7 +4,7 @@ class Imp < Formula
   desc "The Integrative Modeling Platform"
   homepage 'http://integrativemodeling.org/'
   url 'http://integrativemodeling.org/2.6.1/download/imp-2.6.1.tar.gz'
-  sha256 '66ab0edbb3226d0f88d1d34afcca88a34ffddb00d2c7400aad5520bc90e88d05'
+  sha256 'ed9ecea7469843a3340ebd62ae3e4705c4454d733e341ea91aa19d334e4573b8'
 
   bottle do
     root_url "http://integrativemodeling.org/2.6.1/download/homebrew"
