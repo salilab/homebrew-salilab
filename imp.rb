@@ -3,13 +3,11 @@ require 'formula'
 class Imp < Formula
   desc "The Integrative Modeling Platform"
   homepage 'http://integrativemodeling.org/'
-  url 'http://integrativemodeling.org/2.6.1/download/imp-2.6.1.tar.gz'
-  sha256 'ed9ecea7469843a3340ebd62ae3e4705c4454d733e341ea91aa19d334e4573b8'
+  url 'http://integrativemodeling.org/2.6.2/download/imp-2.6.2.tar.gz'
+  sha256 'd048d1d0d867d4bc98de1ff1953118569b4be36c2198bc7538a7a503f7e9b853'
 
   bottle do
-    root_url "http://integrativemodeling.org/2.6.1/download/homebrew"
-    sha256 "451cd600692322e24ce6fd0a85c27d7517f57ccce518c4ac24ecbccf2107005a" => :el_capitan
-    sha256 "dd3e5f4b2414b24f4b46a4d3c5384b34cef183a5d64b575427a3ca7f85d57169" => :yosemite
+    root_url "http://integrativemodeling.org/2.6.2/download/homebrew"
   end
 
   depends_on 'cmake' => :build
