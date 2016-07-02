@@ -13,6 +13,8 @@ class Hdf51816 < Formula
 
   bottle do
     root_url "http://salilab.org/homebrew/bottles"
+    sha256 "a22de3f41ddb0449c91f3c17e015dd5ae1188a9f3a07257c84d7f8906e88802c" => :yosemite
+    sha256 "f8494ca45a1ab1fd1e1e6d7d5e3c12a96c41f4ffd2ade90244b030ee682c101c" => :el_capitan
   end
 
   # TODO - warn that these options conflict
