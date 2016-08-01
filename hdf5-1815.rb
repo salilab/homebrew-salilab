@@ -7,7 +7,7 @@ class Hdf51815 < Formula
   desc "File format designed to store large amounts of data"
   homepage 'http://www.hdfgroup.org/HDF5'
   url 'https://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.15-patch1/src/hdf5-1.8.15-patch1.tar.bz2'
-  sha1 '82ed248e5d0293bc1dba4c13c9b2880a26643ee0'
+  sha256 'a5afc630c4443547fff15e9637b5b10404adbed4c00206d89517d32d6668fb32'
 
   keg_only "Don't interfere with the regular HDF5 formula if installed."
 
