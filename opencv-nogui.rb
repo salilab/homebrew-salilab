@@ -1,5 +1,3 @@
-require File.expand_path("../Requirements/cuda_requirement", __FILE__)
-
 # Since homebrew doesn't yet support optional dependencies, this is a slightly
 # modified version of opencv that disables some dependencies we don't use in
 # the Sali lab, to reduce the libraries we need to bundle with IMP.
