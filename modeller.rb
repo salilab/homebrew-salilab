@@ -26,7 +26,7 @@ class Modeller < Formula
     dylib = 'so' if OS.linux?
     modtop = "Library/modeller-#{version}" if OS.mac?
     if OS.linux?
-      FileUtils.mv 'bin/modscript', "bin/mod#{version}"
+      mv 'bin/modscript', "bin/mod#{version}"
       modtop = "."
     end
 
@@ -203,7 +203,7 @@ libraries.
         system "python3", "setup.py", "build"
         (lib/"python#{pyver}/site-packages").install Dir["build/lib.*#{pyver}/_modeller.*so"]
         File.delete("modeller_wrap.c")
-        FileUtils.rm_rf("build")
+        rm_rf("build")
       end
     end
 
