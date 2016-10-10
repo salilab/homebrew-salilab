@@ -2,13 +2,13 @@ require 'formula'
 
 class Imp < Formula
   desc "The Integrative Modeling Platform"
-  homepage 'http://integrativemodeling.org/'
-  url 'http://integrativemodeling.org/2.6.2/download/imp-2.6.2.tar.gz'
+  homepage 'https://integrativemodeling.org/'
+  url 'https://integrativemodeling.org/2.6.2/download/imp-2.6.2.tar.gz'
   sha256 'd048d1d0d867d4bc98de1ff1953118569b4be36c2198bc7538a7a503f7e9b853'
   revision 1
 
   bottle do
-    root_url "http://integrativemodeling.org/2.6.2/download/homebrew"
+    root_url "https://integrativemodeling.org/2.6.2/download/homebrew"
   end
 
   depends_on 'cmake' => :build
