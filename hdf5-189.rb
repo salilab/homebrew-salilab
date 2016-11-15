@@ -7,7 +7,7 @@ class Hdf5189 < Formula
   desc "File format designed to store large amounts of data"
   homepage 'http://www.hdfgroup.org/HDF5'
   url 'http://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.9/src/hdf5-1.8.9.tar.bz2'
-  sha1 '7d5e5e8caa5970c65e70a5b4ad6787efe0bf70bb'
+  sha256 'fafe54856b00f0d6531629f66e2c476ab6ee03458803088f270bbfc4a60966c7'
 
   # TODO - warn that these options conflict
   option 'enable-fortran', 'Compile Fortran bindings'
