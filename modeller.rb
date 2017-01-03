@@ -7,6 +7,7 @@ class Modeller < Formula
   sha256 'e8beda6bd8e791ffe1ebf19064f69c945ceec6c9079f30e3becdc3a9584da050' if OS.mac?
   url 'https://salilab.org/modeller/9.17/modeller-9.17.tar.gz' if OS.linux?
   sha256 '5489865e54231d448e25ea07ec8822a02657f2ce81763990a84e99c5b6c0edf0' if OS.linux?
+  revision 1
 
   depends_on :python => :recommended
   depends_on :python3 => :optional
