@@ -1,13 +1,13 @@
 require 'formula'
 
-# This is just the regular hdf5 formula, but held at 1.8.17, to be consistent
+# This is just the regular hdf5 formula, but held at 1.8.16, to be consistent
 # with the version that Modeller uses. We also disable the questionably-licensed
 # szip compression.
-class Hdf51817 < Formula
+class Hdf5AT1816 < Formula
   desc "File format designed to store large amounts of data"
   homepage 'http://www.hdfgroup.org/HDF5'
-  url 'https://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.17/src/hdf5-1.8.17.tar.bz2'
-  sha256 'fc35dd8fd8d398de6b525b27cc111c21fc79795ad6db1b1f12cb15ed1ee8486a'
+  url 'https://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.16/src/hdf5-1.8.16.tar.bz2'
+  sha256 '13aaae5ba10b70749ee1718816a4b4bfead897c2fcb72c24176e759aec4598c6'
 
   keg_only "Don't interfere with the regular HDF5 formula if installed."
 
