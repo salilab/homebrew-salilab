@@ -9,6 +9,9 @@ class Imp < Formula
 
   bottle do
     root_url "https://integrativemodeling.org/2.6.2/download/homebrew"
+    sha256 "0b8c2c9e09346981317df0308e880604650b136110224cc4254e567518e9a636" => :yosemite
+    sha256 "18011fa46f3400f2df7f65c0b332dc7a3ad5b54bca75d46e5f67a6df5922dfa8" => :el_capitan
+    sha256 "21c4419aa9d7626a600aad2519dbf326c6b7904928d22e0abf6c75379ec1461a" => :sierra
   end
 
   depends_on 'cmake' => :build
