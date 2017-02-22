@@ -2,8 +2,8 @@ require 'formula'
 
 class Mdt < Formula
   desc "Generate frequency tables used by Modeller and IMP."
-  homepage 'http://salilab.org/mdt/'
-  url 'http://salilab.org/mdt/5.3/mdt-5.3.tar.gz'
+  homepage 'https://salilab.org/mdt/'
+  url 'https://salilab.org/mdt/5.3/mdt-5.3.tar.gz'
   sha256 '9ced663387f939cff056daec76760cef6bd99f27c6fb5f04dec96b9e9e1fc1d0'
   revision 2
 
