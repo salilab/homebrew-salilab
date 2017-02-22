@@ -15,14 +15,16 @@ class Mdt < Formula
   depends_on 'patchelf' => :build if OS.linux?
   depends_on 'glib'
   depends_on 'hdf5@1.8.17' # Need same version of HDF5 as Modeller
+  depends_on 'ifort-runtime' # Need to link against Modeller Fortran libs
 
   def install
     hdf5_formula = Formula['hdf5@1.8.17']
+    ifort_formula = Formula['ifort-runtime']
     system "scons", "-j #{ENV.make_jobs}",
                     "prefix=#{prefix}",
                     "libdir=#{lib}",
                     "includepath=#{hdf5_formula.include}",
-                    "libpath=#{hdf5_formula.lib}",
+		    "libpath=#{hdf5_formula.lib}:#{ifort_formula.lib}",
                     "install"
 
     if OS.linux?
