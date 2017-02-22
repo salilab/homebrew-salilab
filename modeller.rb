@@ -6,7 +6,7 @@ class Modeller < Formula
   url 'https://salilab.org/modeller/9.18/modeller-9.18-mac.pax.gz' if OS.mac?
   sha256 '402528a131ddbb30144a4e0be9b2f308e84f395e4133087534ad2bf742882c02' if OS.mac?
   url 'https://salilab.org/modeller/9.18/modeller-9.18.tar.gz' if OS.linux?
-  sha256 'ae39723f6ad9d1ebe963cbe6da7a1eecd5f0a7e3c188563628e749e06e946e28' if OS.linux?
+  sha256 '0df243c4da08214414edd303986393bc45ee2f2e4107d62335a6538ac715f3e0' if OS.linux?
 
   depends_on :python => :recommended
   depends_on :python3 => :optional
