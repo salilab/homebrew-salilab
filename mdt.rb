@@ -5,7 +5,7 @@ class Mdt < Formula
   homepage 'https://salilab.org/mdt/'
   url 'https://salilab.org/mdt/5.3/mdt-5.3.tar.gz'
   sha256 '9ced663387f939cff056daec76760cef6bd99f27c6fb5f04dec96b9e9e1fc1d0'
-  revision 2
+  revision 3
 
   depends_on :python => :recommended
   depends_on :python3 => :optional
@@ -14,10 +14,10 @@ class Mdt < Formula
   depends_on 'swig' => :build
   depends_on 'patchelf' => :build if OS.linux?
   depends_on 'glib'
-  depends_on 'hdf5-1816' # Need same version of HDF5 as Modeller
+  depends_on 'hdf5@1.8.17' # Need same version of HDF5 as Modeller
 
   def install
-    hdf5_formula = Formula['hdf5-1816']
+    hdf5_formula = Formula['hdf5@1.8.17']
     system "scons", "-j #{ENV.make_jobs}",
                     "prefix=#{prefix}",
                     "libdir=#{lib}",
