@@ -3,15 +3,14 @@ require 'formula'
 class Imp < Formula
   desc "The Integrative Modeling Platform"
   homepage 'https://integrativemodeling.org/'
-  url 'https://integrativemodeling.org/2.6.2/download/imp-2.6.2.tar.gz'
-  sha256 'd048d1d0d867d4bc98de1ff1953118569b4be36c2198bc7538a7a503f7e9b853'
-  revision 3
+  url 'https://integrativemodeling.org/2.7.0/download/imp-2.7.0.tar.gz'
+  sha256 '877af254567051c78317ea94730dfff742aa56d21aefd71edf14a3f4b153b036'
 
   bottle do
-    root_url "https://integrativemodeling.org/2.6.2/download/homebrew"
-    sha256 "0b8c2c9e09346981317df0308e880604650b136110224cc4254e567518e9a636" => :yosemite
-    sha256 "18011fa46f3400f2df7f65c0b332dc7a3ad5b54bca75d46e5f67a6df5922dfa8" => :el_capitan
-    sha256 "21c4419aa9d7626a600aad2519dbf326c6b7904928d22e0abf6c75379ec1461a" => :sierra
+    root_url "https://integrativemodeling.org/2.7.0/download/homebrew"
+    sha256 "09d39fd42fa6111d43d79524ca9d36f8b9904d6e28ccae0c5e7f320d8a1b0afc" => :yosemite
+    sha256 "736d2e5fba242655bbe787011c32f6abae10112e3347b9667da0fffdcaaf8175" => :el_capitan
+    sha256 "cd76535f62c2587cca853843e2972e84038659a0ebe5adb5cc0597c66117e317" => :sierra
   end
 
   depends_on 'cmake' => :build
