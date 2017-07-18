@@ -6,7 +6,7 @@ require 'formula'
 class Hdf5AT1818 < Formula
   desc "File format designed to store large amounts of data"
   homepage 'http://www.hdfgroup.org/HDF5'
-  url 'https://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.18/src/hdf5-1.8.18.tar.bz2'
+  url 'https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8/hdf5-1.8.18/src/hdf5-1.8.18.tar.bz2'
   sha256 '01c6deadf4211f86922400da82c7a8b5b50dc8fc1ce0b5912de3066af316a48c'
 
   keg_only "Don't interfere with the regular HDF5 formula if installed."
