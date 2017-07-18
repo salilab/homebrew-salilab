@@ -23,6 +23,11 @@ class Hdf5AT1818 < Formula
   option 'enable-threadsafe', 'Trade performance and C++ or Fortran support for thread safety'
 
   def install
+    # The older gcc in OS X 10.6 doesn't like the use of #pragma pack()
+    if MacOS.version <= :snow_leopard
+      inreplace "hl/c++/test/ptableTest.cpp", "#pragma pack()", "#pragma pack(1)"
+    end
+
     args = %W[
       --prefix=#{prefix}
       --enable-production
