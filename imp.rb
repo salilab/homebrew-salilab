@@ -5,13 +5,19 @@ class Imp < Formula
   homepage 'https://integrativemodeling.org/'
   url 'https://integrativemodeling.org/2.7.0/download/imp-2.7.0.tar.gz'
   sha256 '877af254567051c78317ea94730dfff742aa56d21aefd71edf14a3f4b153b036'
-  revision 2
+  revision 3
+
+  # Fix OpenMP support to work with latest cmake
+  patch do
+    url "https://github.com/salilab/imp/commit/ca6e758.patch?full_index=1"
+    sha256 "cd65fc25285ed8efa6072730a95628d57f2c119356f9fc3e51a693486abb4138"
+  end
 
   bottle do
     root_url "https://integrativemodeling.org/2.7.0/download/homebrew"
-    sha256 "cfcddda51173527508b84b46f8fd14702a0a4b9c99cebbacc47ae0e269248428" => :yosemite
-    sha256 "884b5c8168590f65bbd5b5291049246cb2c69c5596cf96038cef894f1c58cbf1" => :el_capitan
-    sha256 "ea773e9cbc5e21ed0839de5b584c4c19050cbf61185a60ba809fee9b48e54f8e" => :sierra
+    sha256 "47e2d06f72be25c6b0498e72e8fccbeca002ee59eed2b6ff34e0c40bf0792f84" => :yosemite
+    sha256 "949fcc6eec1fa1d2442e899e6486a62eeb1754d2e60ce72230f2be701d35a8fa" => :el_capitan
+    sha256 "ef66776acde66679b77c978bc6bb3f4879a88d0ff4c35da1bd72cbc88d12fb51" => :sierra
   end
 
   depends_on 'cmake' => :build
