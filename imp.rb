@@ -3,21 +3,14 @@ require 'formula'
 class Imp < Formula
   desc "The Integrative Modeling Platform"
   homepage 'https://integrativemodeling.org/'
-  url 'https://integrativemodeling.org/2.7.0/download/imp-2.7.0.tar.gz'
-  sha256 '877af254567051c78317ea94730dfff742aa56d21aefd71edf14a3f4b153b036'
-  revision 3
-
-  # Fix OpenMP support to work with latest cmake
-  patch do
-    url "https://github.com/salilab/imp/commit/ca6e758.patch?full_index=1"
-    sha256 "cd65fc25285ed8efa6072730a95628d57f2c119356f9fc3e51a693486abb4138"
-  end
+  url 'https://integrativemodeling.org/2.8.0/download/imp-2.8.0.tar.gz'
+  sha256 '83a23c56f0be9de8900d0edd3978eb8c2637e6d5086f7ef7e2cd61f0b7a5aa80'
 
   bottle do
-    root_url "https://integrativemodeling.org/2.7.0/download/homebrew"
-    sha256 "47e2d06f72be25c6b0498e72e8fccbeca002ee59eed2b6ff34e0c40bf0792f84" => :yosemite
-    sha256 "949fcc6eec1fa1d2442e899e6486a62eeb1754d2e60ce72230f2be701d35a8fa" => :el_capitan
-    sha256 "ef66776acde66679b77c978bc6bb3f4879a88d0ff4c35da1bd72cbc88d12fb51" => :sierra
+    root_url "https://integrativemodeling.org/2.8.0/download/homebrew"
+    sha256 "e26067473d15268c919f2a803869a02d307c8b0f66a7273146e5689151e66376" => :yosemite
+    sha256 "dd2f606b1ea04cdea63ca5d6de0d980b1b5cae5825fb2629aa950534b5ac4de1" => :el_capitan
+    sha256 "bb3cfbf8182315be3e16f5b0d9abfdd54a3c648c64a6a9000dccf17fbcb7a0e8" => :sierra
   end
 
   depends_on 'cmake' => :build
