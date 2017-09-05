@@ -5,20 +5,20 @@ class Imp < Formula
   homepage 'https://integrativemodeling.org/'
   url 'https://integrativemodeling.org/2.8.0/download/imp-2.8.0.tar.gz'
   sha256 '83a23c56f0be9de8900d0edd3978eb8c2637e6d5086f7ef7e2cd61f0b7a5aa80'
-  revision 1
+  revision 2
 
   bottle do
     root_url "https://integrativemodeling.org/2.8.0/download/homebrew"
-    sha256 "ef1528877b2e0b9f5de4afcac4840f109e5a08e972c3d03ca16520463dc92436" => :yosemite
-    sha256 "34e1f507ba3af7fe6d97c15dab4d18ead5ba3386ff073651eaed488f70446c97" => :el_capitan
-    sha256 "52f56bba5fbed0207b95d9d70fd3c7e607effa7e85adba2beb49e60e4e5ade10" => :sierra
+    sha256 "5e64e7e3f99e53d22dfbb522ed1022349ae583d6f00d7d14e4b4207ad8235edf" => :yosemite
+    sha256 "08ee9bd472b8bf232f5223c45d9dffcec7cc52add08edb0ec8fc558484a61c26" => :el_capitan
+    sha256 "047b9024171efb78440b253632c65313b7f5d3942774c6fa03409610832ad236" => :sierra
   end
 
   depends_on 'cmake' => :build
   depends_on 'swig' => :build
 
   depends_on :python => :recommended
-  depends_on :python3 => :optional
+  depends_on :python3 => :recommended
 
   depends_on 'boost'
   depends_on 'hdf5'
