@@ -22,6 +22,7 @@ class Imp < Formula
     sha256 "5c76170525730fb43bffe82d385844acdb869b372b42df8233be19eabbcb1dd6" => :yosemite
     sha256 "310c8a2f6f5417142311a3f76e825a40ea4574158453ab4139ee600d300a7948" => :el_capitan
     sha256 "adbcfa19e85939448372847b42629552134a512f85ab8264d0e52722384e447c" => :sierra
+    sha256 "180692116dcea248903f0bf6fd323880f53f1b30d6d89755f8cc566b7def5de5" => :high_sierra
   end
 
   depends_on 'cmake' => :build
