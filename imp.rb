@@ -5,7 +5,7 @@ class Imp < Formula
   homepage 'https://integrativemodeling.org/'
   url 'https://integrativemodeling.org/2.8.0/download/imp-2.8.0.tar.gz'
   sha256 '83a23c56f0be9de8900d0edd3978eb8c2637e6d5086f7ef7e2cd61f0b7a5aa80'
-  revision 5
+  revision 6
 
   # Fix to work with latest CGAL (4.11)
   patch do
@@ -19,10 +19,9 @@ class Imp < Formula
 
   bottle do
     root_url "https://integrativemodeling.org/2.8.0/download/homebrew"
-    sha256 "5c76170525730fb43bffe82d385844acdb869b372b42df8233be19eabbcb1dd6" => :yosemite
-    sha256 "310c8a2f6f5417142311a3f76e825a40ea4574158453ab4139ee600d300a7948" => :el_capitan
-    sha256 "adbcfa19e85939448372847b42629552134a512f85ab8264d0e52722384e447c" => :sierra
-    sha256 "180692116dcea248903f0bf6fd323880f53f1b30d6d89755f8cc566b7def5de5" => :high_sierra
+    sha256 "f3248ed16c2569ae98a34b806ef1bec11aac59e8e5c1e02b17fccb219f085391" => :yosemite
+    sha256 "84949875dc47f876fcca64d696bd884a9a42eb889402cd559bc3049497706498" => :el_capitan
+    sha256 "090f5172fc79271ea5a8c5d80207a6f8b494a4162ec235b65177386d354c6780" => :high_sierra
   end
 
   depends_on 'cmake' => :build
