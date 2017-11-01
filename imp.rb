@@ -73,7 +73,12 @@ class Imp < Formula
   test do
     Language::Python.each_python(build) do |python, version|
       system python, "-c", "import IMP"
+      system python, "-c", "import IMP.em2d"
+      system python, "-c", "import IMP.foxs"
+      system python, "-c", "import IMP.multifit"
     end
+    system "multifit"
+    system "foxs"
   end
 
 end
