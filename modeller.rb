@@ -8,8 +8,8 @@ class Modeller < Formula
   url 'https://salilab.org/modeller/9.19/modeller-9.19.tar.gz' if OS.linux?
   sha256 '28be10ca2f4d34836875da6eeed5ffd86256cc75255137c96e001e881685ac4b' if OS.linux?
 
-  depends_on :python => :recommended
-  depends_on :python3 => :optional
+  depends_on 'python' => :recommended
+  depends_on 'python3' => :optional
 
   depends_on 'swig' => :build
   depends_on 'patchelf' => :build if OS.linux?

@@ -27,8 +27,8 @@ class Imp < Formula
   depends_on 'cmake' => :build
   depends_on 'swig' => :build
 
-  depends_on :python => :recommended
-  depends_on :python3 => :recommended
+  depends_on 'python' => :recommended
+  depends_on 'python3' => :recommended
 
   depends_on 'boost'
   depends_on 'hdf5'
