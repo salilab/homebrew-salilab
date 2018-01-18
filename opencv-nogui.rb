@@ -21,7 +21,7 @@ class OpencvNogui < Formula
 
   depends_on "pkg-config" => :build
 
-  depends_on :python => :recommended unless OS.mac? && MacOS.version > :snow_leopard
+  depends_on 'python' => :recommended unless OS.mac? && MacOS.version > :snow_leopard
   depends_on "homebrew/python/numpy" => :recommended if build.with? "python"
 
   # Can also depend on ffmpeg, but this pulls in a lot of extra stuff that
