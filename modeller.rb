@@ -238,7 +238,7 @@ Cflags: -I#{prefix}/src/include -I#{prefix}/src/include/#{exetype}
 
   def caveats
     if ENV['KEY_MODELLER'] == nil
-      <<-EOS.undent
+      <<~EOS
       Edit #{prefix}/modlib/modeller/config.py
       and replace XXXX with your Modeller license key
       (or set the KEY_MODELLER environment variable before running 'brew install').
