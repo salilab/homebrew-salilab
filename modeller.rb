@@ -7,9 +7,10 @@ class Modeller < Formula
   sha256 '408ebe4176d31709fb897cfc0b5775770e5faaa94edc6eaea9ccc5bd8db6d87e' if OS.mac?
   url 'https://salilab.org/modeller/9.19/modeller-9.19.tar.gz' if OS.linux?
   sha256 '28be10ca2f4d34836875da6eeed5ffd86256cc75255137c96e001e881685ac4b' if OS.linux?
+  revision 1
 
+  depends_on 'python@2'
   depends_on 'python' => :recommended
-  depends_on 'python3' => :optional
 
   depends_on 'swig' => :build
   depends_on 'patchelf' => :build if OS.linux?
@@ -163,11 +164,18 @@ libraries.
                    "#{prefix}/dynlib/lib#{l}.#{dylib}")
     end
 
-    Language::Python.each_python(build) do |python, version|
+    pyver = Language::Python.major_minor_version "python2"
+    File.open('modeller.pth', 'w') do |file|
+      file.puts "#{prefix}/modlib"
+    end
+    (lib/"python#{pyver}/site-packages").install "modeller.pth"
+
+    if build.with? 'python'
+      pyver = Language::Python.major_minor_version "python3"
       File.open('modeller.pth', 'w') do |file|
         file.puts "#{prefix}/modlib"
       end
-      (lib/"python#{version}/site-packages").install "modeller.pth"
+      (lib/"python#{pyver}/site-packages").install "modeller.pth"
     end
 
     pyver = Language::Python.major_minor_version "python"
@@ -193,7 +201,7 @@ libraries.
 
 
     # Build Python 3 extension from SWIG inputs (todo: make universal)
-    if build.with? 'python3'
+    if build.with? 'python'
       pyver = Language::Python.major_minor_version "python3"
       Dir.chdir("#{prefix}/src/swig/") do
         system "swig", "-python", "-keyword", "-nodefaultctor",
