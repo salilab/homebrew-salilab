@@ -5,7 +5,7 @@ class Imp < Formula
   homepage 'https://integrativemodeling.org/'
   url 'https://integrativemodeling.org/2.8.0/download/imp-2.8.0.tar.gz'
   sha256 '83a23c56f0be9de8900d0edd3978eb8c2637e6d5086f7ef7e2cd61f0b7a5aa80'
-  revision 10
+  revision 11
 
   # Fix to work with latest CGAL (4.11)
   patch do
@@ -19,16 +19,16 @@ class Imp < Formula
 
   bottle do
     root_url "https://integrativemodeling.org/2.8.0/download/homebrew"
-    sha256 "d73cf1600e479a889cb775f2f75d2a89ea02d3761cce1df22f75cbbcad2dda54" => :yosemite
-    sha256 "4a8e12024df8d25d3bb87bd1c103c8696d24e706fed38a3fc44319fa91cc2ea1" => :el_capitan
-    sha256 "c75f0fe94dd604da9aae8fc3599b1aa08291b7dcb027c8da0e525ee6b3e36970" => :high_sierra
+    sha256 "3341687f9cb0dde2f5ed82693d81ae282c76906a4a06299940fbb821e83942ea" => :yosemite
+    sha256 "60385f9dc521f225bfbfd02f65f3ac30ce06436254dd5b89b797d9f78b63c918" => :el_capitan
+    sha256 "e6cc9d62feeabae5dccba0fd5d26a42c0a2ee03e7a2d89531f03fe5352016d39" => :high_sierra
   end
 
   depends_on 'cmake' => :build
   depends_on 'swig' => :build
 
+  depends_on 'python@2' => :recommended
   depends_on 'python' => :recommended
-  depends_on 'python3' => :recommended
 
   depends_on 'boost'
   depends_on 'hdf5'
@@ -42,7 +42,7 @@ class Imp < Formula
   needs :cxx11 if OS.linux?
 
   def install
-    pyver = Language::Python.major_minor_version "python"
+    pyver = Language::Python.major_minor_version "python2.7"
     args = std_cmake_args
     args << "-DIMP_DISABLED_MODULES=scratch"
     args << ".."
@@ -56,9 +56,9 @@ class Imp < Formula
       system "cmake", *args
       system "make"
       system "make", "install"
-      if build.with? 'python3'
+      if build.with? 'python'
         version = Language::Python.major_minor_version "python3"
-        python_framework = (Formula["python3"].opt_prefix)/"Frameworks/Python.framework/Versions/#{version}"
+        python_framework = (Formula["python"].opt_prefix)/"Frameworks/Python.framework/Versions/#{version}"
         py3_lib = "#{python_framework}/lib/libpython#{version}.dylib"
         py3_inc = "#{python_framework}/Headers"
         args = ["..",
