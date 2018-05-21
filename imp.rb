@@ -5,7 +5,7 @@ class Imp < Formula
   homepage 'https://integrativemodeling.org/'
   url 'https://integrativemodeling.org/2.8.0/download/imp-2.8.0.tar.gz'
   sha256 '83a23c56f0be9de8900d0edd3978eb8c2637e6d5086f7ef7e2cd61f0b7a5aa80'
-  revision 13
+  revision 14
 
   # Fix to work with latest CGAL (4.11 or later)
   patch do
@@ -19,9 +19,9 @@ class Imp < Formula
 
   bottle do
     root_url "https://integrativemodeling.org/2.8.0/download/homebrew"
-    sha256 "3dbf0bdf449a15d93781d6bf7d80c42dab80a14805a627ec062cff78c950c3df" => :yosemite
-    sha256 "1ce2f2ddce2bb7710e0d0410a91ede3856f376d921ab23b26a2dd7c2802a6e9a" => :el_capitan
-    sha256 "90caaf1a3b8f8685022db30dd5e1b47d4b24445d877ef75bc82f41b7c222efff" => :high_sierra
+    sha256 "8af1f32c7b70625ac120f5fc31072c2036bbb35f61a4e9ef6c1504c5fe443c78" => :yosemite
+    sha256 "0f05671bcc3da1754daf3024f9da197d0bd23ead651c5f96d3eb0fa16f67d636" => :el_capitan
+    sha256 "661744953a67ebc4dd062a1171643e245c16cb780332ae16057daec541dd0cf7" => :high_sierra
   end
 
   depends_on 'cmake' => :build
@@ -52,6 +52,8 @@ class Imp < Formula
     # Don't link against gperftools, even if they were found, since then the
     # bottle won't work on systems without gperftools installed
     args << "-DGPerfTools_found=0"
+    # Help cmake to find CGAL
+    ENV["CGAL_DIR"] = Formula["cgal"].lib/"cmake/CGAL"
     mkdir "build" do
       system "cmake", *args
       system "make"
