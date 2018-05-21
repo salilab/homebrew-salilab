@@ -74,11 +74,12 @@ class Imp < Formula
   end
 
   test do
-    Language::Python.each_python(build) do |python, version|
-      system python, "-c", "import IMP"
-      system python, "-c", "import IMP.em2d"
-      system python, "-c", "import IMP.foxs"
-      system python, "-c", "import IMP.multifit"
+    Language::Python.each_python(build) do |python, pyver|
+      system python, "-c", "import IMP; assert(IMP.__version__ == '#{version}')"
+      system python, "-c", "import IMP.em2d; assert(IMP.em2d.__version__ == '#{version}')"
+      system python, "-c", "import IMP.cgal; assert(IMP.cgal.__version__ == '#{version}')"
+      system python, "-c", "import IMP.foxs; assert(IMP.foxs.__version__ == '#{version}')"
+      system python, "-c", "import IMP.multifit; assert(IMP.multifit.__version__ == '#{version}')"
     end
     system "multifit"
     system "foxs"
