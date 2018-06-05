@@ -3,10 +3,10 @@ require 'formula'
 class Modeller < Formula
   desc "Homology or comparative modeling of protein structures"
   homepage 'https://salilab.org/modeller/'
-  url 'https://salilab.org/modeller/9.19/modeller-9.19-mac.pax.gz' if OS.mac?
-  sha256 '408ebe4176d31709fb897cfc0b5775770e5faaa94edc6eaea9ccc5bd8db6d87e' if OS.mac?
-  url 'https://salilab.org/modeller/9.19/modeller-9.19.tar.gz' if OS.linux?
-  sha256 '28be10ca2f4d34836875da6eeed5ffd86256cc75255137c96e001e881685ac4b' if OS.linux?
+  url 'https://salilab.org/modeller/9.20/modeller-9.20-mac.pax.gz' if OS.mac?
+  sha256 '161c8d5576a52ead4a90d775549cbc772c33cba71500be33c5e21af75da33729' if OS.mac?
+  url 'https://salilab.org/modeller/9.20/modeller-9.20.tar.gz' if OS.linux?
+  sha256 '00f276666a74fb5759de0988f17964ba10df3bb1a9f4e17a749dc6be91393a1a' if OS.linux?
   revision 1
 
   depends_on 'python@2'
@@ -14,7 +14,7 @@ class Modeller < Formula
 
   depends_on 'swig' => :build
   depends_on 'patchelf' => :build if OS.linux?
-  depends_on 'hdf5@1.8.18'
+  depends_on 'hdf5@1.8.20'
   depends_on 'glib'
   depends_on 'gettext'
   depends_on 'ifort-runtime'
@@ -100,7 +100,7 @@ class Modeller < Formula
         libs.each do |dep|
           system "install_name_tool", "-change",
                  "/#{modtop}/lib/mac10v4/lib#{dep}.dylib",
-		 Formula["hdf5@1.8.18"].lib/"lib#{dep}.dylib", modbin
+		 Formula["hdf5@1.8.20"].lib/"lib#{dep}.dylib", modbin
         end
 
         # Point Modeller binaries to Homebrew-installed libintl
@@ -160,7 +160,7 @@ libraries.
                    "#{prefix}/dynlib/lib#{l}.#{dylib}")
     end
     ["hdf5", "hdf5_hl"].each do |l|
-      File.symlink(Formula["hdf5@1.8.18"].lib/"lib#{l}.#{dylib}",
+      File.symlink(Formula["hdf5@1.8.20"].lib/"lib#{l}.#{dylib}",
                    "#{prefix}/dynlib/lib#{l}.#{dylib}")
     end
 
@@ -192,7 +192,7 @@ libraries.
                  lib/"libmodeller.so.#{sover}",
                  lib/"libsaxs.so",
                  lib/"python#{pyver}/site-packages/_modeller.so"]
-      lib1 = Formula["hdf5@1.8.18"].lib
+      lib1 = Formula["hdf5@1.8.20"].lib
       lib2 = Formula["ifort-runtime"].lib
       modbins.each do |modbin|
         system "patchelf", "--set-rpath", "#{lib1}:#{lib2}:#{HOMEBREW_PREFIX}/lib", modbin
