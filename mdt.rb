@@ -5,6 +5,7 @@ class Mdt < Formula
   homepage 'https://salilab.org/mdt/'
   url 'https://salilab.org/mdt/5.4/mdt-5.4.tar.gz'
   sha256 'fc403b8c26365c11bd9522929aef0c3b51dff860fddc8ac446a980acec5a3d44'
+  revision 1
 
   depends_on 'python' => :recommended
   depends_on 'python3' => :optional
@@ -13,11 +14,11 @@ class Mdt < Formula
   depends_on 'swig' => :build
   depends_on 'patchelf' => :build if OS.linux?
   depends_on 'glib'
-  depends_on 'hdf5@1.8.18' # Need same version of HDF5 as Modeller
+  depends_on 'hdf5@1.8.20' # Need same version of HDF5 as Modeller
   depends_on 'ifort-runtime' # Need to link against Modeller Fortran libs
 
   def install
-    hdf5_formula = Formula['hdf5@1.8.18']
+    hdf5_formula = Formula['hdf5@1.8.20']
     ifort_formula = Formula['ifort-runtime']
     system "scons", "-j #{ENV.make_jobs}",
                     "prefix=#{prefix}",
