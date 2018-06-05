@@ -157,11 +157,11 @@ libraries.
     end
     ifort_libs.each do |l|
       File.symlink(Formula["ifort-runtime"].lib/"lib#{l}",
-                   "#{prefix}/dynlib/lib#{l}.#{dylib}")
+                   "#{prefix}/dynlib/lib#{l}")
     end
     ["hdf5", "hdf5_hl"].each do |l|
       File.symlink(Formula["hdf5@1.8.20"].lib/"lib#{l}.#{dylib}",
-                   "#{prefix}/dynlib/lib#{l}.#{dylib}")
+                   "#{prefix}/dynlib/lib#{l}")
     end
 
     pyver = Language::Python.major_minor_version "python2"
