@@ -7,8 +7,8 @@ class Mdt < Formula
   sha256 'fc403b8c26365c11bd9522929aef0c3b51dff860fddc8ac446a980acec5a3d44'
   revision 1
 
+  depends_on 'python@2' => :recommended
   depends_on 'python' => :recommended
-  depends_on 'python3' => :optional
 
   depends_on 'scons' => :build
   depends_on 'swig' => :build
@@ -33,9 +33,9 @@ class Mdt < Formula
              lib/"python#{python_version}/site-packages/_mdt.so"
     end
 
-    if build.with? 'python3'
+    if build.with? 'python'
       python_version = Language::Python.major_minor_version "python3"
-      python_framework = (Formula["python3"].opt_prefix)/"Frameworks/Python.framework/Versions/#{python_version}"
+      python_framework = (Formula["python"].opt_prefix)/"Frameworks/Python.framework/Versions/#{python_version}"
       py3_inc = "#{python_framework}/Headers"
       py3_sitepack = "#{lib}/python#{python_version}/site-packages"
 
