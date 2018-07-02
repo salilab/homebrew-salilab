@@ -3,25 +3,14 @@ require 'formula'
 class Imp < Formula
   desc "The Integrative Modeling Platform"
   homepage 'https://integrativemodeling.org/'
-  url 'https://integrativemodeling.org/2.8.0/download/imp-2.8.0.tar.gz'
-  sha256 '83a23c56f0be9de8900d0edd3978eb8c2637e6d5086f7ef7e2cd61f0b7a5aa80'
-  revision 14
-
-  # Fix to work with latest CGAL (4.11 or later)
-  patch do
-    url "https://github.com/salilab/imp/commit/a8ef53c.patch?full_index=1"
-    sha256 "bf712504c1452aab3608d239bc973a56a7d6c05a2a420bac6677e7588c146bcf"
-  end
-  patch do
-    url "https://github.com/salilab/imp/commit/2a3fa49.patch?full_index=1"
-    sha256 "af65bd533f32e90a3ac7a72c14d1e77d8ecdd4a662f75737b0278c3caca772fc"
-  end
+  url 'https://integrativemodeling.org/2.9.0/download/imp-2.9.0.tar.gz'
+  sha256 '4fb6f15a2e598cecfd374c701ba5f59fb39d28b02ec44e9ef162dc8cf8e33fd0'
 
   bottle do
-    root_url "https://integrativemodeling.org/2.8.0/download/homebrew"
-    sha256 "8af1f32c7b70625ac120f5fc31072c2036bbb35f61a4e9ef6c1504c5fe443c78" => :yosemite
-    sha256 "0f05671bcc3da1754daf3024f9da197d0bd23ead651c5f96d3eb0fa16f67d636" => :el_capitan
-    sha256 "661744953a67ebc4dd062a1171643e245c16cb780332ae16057daec541dd0cf7" => :high_sierra
+    root_url "https://integrativemodeling.org/2.9.0/download/homebrew"
+    sha256 "5b6d836ce8594b39989bed0892df4a9ade6b2616692e1631608b6215e702beae" => :high_sierra
+    sha256 "33e6e447076cfaea670ec5564c21a93c230f1c9092062f6bad50b512d06932b8" => :el_capitan
+    sha256 "8151491c7afb0edc5b270cdce3df2c55a3dd0493b619354dda2d5e366f5f0715" => :yosemite
   end
 
   depends_on 'cmake' => :build
@@ -33,15 +22,19 @@ class Imp < Formula
   depends_on 'boost'
   depends_on 'hdf5'
   depends_on 'fftw'
+  depends_on 'eigen'
+  depends_on 'protobuf'
   depends_on 'libtau' => :recommended
   depends_on 'cgal' => :recommended
   depends_on 'gsl' => :recommended
   depends_on 'opencv' => :recommended
 
-  # We need boost compiled with c++11 support on Linux
-  needs :cxx11 if OS.linux?
+  # We need boost compiled with c++11 support on Linux; protobuf also
+  # needs c++11
+  needs :cxx11
 
   def install
+    ENV.cxx11
     pyver = Language::Python.major_minor_version "python2.7"
     args = std_cmake_args
     args << "-DIMP_DISABLED_MODULES=scratch"
@@ -82,6 +75,7 @@ class Imp < Formula
       system python, "-c", "import IMP.cgal; assert(IMP.cgal.__version__ == '#{version}')"
       system python, "-c", "import IMP.foxs; assert(IMP.foxs.__version__ == '#{version}')"
       system python, "-c", "import IMP.multifit; assert(IMP.multifit.__version__ == '#{version}')"
+      system python, "-c", "import IMP.npctransport; assert(IMP.npctransport.__version__ == '#{version}')"
     end
     system "multifit"
     system "foxs"
