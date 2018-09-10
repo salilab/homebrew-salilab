@@ -13,6 +13,7 @@ class Modeller < Formula
   depends_on 'python' => :recommended
 
   depends_on 'swig' => :build
+  depends_on 'pkg-config' => :build
   depends_on 'patchelf' => :build if OS.linux?
   depends_on 'hdf5@1.8.20'
   depends_on 'glib'
