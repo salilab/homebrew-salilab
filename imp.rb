@@ -78,6 +78,7 @@ class Imp < Formula
       system python, "-c", "import IMP.foxs; assert(IMP.foxs.__version__ == '#{version}')"
       system python, "-c", "import IMP.multifit; assert(IMP.multifit.__version__ == '#{version}')"
       system python, "-c", "import IMP.npctransport; assert(IMP.npctransport.__version__ == '#{version}')"
+      system python, "-c", "import IMP, RMF, os; name = IMP.create_temporary_file_name('assignments', '.hdf5'); root = RMF.HDF5.create_file(name); del root; os.unlink(name)"
     end
     system "multifit"
     system "foxs"
