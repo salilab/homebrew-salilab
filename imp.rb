@@ -8,7 +8,7 @@ class Imp < Formula
   revision 3
 
   bottle do
-    root_url "https://integrativemodeling.org/2.9.0/download/homebrew"
+    root_url "https://dl.bintray.com/salilab/homebrew"
     sha256 "a2acf3142c26c6611205c6738093cac0aaa8fdaa06db38a4946fe423c78eab11" => :mojave
     sha256 "ad20ea39d19c49a8b8c26e633406db23ae773823c8e7caf2607b548766fb4fb3" => :yosemite
     sha256 "5f9489640cede05f15bb5b89cc59b266568ea33cbf2be41e512b21264524ce98" => :el_capitan
