@@ -12,7 +12,7 @@ class Hdf5AT1820 < Formula
   keg_only "Don't interfere with the regular HDF5 formula if installed."
 
   bottle do
-    root_url "https://salilab.org/homebrew/bottles"
+    root_url "https://dl.bintray.com/salilab/homebrew"
     sha256 "c88e7d45af823e170f75d1bc62243eec1f271f30e8c06b1c8c4d4f4a965afc2e" => :mojave
     sha256 "31d2b9759a7bc5f27b13319e174f9b11a8cbca1eae4e8debbe663106513c45c8" => :high_sierra
     sha256 "3cf349fb25eb7a5db64043ba31b82fa9cacc210fb5b4c74832210d276cbc6d78" => :yosemite
