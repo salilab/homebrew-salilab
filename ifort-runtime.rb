@@ -2,11 +2,11 @@ require 'formula'
 
 class IfortRuntime < Formula
   desc "Intel Fortran runtime libraries"
-  homepage 'http://salilab.org/modeller/'
+  homepage 'https://salilab.org/modeller/'
   # Extract Intel Fortran runtime from the Modeller installer image
-  url 'http://salilab.org/modeller/9.15/modeller-9.15-mac.pax.gz' if OS.mac?
+  url 'https://salilab.org/modeller/9.15/modeller-9.15-mac.pax.gz' if OS.mac?
   sha256 'd1ef0b6b50680dbacc20bc3fb909d86b77026195f70dd5e0e2f07573592f1c22' if OS.mac?
-  url 'http://salilab.org/modeller/9.15/modeller-9.15.tar.gz' if OS.linux?
+  url 'https://salilab.org/modeller/9.15/modeller-9.15.tar.gz' if OS.linux?
   sha256 '9833eace132429abee54f2f7055a55f88ac9990cd79024f95a58d12161ca8eee' if OS.linux?
   version "1.11.0"
 
