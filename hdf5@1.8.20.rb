@@ -9,7 +9,7 @@ class Hdf5AT1820 < Formula
   url 'https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8/hdf5-1.8.20/src/hdf5-1.8.20.tar.bz2'
   sha256 'a4f2db7e0a078aa324f64e0216a80731731f73025367fa94d158c9b1d3fbdf6f'
 
-  keg_only "Don't interfere with the regular HDF5 formula if installed."
+  keg_only "it shouldn't interfere with the regular HDF5 formula if installed"
 
   bottle do
     root_url "https://dl.bintray.com/salilab/homebrew"

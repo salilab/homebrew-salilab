@@ -10,7 +10,7 @@ class IfortRuntime < Formula
   sha256 '9833eace132429abee54f2f7055a55f88ac9990cd79024f95a58d12161ca8eee' if OS.linux?
   version "1.11.0"
 
-  keg_only "Don't conflict with other Intel ifort/icc libs"
+  keg_only "it shouldn't conflict with other Intel ifort/icc libs"
 
   depends_on 'patchelf' => :build if OS.linux?
 
