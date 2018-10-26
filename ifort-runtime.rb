@@ -16,9 +16,6 @@ class IfortRuntime < Formula
 
   def install
     if OS.mac?
-      if not File.exist? "Library"
-        system "pax", "-rf", "modeller-9.15-mac.pax"
-      end
       libtop = "Library/modeller-9.15/lib/mac10v4"
       libs = ["ifcore", "imf", "intlc", "irc", "svml"]
       libs.each do |l|

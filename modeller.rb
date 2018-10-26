@@ -24,9 +24,6 @@ class Modeller < Formula
   env :std
 
   def install
-    if OS.mac? and not File.exist? "Library"
-      system "pax", "-rf", "modeller-#{version}-mac.pax"
-    end
     dylib = 'dylib' if OS.mac?
     dylib = 'so' if OS.linux?
     modtop = "Library/modeller-#{version}" if OS.mac?
