@@ -3,10 +3,10 @@ require 'formula'
 class Modeller < Formula
   desc "Homology or comparative modeling of protein structures"
   homepage 'https://salilab.org/modeller/'
-  url 'https://salilab.org/modeller/9.20/modeller-9.20-mac.pax.gz' if OS.mac?
-  sha256 '161c8d5576a52ead4a90d775549cbc772c33cba71500be33c5e21af75da33729' if OS.mac?
-  url 'https://salilab.org/modeller/9.20/modeller-9.20.tar.gz' if OS.linux?
-  sha256 '00f276666a74fb5759de0988f17964ba10df3bb1a9f4e17a749dc6be91393a1a' if OS.linux?
+  url 'https://salilab.org/modeller/9.21/modeller-9.21-mac.pax.gz' if OS.mac?
+  sha256 '4c7c56e12472f8077515c57681315a9981c4da6d3237a3d63d3c9775393c15dd' if OS.mac?
+  url 'https://salilab.org/modeller/9.21/modeller-9.21.tar.gz' if OS.linux?
+  sha256 '386d7c0d67642ea967ab179ac5918c93d38f4e34d4919ed04fb7f150c88553ff' if OS.linux?
   revision 1
 
   depends_on 'python@2'
