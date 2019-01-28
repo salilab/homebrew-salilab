@@ -35,10 +35,6 @@ class Imp < Formula
   depends_on 'gsl' => :recommended
   depends_on 'opencv' => :recommended
 
-  # We need boost compiled with c++11 support on Linux; protobuf also
-  # needs c++11
-  needs :cxx11
-
   def install
     ENV.cxx11
     pyver = Language::Python.major_minor_version "python2.7"
