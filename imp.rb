@@ -5,6 +5,7 @@ class Imp < Formula
   homepage 'https://integrativemodeling.org/'
   url 'https://integrativemodeling.org/2.10.0/download/imp-2.10.0.tar.gz'
   sha256 'ddb76e7fd7eb6c7ac23e4fb6f2561aeb64bf0d372b0ef2456dd244f73f498cd3'
+  revision 1
 
   # Add support for OpenCV 4
   patch do
@@ -14,9 +15,9 @@ class Imp < Formula
 
   bottle do
     root_url "https://dl.bintray.com/salilab/homebrew"
-    sha256 "b13f6f0c05dbe2121d1a6aa48e4d32a3b0b3bfd04d93d5e6c4e293f743e66ee1" => :yosemite
-    sha256 "89164ce9242d073b6f7079286771ae2fdbf916b450d2dd1c8cee884a8f6c6a8e" => :el_capitan
-    sha256 "8d3583d3160dcd92d11ce3027be818a7521ee698c83c04e198b89d52376128da" => :mojave
+    sha256 "d284e6c5a1ac5b1ce6639a3bc6a2d6782205fd68741554702186e5f00cd84867" => :el_capitan
+    sha256 "6b2679848d579864605d1df447f27607718c6cc32d0267d18c6d00835b05b66f" => :yosemite
+    sha256 "b7fe9879a39b780fbd5312ea89095de5db84c5bb67ff050e8e8f72820d7ff62f" => :mojave
   end
 
   depends_on 'cmake' => :build
@@ -30,6 +31,7 @@ class Imp < Formula
   depends_on 'fftw'
   depends_on 'eigen'
   depends_on 'protobuf'
+  depends_on 'open-mpi'
   depends_on 'libtau' => :recommended
   depends_on 'cgal' => :recommended
   depends_on 'gsl' => :recommended
@@ -79,6 +81,7 @@ class Imp < Formula
       system python, "-c", "import IMP.multifit; assert(IMP.multifit.__version__ == '#{version}')"
       system python, "-c", "import IMP.npctransport; assert(IMP.npctransport.__version__ == '#{version}')"
       system python, "-c", "import IMP, RMF, os; name = IMP.create_temporary_file_name('assignments', '.hdf5'); root = RMF.HDF5.create_file(name); del root; os.unlink(name)"
+      system python, "-c", "import IMP.mpi; assert(IMP.mpi.__version__ == '#{version}')"
     end
     system "multifit"
     system "foxs"
