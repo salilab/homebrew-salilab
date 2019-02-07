@@ -5,7 +5,7 @@ class Imp < Formula
   homepage 'https://integrativemodeling.org/'
   url 'https://integrativemodeling.org/2.10.0/download/imp-2.10.0.tar.gz'
   sha256 'ddb76e7fd7eb6c7ac23e4fb6f2561aeb64bf0d372b0ef2456dd244f73f498cd3'
-  revision 1
+  revision 2
 
   # Add support for OpenCV 4
   patch do
@@ -15,9 +15,9 @@ class Imp < Formula
 
   bottle do
     root_url "https://dl.bintray.com/salilab/homebrew"
-    sha256 "d284e6c5a1ac5b1ce6639a3bc6a2d6782205fd68741554702186e5f00cd84867" => :el_capitan
-    sha256 "6b2679848d579864605d1df447f27607718c6cc32d0267d18c6d00835b05b66f" => :yosemite
-    sha256 "b7fe9879a39b780fbd5312ea89095de5db84c5bb67ff050e8e8f72820d7ff62f" => :mojave
+    sha256 "a0310fb279d908bea8ca4809466fa74fcfbaf762ae0c650818483efeb88ae516" => :mojave
+    sha256 "96c0b3cf40cdbd72f2e1bfb05acfd5f3336d700e6c762024ab9f120e655e3754" => :yosemite
+    sha256 "f2f641998ffb2b73d5eda6d5efb59751f82fcf838d067d3621b16adbeb1a779d" => :el_capitan
   end
 
   depends_on 'cmake' => :build
@@ -53,8 +53,17 @@ class Imp < Formula
     ENV["CGAL_DIR"] = Formula["cgal"].lib/"cmake/CGAL"
     mkdir "build" do
       system "cmake", *args
+      pybins = []
+      cd "bin" do
+        pybins = Dir.glob("*")
+      end
       system "make"
       system "make", "install"
+      cd bin do
+        # Make sure binaries use Homebrew Python, not some other Python in PATH
+        inreplace pybins, %r{^#!.*python.*$},
+                          "#!#{Formula["python@2"].opt_bin}/python2"
+      end
       if build.with? 'python'
         version = Language::Python.major_minor_version "python3"
         python_framework = (Formula["python"].opt_prefix)/"Frameworks/Python.framework/Versions/#{version}"
@@ -68,6 +77,11 @@ class Imp < Formula
                 "-DPYTHON_INCLUDE_PATH=#{py3_inc}"]
         system "cmake", *args
         system "make", "install"
+        cd bin do
+          # Make sure binaries use Homebrew Python
+          inreplace pybins, %r{^#!.*python.*$},
+                            "#!#{Formula["python"].opt_bin}/python3"
+        end
       end
     end
   end
