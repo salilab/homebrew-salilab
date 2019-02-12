@@ -17,6 +17,7 @@ class Imp < Formula
     root_url "https://dl.bintray.com/salilab/homebrew"
     sha256 "a0310fb279d908bea8ca4809466fa74fcfbaf762ae0c650818483efeb88ae516" => :mojave
     sha256 "8f5744055bfbad388f1deac0be8121928a182aaa8b80755ae82ad27cb665e0d2" => :high_sierra
+    sha256 "d47a4d358b85733c172f3c554b3ca34818ef37b72cb7187c1e5929cc216e96a6" => :sierra
     sha256 "96c0b3cf40cdbd72f2e1bfb05acfd5f3336d700e6c762024ab9f120e655e3754" => :yosemite
     sha256 "f2f641998ffb2b73d5eda6d5efb59751f82fcf838d067d3621b16adbeb1a779d" => :el_capitan
   end
