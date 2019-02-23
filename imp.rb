@@ -3,23 +3,16 @@ require 'formula'
 class Imp < Formula
   desc "The Integrative Modeling Platform"
   homepage 'https://integrativemodeling.org/'
-  url 'https://integrativemodeling.org/2.10.0/download/imp-2.10.0.tar.gz'
-  sha256 'ddb76e7fd7eb6c7ac23e4fb6f2561aeb64bf0d372b0ef2456dd244f73f498cd3'
-  revision 2
-
-  # Add support for OpenCV 4
-  patch do
-    url "https://github.com/salilab/imp/compare/91b2a5667e58...40c47c65c366.diff?full_index=1"
-    sha256 "41673f0402fde18dee84dd7070416cb6b3c44162568495f7082137a12339bcbb"
-  end
+  url 'https://integrativemodeling.org/2.10.1/download/imp-2.10.1.tar.gz'
+  sha256 '53a99ae24c3c2bdabfcfa04a94df42b5f034ef689284351034bc82105daea5ec'
 
   bottle do
     root_url "https://dl.bintray.com/salilab/homebrew"
-    sha256 "a0310fb279d908bea8ca4809466fa74fcfbaf762ae0c650818483efeb88ae516" => :mojave
-    sha256 "8f5744055bfbad388f1deac0be8121928a182aaa8b80755ae82ad27cb665e0d2" => :high_sierra
-    sha256 "d47a4d358b85733c172f3c554b3ca34818ef37b72cb7187c1e5929cc216e96a6" => :sierra
-    sha256 "96c0b3cf40cdbd72f2e1bfb05acfd5f3336d700e6c762024ab9f120e655e3754" => :yosemite
-    sha256 "f2f641998ffb2b73d5eda6d5efb59751f82fcf838d067d3621b16adbeb1a779d" => :el_capitan
+    sha256 "44090e51381f223cc6fb3b3c755d1b39f1abd0d7b72d25a03e7992c66b7f3ce7" => :mojave
+    sha256 "e9a0c07fcb760ca90e306f9a71c6ed13dcc15bfce60f25a493ac03b3ffb96d7f" => :yosemite
+    sha256 "9956bc55ab1d4de206a372d2f97e15b3be8100b4920d5a23a3e72f9b8f52e162" => :el_capitan
+    sha256 "0e0cc452c4bfd241321545a9ffcdfdd93f990d6b2637060f5d1b0a37a9d49c5b" => :high_sierra
+    sha256 "7bc37606167603eedbf583d4d3dd4170aad0c6d635d83ff9b2aed74af5cac526" => :sierra
   end
 
   depends_on 'cmake' => :build
