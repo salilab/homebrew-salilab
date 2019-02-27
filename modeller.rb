@@ -259,6 +259,7 @@ Cflags: -I#{prefix}/src/include -I#{prefix}/src/include/#{exetype}
     Language::Python.each_python(build) do |python, version|
       system python, "-c", "import modeller"
     end
+    system "mod#{version}", "--cflags", "--libs"
   end
 
 end
