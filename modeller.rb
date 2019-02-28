@@ -7,7 +7,7 @@ class Modeller < Formula
   sha256 '4c7c56e12472f8077515c57681315a9981c4da6d3237a3d63d3c9775393c15dd' if OS.mac?
   url 'https://salilab.org/modeller/9.21/modeller-9.21.tar.gz' if OS.linux?
   sha256 '386d7c0d67642ea967ab179ac5918c93d38f4e34d4919ed04fb7f150c88553ff' if OS.linux?
-  revision 1
+  revision 2
 
   depends_on 'python@2'
   depends_on 'python' => :recommended
@@ -51,8 +51,15 @@ class Modeller < Formula
         s.gsub! /\/bin\/\$\{EXECUTABLE\}/, "/modbin/${EXECUTABLE}"
       end
 
-      # Find _modeller.so
-      s.gsub! /^exec/, "export PYTHONPATH=#{lib}/python#{pyver}/site-packages\nexec"
+      if OS.linux?
+        # Find _modeller.so in Python path
+        s.gsub! /^exec/, "export PYTHONPATH=#{lib}/python#{pyver}/site-packages\nexec"
+      else
+        # 1. Make sure that modXXX binary uses Apple's Python libraries (since
+        #    it is linked against Apple's Python interpreter)
+        # 2. Find _modeller.so in Python path
+        s.gsub! /^exec/, "export PYTHONHOME=/System/Library/Frameworks/Python.framework/Versions/2.6\nexport PYTHONPATH=#{lib}/python#{pyver}/site-packages\nexec"
+      end
     end
 
     # Rename Modeller's 'bin' directory to 'modbin', since the contents are
