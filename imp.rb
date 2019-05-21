@@ -7,6 +7,12 @@ class Imp < Formula
   sha256 '53a99ae24c3c2bdabfcfa04a94df42b5f034ef689284351034bc82105daea5ec'
   revision 5
 
+  # Add support for SWIG 4
+  patch do
+    url "https://github.com/salilab/imp/compare/0f80dd10db...db77dba64f.diff?full_index=1"
+    sha256 "aa7ec1fb966e349810c60757661870f9cd7ed572e67003e06fe1657e562a895b"
+  end
+
   bottle do
     root_url "https://dl.bintray.com/salilab/homebrew"
     sha256 "6e6c5fd3d83dc6676d7c7d9cadef1b46fb8cbae1e6088e738cc8a3d76f641f5f" => :sierra
