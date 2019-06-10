@@ -8,10 +8,7 @@ class Imp < Formula
   revision 5
 
   # Add support for SWIG 4
-  patch do
-    url "https://github.com/salilab/imp/compare/0f80dd10db...db77dba64f.diff?full_index=1"
-    sha256 "aa7ec1fb966e349810c60757661870f9cd7ed572e67003e06fe1657e562a895b"
-  end
+  patch :DATA
 
   bottle do
     root_url "https://dl.bintray.com/salilab/homebrew"
@@ -102,3 +99,55 @@ class Imp < Formula
   end
 
 end
+
+__END__
+diff --git a/modules/atom/pyext/swig.i-in b/modules/atom/pyext/swig.i-in
+index f9f1c50fdd..383c783dff 100644
+--- a/modules/atom/pyext/swig.i-in
++++ b/modules/atom/pyext/swig.i-in
+@@ -295,9 +295,17 @@ namespace IMP {
+ %include "IMP/atom/HelixRestraint.h"
+ %include "IMP/atom/alignment.h"
+ 
++%inline %{
++  // SWIG 4.0 doesn't like %template here, so provide a little
++  // wrapper function instead
++  std::ostream &show_molecular_hierarchy(
++              IMP::atom::Hierarchy h, std::ostream &out = std::cout) {
++    return IMP::core::show<IMP::atom::Hierarchy>(h, out);
++  }
++%}
++
+ namespace IMP {
+   namespace atom {
+-   %template(show_molecular_hierarchy) IMP::core::show<IMP::atom::Hierarchy>;
+    %template(CHARMMBond) CHARMMConnection<2>;
+    %template(CHARMMAngle) CHARMMConnection<3>;
+    %template(_get_native_overlap_cpp) get_native_overlap<IMP::Vector<algebra::VectorD<3> >, IMP::Vector<algebra::VectorD<3> > >;
+diff --git a/tools/build/setup_swig_deps.py b/tools/build/setup_swig_deps.py
+index b776be9988..77cdfe5ec2 100755
+--- a/tools/build/setup_swig_deps.py
++++ b/tools/build/setup_swig_deps.py
+@@ -47,7 +47,7 @@ def setup_one(module, ordered, build_system, swig):
+     swigpath = get_dep_merged([module], "swigpath", ordered)
+ 
+     depf = open("src/%s_swig.deps.in" % module, "w")
+-    cmd = [swig, "-MM", "-Iinclude", "-Iswig", "-ignoremissing"]\
++    cmd = [swig, "-python", "-MM", "-Iinclude", "-Iswig", "-ignoremissing"]\
+         + ["-I" + x for x in swigpath] + ["-I" + x for x in includepath]\
+         + ["swig/IMP_%s.i" % module]
+ 
+diff --git a/tools/build/setup_swig_wrappers.py b/tools/build/setup_swig_wrappers.py
+index 2b67d1f998..83f591587c 100755
+--- a/tools/build/setup_swig_wrappers.py
++++ b/tools/build/setup_swig_wrappers.py
+@@ -49,7 +49,8 @@ def build_wrapper(module, module_path, source, sorted, info, target, datapath):
+     contents = []
+     swig_module_name = "IMP" if module == 'kernel' else "IMP." + module
+ 
+-    contents.append("""%%module(directors="1", allprotected="1") "%s"
++    contents.append(
++"""%%module(directors="1", allprotected="1", moduleimport="import $module") "%s"
+ %%feature("autodoc", 1);
+ // Warning 314: 'lambda' is a python keyword, renaming to '_lambda'
+ %%warnfilter(321,302,314);
