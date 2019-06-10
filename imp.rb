@@ -5,16 +5,16 @@ class Imp < Formula
   homepage 'https://integrativemodeling.org/'
   url 'https://integrativemodeling.org/2.10.1/download/imp-2.10.1.tar.gz'
   sha256 '53a99ae24c3c2bdabfcfa04a94df42b5f034ef689284351034bc82105daea5ec'
-  revision 5
+  revision 6
 
   # Add support for SWIG 4
   patch :DATA
 
   bottle do
     root_url "https://dl.bintray.com/salilab/homebrew"
-    sha256 "6e6c5fd3d83dc6676d7c7d9cadef1b46fb8cbae1e6088e738cc8a3d76f641f5f" => :sierra
-    sha256 "70bd24010fc8ef2ba7728fb18661dc773318e94bab53da46b72f3c09a5ff5e8f" => :high_sierra
-    sha256 "cc60e15a32ecc6f36a1d6e4523d1634729cf1694dc87299bf5f121c3acb00067" => :mojave
+    sha256 "18ef638f277618b81f2e14747aee75a1d239315623327790ba5632697a94f950" => :sierra
+    sha256 "8f7f7b0b63c0e824d16e01cd8277ce2407470a73507447d509f71bd7b9641cfa" => :high_sierra
+   sha256 "38c146df609ce56dd8b3e2d239a2f715157fcfaaeca3f31aa8fe31eac6c53dbf" => :mojave
   end
 
   depends_on 'cmake' => :build
