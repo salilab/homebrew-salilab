@@ -5,12 +5,19 @@ class Imp < Formula
   homepage 'https://integrativemodeling.org/'
   url 'https://integrativemodeling.org/2.11.0/download/imp-2.11.0.tar.gz'
   sha256 '93231e07a07b741403b27a50bb935abecee21a17c1514cf0f060402e37acd908'
+  revision 1
 
   bottle do
     root_url "https://dl.bintray.com/salilab/homebrew"
-    sha256 "57230ca0b607c4a1b8e84313886264c7007ee2a116bbfc106e135c8fa9d0de8e" => :sierra
-    sha256 "cb9b5835f2bb5879befe64705ec1eb6a028c96971863b54008473ddeb74eff97" => :high_sierra
-    sha256 "37c542785e4ee2b79c2fc3074601bbed961befdebf586fa25041395da91eb374" => :mojave
+    sha256 "0dc8c0a421a3fe03324ee70a529535adafe77e6c0fffaafa9d1a50e535dd0ba9" => :high_sierra
+    sha256 "8dc72fcd64db532cc80995cddc5ec154c602767bb1d72b6b0ebd8f3d48eee59b" => :sierra
+    sha256 "4ef7b132de9ac5565f10dbf9f222d38a83c39629a3cafd633bdf2fb5b3bd1c2b" => :mojave
+  end
+
+  # Fix RMF read issue
+  patch do
+    url "https://github.com/salilab/imp/commit/c08fc6ec9daf31823503fb2f74aed3418c2526ce.patch?full_index=1"
+    sha256 "606ed9ab084a4d871459f2f5bab23111f4bdf3d7971f4d528537f1bf9d7a79eb"
   end
 
   depends_on 'cmake' => :build
