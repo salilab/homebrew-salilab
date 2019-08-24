@@ -5,12 +5,13 @@ class Imp < Formula
   homepage 'https://integrativemodeling.org/'
   url 'https://integrativemodeling.org/2.11.1/download/imp-2.11.1.tar.gz'
   sha256 '1777ef37aaf79d37c737923c56b9f2f27dc84cb7ab0f4f56fd146c90168ece45'
+  revision 1
 
   bottle do
     root_url "https://dl.bintray.com/salilab/homebrew"
-    sha256 "8e3c927c43e22389737a6bc7ec454471ec50475e66175a26265b3984eb143317" => :mojave
-    sha256 "ce80f073ff427a7a59f32b27ab8ca5318c1f47a0fca1711374d4c4d6afb83c04" => :high_sierra
-    sha256 "c62307cb9a4aac2cddc3e36972ea728d906ebcfbc00b3efe5ad682fc20ff67b4" => :sierra
+    sha256 "198a7bc35f87c292b12eb3f90ee2a7566a41eb4f9b62eef6520261626e8aa204" => :mojave
+    sha256 "dad64df7276fca78368f2b57fc110212c321fcfe8c1bd80434865f9dfb052967" => :high_sierra
+    sha256 "5adac324a48d5f8e33191a4d64919a1c136c2c9609970302ba19368909bb650f" => :sierra
   end
 
   depends_on 'cmake' => :build
