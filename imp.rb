@@ -5,13 +5,16 @@ class Imp < Formula
   homepage 'https://integrativemodeling.org/'
   url 'https://integrativemodeling.org/2.11.1/download/imp-2.11.1.tar.gz'
   sha256 '1777ef37aaf79d37c737923c56b9f2f27dc84cb7ab0f4f56fd146c90168ece45'
-  revision 2
+  revision 3
 
   bottle do
     root_url "https://dl.bintray.com/salilab/homebrew"
-    sha256 "c8d76f37800a9e5ad353257e7297cf3235fe064940f1a7395ac3175ce61032c4" => :sierra
-    sha256 "16bbc83ff4adf25b6177aa8f9427a8ab6b34ad73859c21fcac2636f106a0f348" => :high_sierra
-    sha256 "40e3413b6429a8428282ea98c36816b450bd6131ddcc34420d3440a398de0d8f" => :mojave
+  end
+
+  # Work around a Clang parser bug, https://bugs.llvm.org/show_bug.cgi?id=43266
+  patch do
+    url "https://github.com/salilab/imp/commit/f279a4db9b33bcf3bcf05a98e5c78258fc379bc5.diff?full_index=1"
+    sha256 "40906d9c8bfc2eedf58e0b7de37899258e5e05025528cfefd0dba303e2bd8fbc"
   end
 
   depends_on 'cmake' => :build
