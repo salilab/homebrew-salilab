@@ -17,6 +17,12 @@ class Imp < Formula
     sha256 "40906d9c8bfc2eedf58e0b7de37899258e5e05025528cfefd0dba303e2bd8fbc"
   end
 
+  # Work around boost::betweenness_centrality_clustering compile error
+  patch do
+    url "https://github.com/salilab/imp/commit/8f478ce376ff6180e75648098752cf945bd7652a.diff?full_index=1"
+    sha256 "f63d40804c64059f8552d41684fd55c1750d150de4545fe2c8277d92c00493e6"
+  end
+
   depends_on 'cmake' => :build
   depends_on 'swig' => :build
 
