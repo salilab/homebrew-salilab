@@ -9,6 +9,10 @@ class Imp < Formula
 
   bottle do
     root_url "https://dl.bintray.com/salilab/homebrew"
+    sha256 "1bd23c0032ce1ece782b6c8bc8dc550e3ecc5888120ed12ccb355e8bbcfcb75c" => :sierra
+    sha256 "200be1e44abecf802bbcc992490cf68e6f75fd1dabf85a2c6a61515a43f38d21" => :high_sierra
+    sha256 "871486f48090df77fb2cc00cc72e260af4b41b849fce19e122d6bca01935c27b" => :mojave
+    sha256 "e66e3a4a480da94c8ed3d63daf19f80d8a7a312740bd1769f3e6ef383980fec6" => :catalina
   end
 
   # Work around a Clang parser bug, https://bugs.llvm.org/show_bug.cgi?id=43266
