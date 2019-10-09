@@ -47,6 +47,8 @@ class Imp < Formula
     args = std_cmake_args
     args << "-DIMP_DISABLED_MODULES=scratch"
     args << ".."
+    # We need explicit C++11 in order for the OpenCV compile test to work
+    args << '-DCMAKE_CXX_FLAGS="-std=c++11"'
     # Don't install in lib64 on Linux systems
     args << "-DCMAKE_INSTALL_LIBDIR=#{lib}"
     args << "-DCMAKE_INSTALL_PYTHONDIR=#{lib}/python#{pyver}/site-packages"
