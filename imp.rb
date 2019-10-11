@@ -5,14 +5,14 @@ class Imp < Formula
   homepage 'https://integrativemodeling.org/'
   url 'https://integrativemodeling.org/2.11.1/download/imp-2.11.1.tar.gz'
   sha256 '1777ef37aaf79d37c737923c56b9f2f27dc84cb7ab0f4f56fd146c90168ece45'
-  revision 3
+  revision 4
 
   bottle do
     root_url "https://dl.bintray.com/salilab/homebrew"
-    sha256 "1bd23c0032ce1ece782b6c8bc8dc550e3ecc5888120ed12ccb355e8bbcfcb75c" => :sierra
-    sha256 "200be1e44abecf802bbcc992490cf68e6f75fd1dabf85a2c6a61515a43f38d21" => :high_sierra
-    sha256 "871486f48090df77fb2cc00cc72e260af4b41b849fce19e122d6bca01935c27b" => :mojave
-    sha256 "e66e3a4a480da94c8ed3d63daf19f80d8a7a312740bd1769f3e6ef383980fec6" => :catalina
+    sha256 "4a37681183395ce5f6a411afdd98b89647f170867344af9146b629188bd71dc2" => :sierra
+    sha256 "7ac37cc8befaeada0d1a0d63ff9913c74442a4ee1cba8e89c29c7bb44fd8eb50" => :high_sierra
+    sha256 "38eef69ce5e1980b4322b477d4097015480e4a0dd09e2e00d891267ef7311b33" => :mojave
+    sha256 "889060d6e9f92b74a7dc5ae29291e62e82e24be3c6a2a7239d96383022eccd3a" => :catalina
   end
 
   # Work around a Clang parser bug, https://bugs.llvm.org/show_bug.cgi?id=43266
