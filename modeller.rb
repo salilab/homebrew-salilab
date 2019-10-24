@@ -3,10 +3,10 @@ require 'formula'
 class Modeller < Formula
   desc "Homology or comparative modeling of protein structures"
   homepage 'https://salilab.org/modeller/'
-  url 'https://salilab.org/modeller/9.22/modeller-9.22-mac.pax.gz' if OS.mac?
-  sha256 'ac4551c332caf8fdcdbf025f36093f3a6fa3e52ca95e81275ccd674da311d3ed' if OS.mac?
-  url 'https://salilab.org/modeller/9.22/modeller-9.22.tar.gz' if OS.linux?
-  sha256 'bc3be72a402f7a45cc9b5df698f1150bd441ef38c060dfe9c4631fefb83172d1' if OS.linux?
+  url 'https://salilab.org/modeller/9.23/modeller-9.23-mac.pax.gz' if OS.mac?
+  sha256 '4b8069126c1772c395d8b3945977a9f7813392441fb93ca74aa111e7d9d3e782' if OS.mac?
+  url 'https://salilab.org/modeller/9.23/modeller-9.23.tar.gz' if OS.linux?
+  sha256 '7fa0b268a2c3feb400d96962cd61d617b91fa6295b4bcc11eb466df20f5dabc3' if OS.linux?
 
   depends_on 'python@2'
   depends_on 'python' => :recommended
@@ -83,7 +83,7 @@ class Modeller < Formula
     prefix.install "#{modtop}/modlib"
     prefix.install "#{modtop}/src"
 
-    sover = "11"
+    sover = "12"
     if OS.linux?
       ifort_libs = ["ifcore.so.5", "imf.so", "intlc.so.5", "svml.so"]
     elsif OS.mac?
