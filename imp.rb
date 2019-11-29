@@ -5,14 +5,14 @@ class Imp < Formula
   homepage 'https://integrativemodeling.org/'
   url 'https://integrativemodeling.org/2.11.1/download/imp-2.11.1.tar.gz'
   sha256 '1777ef37aaf79d37c737923c56b9f2f27dc84cb7ab0f4f56fd146c90168ece45'
-  revision 4
+  revision 5
 
   bottle do
     root_url "https://dl.bintray.com/salilab/homebrew"
-    sha256 "4a37681183395ce5f6a411afdd98b89647f170867344af9146b629188bd71dc2" => :sierra
-    sha256 "7ac37cc8befaeada0d1a0d63ff9913c74442a4ee1cba8e89c29c7bb44fd8eb50" => :high_sierra
-    sha256 "38eef69ce5e1980b4322b477d4097015480e4a0dd09e2e00d891267ef7311b33" => :mojave
-    sha256 "889060d6e9f92b74a7dc5ae29291e62e82e24be3c6a2a7239d96383022eccd3a" => :catalina
+    sha256 "0f7f02b0fc80d60f84eef0fd292a401c08afaeecd8acbbcc699c885f949c1a97" => :catalina
+    sha256 "927d59fced47270a092d822d0ef491fcec01a958355d6a546dd8d7f33a22ed52" => :mojave
+    sha256 "fa87557fb560866fabc8f3ece7ff64bdd953a0f9f6d6ae0c293c23d07e09db53" => :sierra
+    sha256 "adc57787cbc72c1cdfcdd8dcb68bdd25fb83f87dfcb2b5428a01e7c952d02a7c" => :high_sierra
   end
 
   # Work around a Clang parser bug, https://bugs.llvm.org/show_bug.cgi?id=43266
