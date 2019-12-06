@@ -3,28 +3,15 @@ require 'formula'
 class Imp < Formula
   desc "The Integrative Modeling Platform"
   homepage 'https://integrativemodeling.org/'
-  url 'https://integrativemodeling.org/2.11.1/download/imp-2.11.1.tar.gz'
-  sha256 '1777ef37aaf79d37c737923c56b9f2f27dc84cb7ab0f4f56fd146c90168ece45'
-  revision 5
+  url 'https://integrativemodeling.org/2.12.0/download/imp-2.12.0.tar.gz'
+  sha256 '4e7a3103773961d381cf61242060d1d6ba986d971d06fa9ce151adb00de5e837'
 
   bottle do
     root_url "https://dl.bintray.com/salilab/homebrew"
-    sha256 "0f7f02b0fc80d60f84eef0fd292a401c08afaeecd8acbbcc699c885f949c1a97" => :catalina
-    sha256 "927d59fced47270a092d822d0ef491fcec01a958355d6a546dd8d7f33a22ed52" => :mojave
-    sha256 "fa87557fb560866fabc8f3ece7ff64bdd953a0f9f6d6ae0c293c23d07e09db53" => :sierra
-    sha256 "adc57787cbc72c1cdfcdd8dcb68bdd25fb83f87dfcb2b5428a01e7c952d02a7c" => :high_sierra
-  end
-
-  # Work around a Clang parser bug, https://bugs.llvm.org/show_bug.cgi?id=43266
-  patch do
-    url "https://github.com/salilab/imp/commit/f279a4db9b33bcf3bcf05a98e5c78258fc379bc5.diff?full_index=1"
-    sha256 "40906d9c8bfc2eedf58e0b7de37899258e5e05025528cfefd0dba303e2bd8fbc"
-  end
-
-  # Work around boost::betweenness_centrality_clustering compile error
-  patch do
-    url "https://github.com/salilab/imp/commit/8f478ce376ff6180e75648098752cf945bd7652a.diff?full_index=1"
-    sha256 "f63d40804c64059f8552d41684fd55c1750d150de4545fe2c8277d92c00493e6"
+    sha256 "6f8dbb307f5e969ab8338273151a12a160711b3df8e8808e4d7308ed3840ef53" => :catalina
+    sha256 "51e9dd43f71d09abd64149ad95f4684136622a77cb6714ad7c9592d50599304d" => :mojave
+    sha256 "cf7f2b59d468600b3fb25eb5e143ca106b847a2b6910ad561e7e4acf32470399" => :high_sierra
+    sha256 "7440e59e6a80be04d8a5f475e7e28f6b30a0fd337b37be61e00fa0636ea01e08" => :sierra
   end
 
   depends_on 'cmake' => :build
@@ -100,6 +87,7 @@ class Imp < Formula
       system python, "-c", "import IMP.foxs; assert(IMP.foxs.__version__ == '#{version}')"
       system python, "-c", "import IMP.multifit; assert(IMP.multifit.__version__ == '#{version}')"
       system python, "-c", "import IMP.npctransport; assert(IMP.npctransport.__version__ == '#{version}')"
+      system python, "-c", "import IMP.bayesianem; assert(IMP.bayesianem.__version__ == '#{version}')"
       system python, "-c", "import IMP, RMF, os; name = IMP.create_temporary_file_name('assignments', '.hdf5'); root = RMF.HDF5.create_file(name); del root; os.unlink(name)"
       system python, "-c", "import IMP.mpi; assert(IMP.mpi.__version__ == '#{version}')"
     end
