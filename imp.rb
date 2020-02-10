@@ -31,7 +31,6 @@ class Imp < Formula
   depends_on 'swig' => :build
   depends_on 'pkg-config' => :build
 
-  depends_on 'python@2' => :recommended
   depends_on 'python' => :recommended
 
   depends_on 'boost'
@@ -71,11 +70,6 @@ class Imp < Formula
       end
       system "make"
       system "make", "install"
-      cd bin do
-        # Make sure binaries use Homebrew Python, not some other Python in PATH
-        inreplace pybins, %r{^#!.*python.*$},
-                          "#!#{Formula["python@2"].opt_bin}/python2"
-      end
       if build.with? 'python'
         version = Language::Python.major_minor_version "python3"
         args = ["..",
