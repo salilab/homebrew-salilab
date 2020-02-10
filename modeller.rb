@@ -8,7 +8,6 @@ class Modeller < Formula
   url 'https://salilab.org/modeller/9.23/modeller-9.23.tar.gz' if OS.linux?
   sha256 '7fa0b268a2c3feb400d96962cd61d617b91fa6295b4bcc11eb466df20f5dabc3' if OS.linux?
 
-  depends_on 'python@2'
   depends_on 'python' => :recommended
 
   depends_on 'swig' => :build
@@ -164,12 +163,6 @@ libraries.
                    "#{prefix}/dynlib/lib#{l}")
     end
 
-    pyver = Language::Python.major_minor_version "python2"
-    File.open('modeller.pth', 'w') do |file|
-      file.puts "#{prefix}/modlib"
-    end
-    (lib/"python#{pyver}/site-packages").install "modeller.pth"
-
     if build.with? 'python'
       pyver = Language::Python.major_minor_version "python3"
       File.open('modeller.pth', 'w') do |file|
@@ -178,13 +171,17 @@ libraries.
       (lib/"python#{pyver}/site-packages").install "modeller.pth"
     end
 
-    pyver = Language::Python.major_minor_version "python"
+    pyver = Language::Python.major_minor_version "python2"
     if OS.mac?
       (lib/"python#{pyver}/site-packages").install "#{modtop}/lib/#{univ_exetype}/_modeller.so"
     elsif OS.linux?
       # Most likely we are using the Python 2.5 ABI, not 2.3
       (lib/"python#{pyver}/site-packages").install "#{modtop}/lib/#{univ_exetype}/python2.5/_modeller.so"
     end
+
+    File.symlink("#{prefix}/modlib/modeller",
+                 lib/"python#{pyver}/site-packages/modeller")
+
 
     if OS.linux?
       modbins = [prefix/"modbin/mod#{version}_#{exetype}",
