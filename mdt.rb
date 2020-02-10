@@ -7,7 +7,6 @@ class Mdt < Formula
   sha256 'fc403b8c26365c11bd9522929aef0c3b51dff860fddc8ac446a980acec5a3d44'
   revision 2
 
-  depends_on 'python@2' => :recommended
   depends_on 'python' => :recommended
 
   depends_on 'scons' => :build
