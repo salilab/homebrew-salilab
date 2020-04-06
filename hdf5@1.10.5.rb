@@ -13,7 +13,6 @@ class Hdf5AT1105 < Formula
 
   bottle do
     root_url "https://dl.bintray.com/salilab/homebrew"
-    sha256 "638700819587b456e9d4d4783b6cdd882bcfe80206dc5b014ef5a9b70fd898c4" => :mojave
   end
 
   # TODO - warn that these options conflict
@@ -49,5 +48,19 @@ class Hdf5AT1105 < Formula
 
     system "./configure", *args
     system "make install"
+  end
+
+  test do
+    (testpath/"test.c").write <<~EOS
+      #include <stdio.h>
+      #include "hdf5.h"
+      int main()
+      {
+        printf("%d.%d.%d\\n", H5_VERS_MAJOR, H5_VERS_MINOR, H5_VERS_RELEASE);
+        return 0;
+      }
+    EOS
+    system "#{bin}/h5cc", "test.c"
+    assert_equal version.to_s, shell_output("./a.out").chomp
   end
 end
