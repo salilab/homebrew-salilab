@@ -7,6 +7,7 @@ class Modeller < Formula
   sha256 '4b8069126c1772c395d8b3945977a9f7813392441fb93ca74aa111e7d9d3e782' if OS.mac?
   url 'https://salilab.org/modeller/9.23/modeller-9.23.tar.gz' if OS.linux?
   sha256 '7fa0b268a2c3feb400d96962cd61d617b91fa6295b4bcc11eb466df20f5dabc3' if OS.linux?
+  revision 1
 
   depends_on 'python' => :recommended
 
@@ -164,7 +165,7 @@ libraries.
     end
 
     if build.with? 'python'
-      pyver = Language::Python.major_minor_version "python3"
+      pyver = Language::Python.major_minor_version "python3.7"
       File.open('modeller.pth', 'w') do |file|
         file.puts "#{prefix}/modlib"
       end
@@ -199,13 +200,13 @@ libraries.
 
     # Build Python 3 extension from SWIG inputs (todo: make universal)
     if build.with? 'python'
-      pyver = Language::Python.major_minor_version "python3"
+      pyver = Language::Python.major_minor_version "python3.7"
       Dir.chdir("#{prefix}/src/swig/") do
         system "swig", "-python", "-keyword", "-nodefaultctor",
                "-nodefaultdtor", "-noproxy", "modeller.i"
         # Avoid possible confusion between Python 2 and Python 3 site modules
         ENV.delete("PYTHONPATH")
-        system "python3", "setup.py", "build"
+        system "python3.7", "setup.py", "build"
         (lib/"python#{pyver}/site-packages").install Dir["build/lib.*#{pyver}/_modeller.*so"]
         File.delete("modeller_wrap.c")
         rm_rf("build")
