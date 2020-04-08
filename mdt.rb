@@ -3,9 +3,8 @@ require 'formula'
 class Mdt < Formula
   desc "Generate frequency tables used by Modeller and IMP."
   homepage 'https://salilab.org/mdt/'
-  url 'https://salilab.org/mdt/5.4/mdt-5.4.tar.gz'
-  sha256 'fc403b8c26365c11bd9522929aef0c3b51dff860fddc8ac446a980acec5a3d44'
-  revision 2
+  url 'https://salilab.org/mdt/5.5/mdt-5.5.tar.gz'
+  sha256 '94b3dbd3050be14568ed613cc1d534e11ef37cb32a646116f35ef66cab5c187c'
 
   depends_on 'python' => :recommended
 
@@ -19,12 +18,26 @@ class Mdt < Formula
   def install
     hdf5_formula = Formula['hdf5@1.8.20']
     ifort_formula = Formula['ifort-runtime']
+    python_version = Language::Python.major_minor_version "python3.7"
+    python_framework = (Formula["python"].opt_prefix)/"Frameworks/Python.framework/Versions/#{python_version}"
+    py3_inc = "#{python_framework}/Headers"
+    py3_sitepack = "#{lib}/python#{python_version}/site-packages"
+
+    inreplace "pyext/SConscript" do |s|
+      s.gsub! /'include'\)/, "'include').replace('3.8', '3.7')"
+    end
+
     system "scons", "-j #{ENV.make_jobs}",
                     "prefix=#{prefix}",
                     "libdir=#{lib}",
                     "includepath=#{hdf5_formula.include}",
-		    "libpath=#{hdf5_formula.lib}:#{ifort_formula.lib}",
+                    "libpath=#{hdf5_formula.lib}",
+                    "python=python3.7",
+                    "pythoninclude=#{py3_inc}",
+                    "pythondir=#{py3_sitepack}",
                     "install"
+    File.rename("#{lib}/python3.7/site-packages/_mdt.cpython-38-darwin.so",
+                "#{lib}/python3.7/site-packages/_mdt.cpython-37m-darwin.so")
 
     if OS.linux?
       python_version = Language::Python.major_minor_version "python"
@@ -32,22 +45,6 @@ class Mdt < Formula
              lib/"python#{python_version}/site-packages/_mdt.so"
     end
 
-    if build.with? 'python'
-      python_version = Language::Python.major_minor_version "python3"
-      python_framework = (Formula["python"].opt_prefix)/"Frameworks/Python.framework/Versions/#{python_version}"
-      py3_inc = "#{python_framework}/Headers"
-      py3_sitepack = "#{lib}/python#{python_version}/site-packages"
-
-      system "scons", "-j #{ENV.make_jobs}",
-                      "prefix=#{prefix}",
-                      "libdir=#{lib}",
-                      "includepath=#{hdf5_formula.include}",
-                      "libpath=#{hdf5_formula.lib}",
-                      "python=python3",
-                      "pythoninclude=#{py3_inc}",
-                      "pythondir=#{py3_sitepack}",
-                      "install"
-    end
   end
 
   def test
