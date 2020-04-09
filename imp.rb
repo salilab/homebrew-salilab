@@ -5,7 +5,7 @@ class Imp < Formula
   homepage 'https://integrativemodeling.org/'
   url 'https://integrativemodeling.org/2.12.0/download/imp-2.12.0.tar.gz'
   sha256 '4e7a3103773961d381cf61242060d1d6ba986d971d06fa9ce151adb00de5e837'
-  revision 4
+  revision 5
 
   # Work around boost::betweenness_centrality_clustering compile error
   patch do
@@ -27,10 +27,9 @@ class Imp < Formula
 
   bottle do
     root_url "https://dl.bintray.com/salilab/homebrew"
-    sha256 "fd1ef4b5ecb1052cf972b3a1fb92ac23e313437d58bf5269d73c797b0793b89f" => :sierra
-    sha256 "013b67b40fd36ae28d2da6addfaac2d4e0bc9535636e66b66ee9cfae78d3ae1f" => :high_sierra
-    sha256 "8e21b0b4a3bfcd04dee53add03d5f6357f7ea873cb5badc0fd3f1dca74a8559b" => :mojave
-    sha256 "cf42abd82dd414d312887a0f4794a60dec3c1a255b4a1afc22e451781f2b80a2" => :catalina
+    sha256 "241b275252cf2c88a9735ab1029ee1264157308ae3601cab55b0be618f971717" => :high_sierra
+    sha256 "1bb5306c03c3c040ba402fc24721eb8b5d21816fa36fc35ad18c3acaf0bb5ca4" => :mojave
+    sha256 "2c8f43629981e66ee63286cfdf5be9eda130351e431221e587b373e3ed7468e1" => :catalina
   end
 
   depends_on 'cmake' => :build
