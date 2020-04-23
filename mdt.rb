@@ -5,9 +5,10 @@ class Mdt < Formula
   homepage 'https://salilab.org/mdt/'
   url 'https://salilab.org/mdt/5.5/mdt-5.5.tar.gz'
   sha256 '94b3dbd3050be14568ed613cc1d534e11ef37cb32a646116f35ef66cab5c187c'
-  revision 1
+  revision 2
 
   depends_on 'python' => :recommended
+  depends_on 'python@3.8' => :recommended
 
   depends_on 'scons' => :build
   depends_on 'swig' => :build
@@ -19,6 +20,23 @@ class Mdt < Formula
   def install
     hdf5_formula = Formula['hdf5@1.10.5']
     ifort_formula = Formula['ifort-runtime']
+
+    if build.with? 'python@3.8'
+      python_version = Language::Python.major_minor_version Formula["python@3.8"].opt_bin/"python3"
+      python_framework = (Formula["python@3.8"].opt_prefix)/"Frameworks/Python.framework/Versions/#{python_version}"
+      py3_inc = "#{python_framework}/Headers"
+      py3_sitepack = "#{lib}/python#{python_version}/site-packages"
+      system "scons", "-j #{ENV.make_jobs}",
+                      "prefix=#{prefix}",
+                      "libdir=#{lib}",
+                      "includepath=#{hdf5_formula.include}",
+                      "libpath=#{hdf5_formula.lib}",
+                      "python=python3.7",
+                      "pythoninclude=#{py3_inc}",
+                      "pythondir=#{py3_sitepack}",
+                      "install"
+    end
+
     python_version = Language::Python.major_minor_version "python3.7"
     python_framework = (Formula["python"].opt_prefix)/"Frameworks/Python.framework/Versions/#{python_version}"
     py3_inc = "#{python_framework}/Headers"
