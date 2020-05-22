@@ -5,6 +5,7 @@ class Imp < Formula
   homepage 'https://integrativemodeling.org/'
   url 'https://integrativemodeling.org/2.13.0/download/imp-2.13.0.tar.gz'
   sha256 '528aeed272e35d79028af0e215a41c086c09782cef59ee3f983d52bff8653bfc'
+  revision 1
 
   # Make sure each module has __version__
   patch do
@@ -14,9 +15,9 @@ class Imp < Formula
 
   bottle do
     root_url "https://dl.bintray.com/salilab/homebrew"
-    sha256 "3f58c25215096f89d24a747aa9cd99b13993ae69d11ce23d8295dfc4e3578d36" => :high_sierra
-    sha256 "3f40c0d65a0b278ce14e506ec1266cc766c65656ce5440d6f17af0a218e6f655" => :mojave
-    sha256 "3df62890818b6ac41f293065a524b52cd21b9bc5a378f8d133cc4b1e7a243b1d" => :catalina
+    sha256 "551925e5b5581937dcde5295396a0925f5de21a6f4f93a0559eb3d1349a55b96" => :catalina
+    sha256 "83c1af84e4a940ab7470d6e8ae6e12a97add56e27a16fa1e80f7faaec302e559" => :mojave
+    sha256 "96324b490525dafb768396f12029f7ae7a28c5713ca19dd92faa200637d664aa" => :high_sierra
   end
 
   depends_on 'cmake' => :build
