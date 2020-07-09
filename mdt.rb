@@ -5,9 +5,8 @@ class Mdt < Formula
   homepage 'https://salilab.org/mdt/'
   url 'https://salilab.org/mdt/5.5/mdt-5.5.tar.gz'
   sha256 '94b3dbd3050be14568ed613cc1d534e11ef37cb32a646116f35ef66cab5c187c'
-  revision 2
+  revision 3
 
-  depends_on 'python' => :recommended
   depends_on 'python@3.8' => :recommended
 
   depends_on 'scons' => :build
@@ -31,32 +30,11 @@ class Mdt < Formula
                       "libdir=#{lib}",
                       "includepath=#{hdf5_formula.include}",
                       "libpath=#{hdf5_formula.lib}",
-                      "python=python3.7",
+                      "python=python3.8",
                       "pythoninclude=#{py3_inc}",
                       "pythondir=#{py3_sitepack}",
                       "install"
     end
-
-    python_version = Language::Python.major_minor_version "python3.7"
-    python_framework = (Formula["python"].opt_prefix)/"Frameworks/Python.framework/Versions/#{python_version}"
-    py3_inc = "#{python_framework}/Headers"
-    py3_sitepack = "#{lib}/python#{python_version}/site-packages"
-
-    inreplace "pyext/SConscript" do |s|
-      s.gsub! /'include'\)/, "'include').replace('3.8', '3.7')"
-    end
-
-    system "scons", "-j #{ENV.make_jobs}",
-                    "prefix=#{prefix}",
-                    "libdir=#{lib}",
-                    "includepath=#{hdf5_formula.include}",
-                    "libpath=#{hdf5_formula.lib}",
-                    "python=python3.7",
-                    "pythoninclude=#{py3_inc}",
-                    "pythondir=#{py3_sitepack}",
-                    "install"
-    File.rename("#{lib}/python3.7/site-packages/_mdt.cpython-38-darwin.so",
-                "#{lib}/python3.7/site-packages/_mdt.cpython-37m-darwin.so")
 
     if OS.linux?
       python_version = Language::Python.major_minor_version "python"
