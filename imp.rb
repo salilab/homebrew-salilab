@@ -97,15 +97,4 @@ class Imp < Formula
     system "foxs"
   end
 
-  def caveats
-    <<~EOS
-      IMP has been built to work with the latest version of Python 3
-      supported by Homebrew, Python 3.8.
-
-      Note that currently this is not in Homebrew's default path.
-      See "brew info python@3.8" for the full path to Python 3.8 and
-      instructions on how to add it to the default PATH.
-    EOS
-  end
-
 end
