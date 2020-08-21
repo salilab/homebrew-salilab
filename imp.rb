@@ -5,7 +5,7 @@ class Imp < Formula
   homepage 'https://integrativemodeling.org/'
   url 'https://integrativemodeling.org/2.13.0/download/imp-2.13.0.tar.gz'
   sha256 '528aeed272e35d79028af0e215a41c086c09782cef59ee3f983d52bff8653bfc'
-  revision 2
+  revision 3
 
   # Make sure each module has __version__
   patch do
@@ -13,11 +13,17 @@ class Imp < Formula
     sha256 "f454fca74610afe86a9468e488699158c6ca27fa3eec6906e5c92f1bc0cd8f7e"
   end
 
+  # Fix build with Boost 1.73
+  patch do
+    url "https://github.com/salilab/imp/commit/c6ef3b67de787e0475be6227cac1442033432909.diff?full_index=1"
+    sha256 "5fe39bcf4d202333e98002b3da22b22f905eec9c711b691b9f4451669ebf1b35"
+  end
+
   bottle do
     root_url "https://dl.bintray.com/salilab/homebrew"
-    sha256 "34f4df4868189d7c0ba4c7ef9c94c50c7a2630dc5f5c7147ea7330e36df39d52" => :catalina
-    sha256 "4e86732cb24e69f7b8223068bc12835ab527923f169eb97f5100ea58093d5670" => :mojave
-    sha256 "d84f30447ac336d0355c7a3a89903c40cad94822b8ae49c021d09679270bdd5f" => :high_sierra
+    sha256 "ad38f18fe4e967b0180464052df74ef5278d7c76ff5127a6b4399e29edd4ae2e" => :catalina
+    sha256 "5ca027f022ef3bb7f93554c415d05ec558c534ba7b30d7e3d3ea0bc70121b474" => :mojave
+    sha256 "4775c65301cdb62bd6bbc347e584cac33aeacf19cfb07a5fda8572e997b7e809" => :high_sierra
   end
 
   depends_on 'cmake' => :build
