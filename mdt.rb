@@ -5,7 +5,7 @@ class Mdt < Formula
   homepage 'https://salilab.org/mdt/'
   url 'https://salilab.org/mdt/5.5/mdt-5.5.tar.gz'
   sha256 '94b3dbd3050be14568ed613cc1d534e11ef37cb32a646116f35ef66cab5c187c'
-  revision 3
+  revision 4
 
   depends_on 'python@3.8' => :recommended
 
