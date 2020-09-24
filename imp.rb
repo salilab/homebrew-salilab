@@ -19,6 +19,12 @@ class Imp < Formula
     sha256 "5fe39bcf4d202333e98002b3da22b22f905eec9c711b691b9f4451669ebf1b35"
   end
 
+  # Fix build with CGAL 5.1
+  patch do
+    url "https://github.com/salilab/imp/commit/879b8d2544ec66d9663b574296eb37ff62c5adfa.diff?full_index=1"
+    sha256 "1ba59407922c92bb4a66635917e4e3de40805fe2e42258a0c0b7290294e91c2b"
+  end
+
   bottle do
     root_url "https://dl.bintray.com/salilab/homebrew"
     sha256 "ad38f18fe4e967b0180464052df74ef5278d7c76ff5127a6b4399e29edd4ae2e" => :catalina
