@@ -9,7 +9,6 @@ class OpencvNogui < Formula
   head "https://github.com/Itseez/opencv.git", :branch => "2.4"
 
   option "32-bit"
-  option "with-qt", "Build the Qt4 backend to HighGUI"
   option "with-tbb", "Enable parallel code in OpenCV using Intel TBB"
 
   option :cxx11
@@ -17,7 +16,6 @@ class OpencvNogui < Formula
 
   depends_on "cmake"      => :build
   depends_on 'jpeg' => :optional
-  depends_on 'qt' if build.include? 'with-qt'
 
   depends_on "pkg-config" => :build
 
@@ -42,6 +40,7 @@ class OpencvNogui < Formula
       -DWITH_TIFF=1
       -DWITH_JPEG=1
       -DWITH_PNG=0
+      -DWITH_QT=OFF
       -DWITH_JASPER=0
       -DBUILD_ZLIB=OFF
       -DBUILD_TIFF=OFF
@@ -52,7 +51,6 @@ class OpencvNogui < Formula
       -DBUILD_PERF_TESTS=OFF
     ]
     args << "-DWITH_TBB="       + arg_switch("tbb")
-    args << "-DWITH_QT="        + arg_switch("qt")
 
     if build.with? "python"
       py_prefix = `python-config --prefix`.chomp
