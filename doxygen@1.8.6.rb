@@ -4,7 +4,7 @@ class DoxygenAT186 < Formula
   homepage 'http://www.doxygen.org/'
   url 'http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.6.src.tar.gz'
   mirror 'http://downloads.sourceforge.net/project/doxygen/rel-1.8.6/doxygen-1.8.6.src.tar.gz'
-  sha1 '204f1b3695c73efac44a521609c5360241d64045'
+  sha256 '6a718625f0c0c1eb3dee78ec1f83409b49e790f4c6c47fd44cd51cb92695535f'
 
   head 'https://doxygen.svn.sourceforge.net/svnroot/doxygen/trunk'
 
