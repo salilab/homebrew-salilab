@@ -5,6 +5,7 @@ class Imp < Formula
   homepage 'https://integrativemodeling.org/'
   url 'https://integrativemodeling.org/2.13.0/download/imp-2.13.0.tar.gz'
   sha256 '528aeed272e35d79028af0e215a41c086c09782cef59ee3f983d52bff8653bfc'
+  license "LGPL/GPL"
   revision 3
 
   # Make sure each module has __version__

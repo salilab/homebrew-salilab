@@ -6,6 +6,7 @@ class OpencvNogui < Formula
   homepage "http://opencv.org/"
   url "https://github.com/Itseez/opencv/archive/2.4.13.tar.gz"
   sha256 "94ebcca61c30034d5fb16feab8ec12c8a868f5162d20a9f0396f0f5f6d8bbbff"
+  license "BSD-3-Clause"
   head "https://github.com/Itseez/opencv.git", :branch => "2.4"
 
   option "32-bit"
