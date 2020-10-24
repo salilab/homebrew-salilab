@@ -1,32 +1,31 @@
-require 'formula'
+require "formula"
 
 class Modeller < Formula
   desc "Homology or comparative modeling of protein structures"
-  homepage 'https://salilab.org/modeller/'
-  url 'https://salilab.org/modeller/9.25/modeller-9.25-mac.pax.gz' if OS.mac?
-  sha256 'be8123b6b546a4eb14ddaa4105097d2434c147aaa5b9078246f203a06e92153c' if OS.mac?
-  url 'https://salilab.org/modeller/9.25/modeller-9.25.tar.gz' if OS.linux?
-  sha256 '636567f5541809a298373724abae6775be20833f9400a4bc5e1f1c122b88a8ec' if OS.linux?
+  homepage "https://salilab.org/modeller/"
+  url "https://salilab.org/modeller/9.25/modeller-9.25-mac.pax.gz" if OS.mac?
+  sha256 "be8123b6b546a4eb14ddaa4105097d2434c147aaa5b9078246f203a06e92153c" if OS.mac?
+  url "https://salilab.org/modeller/9.25/modeller-9.25.tar.gz" if OS.linux?
+  sha256 "636567f5541809a298373724abae6775be20833f9400a4bc5e1f1c122b88a8ec" if OS.linux?
 
-  depends_on 'python@3.8' => :recommended
-
-  depends_on 'swig' => :build
-  depends_on 'pkg-config' => :build
-  depends_on 'patchelf' => :build if OS.linux?
-  depends_on 'hdf5@1.10.5'
-  depends_on 'glib'
-  depends_on 'gettext'
-  depends_on 'ifort-runtime'
+  depends_on "patchelf" => :build if OS.linux?
+  depends_on "pkg-config" => :build
+  depends_on "swig" => :build
+  depends_on "gettext"
+  depends_on "glib"
+  depends_on "hdf5@1.10.5"
+  depends_on "ifort-runtime"
+  depends_on "python@3.8" => :recommended
 
   # otherwise python3 setup.py build cannot find pkg-config
   env :std
 
   def install
-    dylib = 'dylib' if OS.mac?
-    dylib = 'so' if OS.linux?
+    dylib = "dylib" if OS.mac?
+    dylib = "so" if OS.linux?
     modtop = "Library/modeller-#{version}" if OS.mac?
     if OS.linux?
-      mv 'bin/modscript', "bin/mod#{version}"
+      mv "bin/modscript", "bin/mod#{version}"
       modtop = "."
     end
 
@@ -128,7 +127,7 @@ class Modeller < Formula
       end
     end
 
-    File.open("#{prefix}/modlib/modeller/config.py", 'w') do |file|
+    File.open("#{prefix}/modlib/modeller/config.py", "w") do |file|
       file.puts "install_dir = r'#{prefix}'"
       file.puts "license = r'XXXX'"
     end
@@ -137,12 +136,12 @@ class Modeller < Formula
     Dir.mkdir("#{prefix}/dynlib")
     if OS.mac?
       ["mac10v4-intel64", "mac10v4-intel"].each do |arch|
-        File.symlink('.', "#{prefix}/dynlib/#{arch}")
+        File.symlink(".", "#{prefix}/dynlib/#{arch}")
       end
     elsif OS.linux?
-      File.symlink('.', "#{prefix}/dynlib/x86_64-intel8")
+      File.symlink(".", "#{prefix}/dynlib/x86_64-intel8")
     end
-    File.open("#{prefix}/dynlib/README", 'w') do |file|
+    File.open("#{prefix}/dynlib/README", "w") do |file|
       file.puts %Q("mod#{version} --libs" outputs a single directory containing the Modeller
 libraries and its HDF5 and Fortran runtime dependencies. Since the Homebrew
 package moves things around a little, the regular lib/ directory isn't
@@ -163,9 +162,9 @@ libraries.
                    "#{prefix}/dynlib/lib#{l}")
     end
 
-    if build.with? 'python@3.8'
+    if build.with? "python@3.8"
       pyver = Language::Python.major_minor_version Formula["python@3.8"].opt_bin/"python3"
-      File.open('modeller.pth', 'w') do |file|
+      File.open("modeller.pth", "w") do |file|
         file.puts "#{prefix}/modlib"
       end
       (lib/"python#{pyver}/site-packages").install "modeller.pth"
@@ -182,7 +181,6 @@ libraries.
     File.symlink("#{prefix}/modlib/modeller",
                  lib/"python#{pyver}/site-packages/modeller")
 
-
     if OS.linux?
       modbins = [prefix/"modbin/mod#{version}_#{exetype}",
                  "#{modtop}/lib/#{exetype}/_modeller.so",
@@ -197,7 +195,7 @@ libraries.
     end
 
     # Build Python 3.8 extension from SWIG inputs
-    if build.with? 'python@3.8'
+    if build.with? "python@3.8"
       pyver = Language::Python.major_minor_version Formula["python@3.8"].opt_bin/"python3"
       Dir.chdir("#{prefix}/src/swig/") do
         system "swig", "-python", "-keyword", "-nodefaultctor",
@@ -218,7 +216,7 @@ libraries.
     else
       pkgconfig_extras = " -Wl,-rpath-link,#{prefix}/dylib/#{exetype}"
     end
-    File.open(lib/"pkgconfig/modeller.pc", 'w') do |file|
+    File.open(lib/"pkgconfig/modeller.pc", "w") do |file|
       file.puts %Q(prefix=/usr
 exec_prefix=/usr
 
@@ -229,32 +227,30 @@ Libs: -L#{prefix}/dynlib/#{exetype} -lmodeller#{pkgconfig_extras}
 Cflags: -I#{prefix}/src/include -I#{prefix}/src/include/#{exetype}
 )
     end
-
   end
 
   def post_install
-    if ENV['KEY_MODELLER'] != nil
+    if ENV["KEY_MODELLER"] != nil
       inreplace "#{prefix}/modlib/modeller/config.py" do |s|
-        s.gsub! /XXXX/, ENV['KEY_MODELLER']
+        s.gsub! /XXXX/, ENV["KEY_MODELLER"]
       end
     end
   end
 
   def caveats
-    if ENV['KEY_MODELLER'] == nil
+    if ENV["KEY_MODELLER"] == nil
       <<~EOS
-      Edit #{prefix}/modlib/modeller/config.py
-      and replace XXXX with your Modeller license key
-      (or set the KEY_MODELLER environment variable before running 'brew install').
+        Edit #{prefix}/modlib/modeller/config.py
+        and replace XXXX with your Modeller license key
+        (or set the KEY_MODELLER environment variable before running "brew install").
       EOS
     end
   end
 
   test do
-    Language::Python.each_python(build) do |python, version|
+    Language::Python.each_python(build) do |python, _version|
       system python, "-c", "import modeller"
     end
     system "mod#{version}", "--cflags", "--libs"
   end
-
 end

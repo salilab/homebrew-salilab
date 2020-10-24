@@ -1,36 +1,12 @@
-require 'formula'
+require "formula"
 
 class Imp < Formula
-  desc "The Integrative Modeling Platform"
-  homepage 'https://integrativemodeling.org/'
-  url 'https://integrativemodeling.org/2.13.0/download/imp-2.13.0.tar.gz'
-  sha256 '528aeed272e35d79028af0e215a41c086c09782cef59ee3f983d52bff8653bfc'
+  desc "Integrative Modeling Platform"
+  homepage "https://integrativemodeling.org/"
+  url "https://integrativemodeling.org/2.13.0/download/imp-2.13.0.tar.gz"
+  sha256 "528aeed272e35d79028af0e215a41c086c09782cef59ee3f983d52bff8653bfc"
   license "LGPL/GPL"
   revision 5
-
-  # Make sure each module has __version__
-  patch do
-    url "https://github.com/salilab/imp/commit/17be5981c6b631d9aef8ac7f11739baecde10f19.diff?full_index=1"
-    sha256 "f454fca74610afe86a9468e488699158c6ca27fa3eec6906e5c92f1bc0cd8f7e"
-  end
-
-  # Fix build with Boost 1.73
-  patch do
-    url "https://github.com/salilab/imp/commit/c6ef3b67de787e0475be6227cac1442033432909.diff?full_index=1"
-    sha256 "5fe39bcf4d202333e98002b3da22b22f905eec9c711b691b9f4451669ebf1b35"
-  end
-
-  # Fix build with Boost 1.74
-  patch do
-    url "https://github.com/salilab/imp/commit/0ea7f7a4dbf3294dbc63a728ead787b1325008ee.diff?full_index=1"
-    sha256 "b129932c1eb370c09bf169d35c4dbaccf23bb082bc120e7c751c5c5a3a168ad7"
-  end
-
-  # Fix build with CGAL 5.1
-  patch do
-    url "https://github.com/salilab/imp/commit/879b8d2544ec66d9663b574296eb37ff62c5adfa.diff?full_index=1"
-    sha256 "1ba59407922c92bb4a66635917e4e3de40805fe2e42258a0c0b7290294e91c2b"
-  end
 
   bottle do
     root_url "https://dl.bintray.com/salilab/homebrew"
@@ -39,22 +15,45 @@ class Imp < Formula
     sha256 "b51425a05bb38b3dfd1b95b58d863f217a93936167be1749b86375effe1c80db" => :high_sierra
   end
 
-  depends_on 'cmake' => :build
-  depends_on 'swig' => :build
-  depends_on 'pkg-config' => :build
+  depends_on "cmake" => :build
+  depends_on "pkg-config" => :build
+  depends_on "swig" => :build
 
-  depends_on 'python@3.8' => :recommended
+  depends_on "boost"
+  depends_on "eigen"
+  depends_on "fftw"
+  depends_on "hdf5"
+  depends_on "open-mpi"
+  depends_on "protobuf"
+  depends_on "cgal" => :recommended
+  depends_on "gsl" => :recommended
+  depends_on "libtau" => :recommended
+  depends_on "opencv" => :recommended
+  depends_on "python@3.8" => :recommended
 
-  depends_on 'boost'
-  depends_on 'hdf5'
-  depends_on 'fftw'
-  depends_on 'eigen'
-  depends_on 'protobuf'
-  depends_on 'open-mpi'
-  depends_on 'libtau' => :recommended
-  depends_on 'cgal' => :recommended
-  depends_on 'gsl' => :recommended
-  depends_on 'opencv' => :recommended
+  # Make sure each module has __version__
+  patch do
+    url "https://github.com/salilab/imp/commit/17be5981c6b631d9aef8ac7f11739baecde10f19.patch?full_index=1"
+    sha256 "f454fca74610afe86a9468e488699158c6ca27fa3eec6906e5c92f1bc0cd8f7e"
+  end
+
+  # Fix build with Boost 1.73
+  patch do
+    url "https://github.com/salilab/imp/commit/c6ef3b67de787e0475be6227cac1442033432909.patch?full_index=1"
+    sha256 "5fe39bcf4d202333e98002b3da22b22f905eec9c711b691b9f4451669ebf1b35"
+  end
+
+  # Fix build with Boost 1.74
+  patch do
+    url "https://github.com/salilab/imp/commit/0ea7f7a4dbf3294dbc63a728ead787b1325008ee.patch?full_index=1"
+    sha256 "b129932c1eb370c09bf169d35c4dbaccf23bb082bc120e7c751c5c5a3a168ad7"
+  end
+
+  # Fix build with CGAL 5.1
+  patch do
+    url "https://github.com/salilab/imp/commit/879b8d2544ec66d9663b574296eb37ff62c5adfa.patch?full_index=1"
+    sha256 "1ba59407922c92bb4a66635917e4e3de40805fe2e42258a0c0b7290294e91c2b"
+  end
 
   def install
     ENV.cxx11
@@ -82,7 +81,7 @@ class Imp < Formula
       end
       system "make"
       system "make", "install"
-      if build.with? 'python@3.8'
+      if build.with? "python@3.8"
         version = Language::Python.major_minor_version Formula["python@3.8"].opt_bin/"python3"
         args = ["..",
                 "-DCMAKE_INSTALL_PYTHONDIR=#{lib}/python#{version}/site-packages",
@@ -99,7 +98,7 @@ class Imp < Formula
   end
 
   test do
-    pythons = [ Formula["python@3.8"].opt_bin/"python3", "python2.7" ]
+    pythons = [Formula["python@3.8"].opt_bin/"python3", "python2.7"]
     pythons.each do |python|
       system python, "-c", "import IMP; assert(IMP.__version__ == '#{version}')"
       system python, "-c", "import IMP.em2d; assert(IMP.em2d.__version__ == '#{version}')"
@@ -115,5 +114,4 @@ class Imp < Formula
     system "multifit"
     system "foxs"
   end
-
 end
