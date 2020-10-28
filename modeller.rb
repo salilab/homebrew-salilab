@@ -7,6 +7,7 @@ class Modeller < Formula
   sha256 "be8123b6b546a4eb14ddaa4105097d2434c147aaa5b9078246f203a06e92153c" if OS.mac?
   url "https://salilab.org/modeller/9.25/modeller-9.25.tar.gz" if OS.linux?
   sha256 "636567f5541809a298373724abae6775be20833f9400a4bc5e1f1c122b88a8ec" if OS.linux?
+  revision 1
 
   depends_on "patchelf" => :build if OS.linux?
   depends_on "pkg-config" => :build
@@ -15,7 +16,7 @@ class Modeller < Formula
   depends_on "glib"
   depends_on "hdf5@1.10.5"
   depends_on "ifort-runtime"
-  depends_on "python@3.8" => :recommended
+  depends_on "python@3.9" => :recommended
 
   # otherwise python3 setup.py build cannot find pkg-config
   env :std
@@ -162,8 +163,8 @@ libraries.
                    "#{prefix}/dynlib/lib#{l}")
     end
 
-    if build.with? "python@3.8"
-      pyver = Language::Python.major_minor_version Formula["python@3.8"].opt_bin/"python3"
+    if build.with? "python@3.9"
+      pyver = Language::Python.major_minor_version Formula["python@3.9"].opt_bin/"python3"
       File.open("modeller.pth", "w") do |file|
         file.puts "#{prefix}/modlib"
       end
@@ -194,15 +195,15 @@ libraries.
       end
     end
 
-    # Build Python 3.8 extension from SWIG inputs
-    if build.with? "python@3.8"
-      pyver = Language::Python.major_minor_version Formula["python@3.8"].opt_bin/"python3"
+    # Build Python 3.9 extension from SWIG inputs
+    if build.with? "python@3.9"
+      pyver = Language::Python.major_minor_version Formula["python@3.9"].opt_bin/"python3"
       Dir.chdir("#{prefix}/src/swig/") do
         system "swig", "-python", "-keyword", "-nodefaultctor",
                "-nodefaultdtor", "-noproxy", "modeller.i"
         # Avoid possible confusion between Python 2 and Python 3 site modules
         ENV.delete("PYTHONPATH")
-        system Formula["python@3.8"].opt_bin/"python3", "setup.py", "build"
+        system Formula["python@3.9"].opt_bin/"python3", "setup.py", "build"
         (lib/"python#{pyver}/site-packages").install Dir["build/lib.*#{pyver}/_modeller.*so"]
         File.delete("modeller_wrap.c")
         rm_rf("build")
