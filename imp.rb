@@ -6,13 +6,13 @@ class Imp < Formula
   url "https://integrativemodeling.org/2.13.0/download/imp-2.13.0.tar.gz"
   sha256 "528aeed272e35d79028af0e215a41c086c09782cef59ee3f983d52bff8653bfc"
   license "LGPL/GPL"
-  revision 5
+  revision 6
 
   bottle do
     root_url "https://dl.bintray.com/salilab/homebrew"
-    sha256 "26e683e8f7be80e4701746b8fb49345aeb9d336ffaa577e9cc193415671db80a" => :catalina
-    sha256 "baeb61e0f1bfb725dc653b18baf7a377d5b8604a9587ee729a46fb1a1723b1b9" => :mojave
-    sha256 "b51425a05bb38b3dfd1b95b58d863f217a93936167be1749b86375effe1c80db" => :high_sierra
+    sha256 "8ff6bf137d20b3b010f2a388716258bacaefb8c71488749bd02d487b6fabe71f" => :catalina
+    sha256 "cf65f68f66ecaef8251d53bb4e4b91a8ed4ca1a4e6bdd182011d91046b5b5ac2" => :mojave
+    sha256 "3aed2d0da971028bf5592497e954ae5bea7e89e571e32a54fe2e2e7ae24196df" => :high_sierra
   end
 
   depends_on "cmake" => :build
@@ -81,8 +81,8 @@ class Imp < Formula
       end
       system "make"
       system "make", "install"
-      if build.with? "python@3.8"
-        version = Language::Python.major_minor_version Formula["python@3.8"].opt_bin/"python3"
+      if build.with? "python@3.9"
+        version = Language::Python.major_minor_version Formula["python@3.9"].opt_bin/"python3"
         args = ["..",
                 "-DCMAKE_INSTALL_PYTHONDIR=#{lib}/python#{version}/site-packages",
                 "-DUSE_PYTHON2=off"]
@@ -91,14 +91,14 @@ class Imp < Formula
         cd bin do
           # Make sure binaries use Homebrew Python
           inreplace pybins, %r{^#!.*python.*$},
-                            "#!#{Formula["python@3.8"].opt_bin}/python3"
+                            "#!#{Formula["python@3.9"].opt_bin}/python3"
         end
       end
     end
   end
 
   test do
-    pythons = [Formula["python@3.8"].opt_bin/"python3", "python2.7"]
+    pythons = [Formula["python@3.9"].opt_bin/"python3", "python2.7"]
     pythons.each do |python|
       system python, "-c", "import IMP; assert(IMP.__version__ == '#{version}')"
       system python, "-c", "import IMP.em2d; assert(IMP.em2d.__version__ == '#{version}')"
