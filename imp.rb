@@ -29,30 +29,30 @@ class Imp < Formula
   depends_on "gsl" => :recommended
   depends_on "libtau" => :recommended
   depends_on "opencv" => :recommended
-  depends_on "python@3.8" => :recommended
+  depends_on "python@3.9" => :recommended
 
   # Make sure each module has __version__
   patch do
     url "https://github.com/salilab/imp/commit/17be5981c6b631d9aef8ac7f11739baecde10f19.patch?full_index=1"
-    sha256 "f454fca74610afe86a9468e488699158c6ca27fa3eec6906e5c92f1bc0cd8f7e"
+    sha256 "9d714f878b4018bc3d2a57f5724dd60cc4ff993ed7a7e54132e0c38b94de3451"
   end
 
   # Fix build with Boost 1.73
   patch do
     url "https://github.com/salilab/imp/commit/c6ef3b67de787e0475be6227cac1442033432909.patch?full_index=1"
-    sha256 "5fe39bcf4d202333e98002b3da22b22f905eec9c711b691b9f4451669ebf1b35"
+    sha256 "cb3b760cdb2c4a3983cfc43abef4b46f8a24303d21ef698c9e60249eb8461497"
   end
 
   # Fix build with Boost 1.74
   patch do
     url "https://github.com/salilab/imp/commit/0ea7f7a4dbf3294dbc63a728ead787b1325008ee.patch?full_index=1"
-    sha256 "b129932c1eb370c09bf169d35c4dbaccf23bb082bc120e7c751c5c5a3a168ad7"
+    sha256 "36d2cd93a366e5b4e1eb10beb1cbb26157bce67b864161099c97f3af36bb03f0"
   end
 
   # Fix build with CGAL 5.1
   patch do
     url "https://github.com/salilab/imp/commit/879b8d2544ec66d9663b574296eb37ff62c5adfa.patch?full_index=1"
-    sha256 "1ba59407922c92bb4a66635917e4e3de40805fe2e42258a0c0b7290294e91c2b"
+    sha256 "342a2a2c036df0dc324ae08f1c672cca8f67a9e81f346b75bd8a6471f3f16d27"
   end
 
   def install
