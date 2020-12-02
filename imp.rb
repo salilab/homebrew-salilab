@@ -3,16 +3,15 @@ require "formula"
 class Imp < Formula
   desc "Integrative Modeling Platform"
   homepage "https://integrativemodeling.org/"
-  url "https://integrativemodeling.org/2.13.0/download/imp-2.13.0.tar.gz"
-  sha256 "528aeed272e35d79028af0e215a41c086c09782cef59ee3f983d52bff8653bfc"
+  url "https://integrativemodeling.org/2.14.0/download/imp-2.14.0.tar.gz"
+  sha256 "67c7b5c4a57949786cd65d9f918694b59c9f11f5cf1515b8d13970a908e58126"
   license "LGPL/GPL"
-  revision 7
 
   bottle do
     root_url "https://dl.bintray.com/salilab/homebrew"
-    sha256 "ccabe7e232b2cd861b3683330360739661065668f7378dc85a27d333b5ed648f" => :catalina
-    sha256 "41df00c4ed9ccb7a200ee8d0d87cf782937b8a48bf57ea8584aa88614a070e61" => :mojave
-    sha256 "bc770fe455073082701fd6f9cead7269272b5aa10e8dff8cf840f7dac40e08fa" => :high_sierra
+    sha256 "300524627496dbb302b2dac33bbefacf083f8f22c4c565fd6401a9c7faec5fba" => :big_sur
+    sha256 "746afae0d99eab0225cca73928cf8baa55a45763d4b8aec259321dc92e55081a" => :catalina
+    sha256 "0e3989e345c41c0be38a3fc9a2b86f1276fa5fde35b86109df228f6b7cc23e8a" => :mojave
   end
 
   depends_on "cmake" => :build
@@ -30,30 +29,6 @@ class Imp < Formula
   depends_on "libtau" => :recommended
   depends_on "opencv" => :recommended
   depends_on "python@3.9" => :recommended
-
-  # Make sure each module has __version__
-  patch do
-    url "https://github.com/salilab/imp/commit/17be5981c6b631d9aef8ac7f11739baecde10f19.patch?full_index=1"
-    sha256 "9d714f878b4018bc3d2a57f5724dd60cc4ff993ed7a7e54132e0c38b94de3451"
-  end
-
-  # Fix build with Boost 1.73
-  patch do
-    url "https://github.com/salilab/imp/commit/c6ef3b67de787e0475be6227cac1442033432909.patch?full_index=1"
-    sha256 "cb3b760cdb2c4a3983cfc43abef4b46f8a24303d21ef698c9e60249eb8461497"
-  end
-
-  # Fix build with Boost 1.74
-  patch do
-    url "https://github.com/salilab/imp/commit/0ea7f7a4dbf3294dbc63a728ead787b1325008ee.patch?full_index=1"
-    sha256 "36d2cd93a366e5b4e1eb10beb1cbb26157bce67b864161099c97f3af36bb03f0"
-  end
-
-  # Fix build with CGAL 5.1
-  patch do
-    url "https://github.com/salilab/imp/commit/879b8d2544ec66d9663b574296eb37ff62c5adfa.patch?full_index=1"
-    sha256 "342a2a2c036df0dc324ae08f1c672cca8f67a9e81f346b75bd8a6471f3f16d27"
-  end
 
   def install
     ENV.cxx11
