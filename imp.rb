@@ -6,12 +6,13 @@ class Imp < Formula
   url "https://integrativemodeling.org/2.14.0/download/imp-2.14.0.tar.gz"
   sha256 "67c7b5c4a57949786cd65d9f918694b59c9f11f5cf1515b8d13970a908e58126"
   license "LGPL/GPL"
+  revision 1
 
   bottle do
     root_url "https://dl.bintray.com/salilab/homebrew"
-    sha256 "300524627496dbb302b2dac33bbefacf083f8f22c4c565fd6401a9c7faec5fba" => :big_sur
-    sha256 "746afae0d99eab0225cca73928cf8baa55a45763d4b8aec259321dc92e55081a" => :catalina
-    sha256 "0e3989e345c41c0be38a3fc9a2b86f1276fa5fde35b86109df228f6b7cc23e8a" => :mojave
+    sha256 "6af1e06885b466bf8ecf478d358d0b2f98880eb1b8540ccd2e5d0acfa9d306a2" => :big_sur
+    sha256 "c68459ce5f9213df23e989be8416d86f24161f40df2360b4c8e8ca2c9d8e5336" => :catalina
+    sha256 "b1d9fe183cf78eb19d84ecc5d356bb71ee2fe42d3f1d0287dd0b8823d9778ef2" => :mojave
   end
 
   depends_on "cmake" => :build
@@ -29,6 +30,12 @@ class Imp < Formula
   depends_on "libtau" => :recommended
   depends_on "opencv" => :recommended
   depends_on "python@3.9" => :recommended
+
+  # Fix build with Boost 1.75
+  patch do
+    url "https://github.com/salilab/imp/commit/1296e92ac8c5e723bd0ec042d06e18d56ebb2747.patch?full_index=1"
+    sha256 "49d0952c1fae55e0e3cd2e827de8213b2161099d8cd8be6c237c384e3e83bbf3"
+  end
 
   def install
     ENV.cxx11
