@@ -7,13 +7,8 @@ class Libtau < Formula
   url 'http://integrativemodeling.org/libTAU/libTAU-1.0.1.zip'
   sha256 '8aa352b35370fb6048d9387fcfe01f76d33d65b3f7aaa70e3fb95a7f2b687b12'
 
-  option :universal
-
   def install
-    ENV.universal_binary if build.universal?
-
     args = ["#{prefix}"]
-    args << "--universal" if build.universal?
 
     if OS.mac?
       system "./mac-install.py", *args
