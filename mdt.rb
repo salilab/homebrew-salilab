@@ -6,18 +6,18 @@ class Mdt < Formula
   url "https://salilab.org/mdt/5.5/mdt-5.5.tar.gz"
   sha256 "94b3dbd3050be14568ed613cc1d534e11ef37cb32a646116f35ef66cab5c187c"
   license "GPL-2.0-or-later"
-  revision 5
+  revision 6
 
   depends_on "patchelf" => :build if OS.linux?
   depends_on "scons" => :build
   depends_on "swig" => :build
   depends_on "glib"
-  depends_on "hdf5@1.10.5" # Need same version of HDF5 as Modeller
+  depends_on "hdf5@1.10.6" # Need same version of HDF5 as Modeller
   depends_on "ifort-runtime" # Need to link against Modeller Fortran libs
   depends_on "python@3.9" => :recommended
 
   def install
-    hdf5_formula = Formula["hdf5@1.10.5"]
+    hdf5_formula = Formula["hdf5@1.10.6"]
 
     if build.with? "python@3.9"
       python_version = Language::Python.major_minor_version Formula["python@3.9"].opt_bin/"python3"
