@@ -82,7 +82,7 @@ class Modeller < Formula
     prefix.install "#{modtop}/modlib"
     prefix.install "#{modtop}/src"
 
-    sover = "12"
+    sover = "13"
     if OS.linux?
       ifort_libs = ["ifcore.so.5", "imf.so", "intlc.so.5", "svml.so"]
     elsif OS.mac?
