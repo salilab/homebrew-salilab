@@ -40,16 +40,6 @@ class Hdf5AT1106 < Formula
       --enable-shared=yes
     ]
 
-    if build.include? 'enable-threadsafe'
-      args.concat %w[--with-pthread=/usr --enable-threadsafe]
-    else
-      args << '--enable-cxx'
-      if build.include? 'enable-fortran'
-        args << '--enable-fortran'
-        ENV.fortran
-      end
-    end
-
     system "./configure", *args
     system "make install"
   end
