@@ -4,8 +4,8 @@ require 'formula'
 class Libtau < Formula
   desc "Support library needed for IMP's MultiFit module"
   homepage 'http://integrativemodeling.org/libTAU.html'
-  url 'http://integrativemodeling.org/libTAU/libTAU-1.0.1.zip'
-  sha256 '8aa352b35370fb6048d9387fcfe01f76d33d65b3f7aaa70e3fb95a7f2b687b12'
+  url 'https://integrativemodeling.org/libTAU/libTAU-1.0.2.zip'
+  sha256 'd539436c0f4222bfb27ef34c9220a1977431f1f5989720321a6209b7e5bc532a'
 
   def install
     args = ["#{prefix}"]
