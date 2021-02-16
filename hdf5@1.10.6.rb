@@ -13,9 +13,10 @@ class Hdf5AT1106 < Formula
 
   bottle do
     root_url "https://dl.bintray.com/salilab/homebrew"
-    sha256 "bba37f9154e93aa039eb2f2cd3f475cde0d5fbde45ab569ff727d2ab10d62065" => :catalina
-    sha256 "73c2903f1fff23027c09e518b006ab789cb6b9ad8fe07082d8e8319cd4c97a3d" => :mojave
-    sha256 "11e8efa0d1108904d9d2b98d01a1f7b65a1c9819ac796cb477768c7bc7ed1ee4" => :high_sierra
+    sha256 cellar: :any, catalina:      "bba37f9154e93aa039eb2f2cd3f475cde0d5fbde45ab569ff727d2ab10d62065"
+    sha256 cellar: :any, mojave:        "73c2903f1fff23027c09e518b006ab789cb6b9ad8fe07082d8e8319cd4c97a3d"
+    sha256 cellar: :any, high_sierra:   "11e8efa0d1108904d9d2b98d01a1f7b65a1c9819ac796cb477768c7bc7ed1ee4"
+
   end
 
   # TODO - warn that these options conflict
