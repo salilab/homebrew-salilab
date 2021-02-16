@@ -21,10 +21,6 @@ class Hdf5AT1106 < Formula
 
   end
 
-  # TODO - warn that these options conflict
-  option 'enable-fortran', 'Compile Fortran bindings'
-  option 'enable-threadsafe', 'Trade performance and C++ or Fortran support for thread safety'
-
   def install
     # The older gcc in OS X 10.6 doesn't like the use of #pragma pack() or -Wvla
     if MacOS.version <= :snow_leopard
