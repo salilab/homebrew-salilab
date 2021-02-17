@@ -13,11 +13,11 @@ class Hdf5AT1106 < Formula
 
   bottle do
     root_url "https://dl.bintray.com/salilab/homebrew"
-    sha256 cellar: :any, arm64_big_sur: "603b90aacd9739f9727d8cd5f8c903c2bd9ddb88783d02fcea303bf315c52703"
-    sha256 cellar: :any, big_sur:       "cefa5fd7b56db1a7df8968be15614524781415105a5d46899b08f9fb86e790c7"
-    sha256 cellar: :any, catalina:      "bba37f9154e93aa039eb2f2cd3f475cde0d5fbde45ab569ff727d2ab10d62065"
-    sha256 cellar: :any, mojave:        "73c2903f1fff23027c09e518b006ab789cb6b9ad8fe07082d8e8319cd4c97a3d"
-    sha256 cellar: :any, high_sierra:   "11e8efa0d1108904d9d2b98d01a1f7b65a1c9819ac796cb477768c7bc7ed1ee4"
+    sha256 arm64_big_sur: "603b90aacd9739f9727d8cd5f8c903c2bd9ddb88783d02fcea303bf315c52703"
+    sha256 big_sur:       "cefa5fd7b56db1a7df8968be15614524781415105a5d46899b08f9fb86e790c7"
+    sha256 catalina:      "bba37f9154e93aa039eb2f2cd3f475cde0d5fbde45ab569ff727d2ab10d62065"
+    sha256 mojave:        "73c2903f1fff23027c09e518b006ab789cb6b9ad8fe07082d8e8319cd4c97a3d"
+    sha256 high_sierra:   "11e8efa0d1108904d9d2b98d01a1f7b65a1c9819ac796cb477768c7bc7ed1ee4"
 
   end
 
