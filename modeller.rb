@@ -160,7 +160,7 @@ libraries.
     end
     ["hdf5", "hdf5_hl"].each do |l|
       File.symlink(Formula["hdf5@1.10.6"].lib/"lib#{l}.#{dylib}",
-                   "#{prefix}/dynlib/lib#{l}")
+                   "#{prefix}/dynlib/lib#{l}.#{dylib}")
     end
 
     if build.with? "python@3.9"
