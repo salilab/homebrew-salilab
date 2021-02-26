@@ -3,11 +3,11 @@ require "formula"
 class Modeller < Formula
   desc "Homology or comparative modeling of protein structures"
   homepage "https://salilab.org/modeller/"
-  url "https://salilab.org/modeller/10.0/modeller-10.0-mac.pax.gz" if OS.mac?
-  sha256 "328cf3d8d65f04618e985fc2833ec488a7ff3dff3b777300c1a0c0d99c811346" if OS.mac?
+  url "https://salilab.org/modeller/10.0/modeller-10.0-mac-as.pax.gz" if OS.mac?
+  sha256 "b8ca3019d771edf34e1d0fe0f5abf4553f0d130680f19ebb19923cc87a51df22" if OS.mac?
   url "https://salilab.org/modeller/10.0/modeller-10.0.tar.gz" if OS.linux?
   sha256 "2629a11dd07968d005c307e47496fb8fe6516d2f715ccaab1813f66dabaa0674" if OS.linux?
-  revision 1
+  revision 2
 
   depends_on "patchelf" => :build if OS.linux?
   depends_on "pkg-config" => :build
@@ -15,7 +15,7 @@ class Modeller < Formula
   depends_on "gettext"
   depends_on "glib"
   depends_on "hdf5@1.10.6"
-  depends_on "ifort-runtime"
+  depends_on "ifort-runtime" if Hardware::CPU.intel?
   depends_on "python@3.9" => :recommended
 
   # otherwise python3 setup.py build cannot find pkg-config
@@ -30,14 +30,19 @@ class Modeller < Formula
       modtop = "."
     end
 
-    if `uname -m` == "x86_64\n"
-      exetype = "mac10v4-intel64" if OS.mac?
-      exetype = "x86_64-intel8" if OS.linux?
+    if Hardware::CPU.arm?
+      exetype = "mac11arm64-gnu"
+      univ_exetype = exetype
     else
-      exetype = "mac10v4-intel"
+      if `uname -m` == "x86_64\n"
+        exetype = "mac10v4-intel64" if OS.mac?
+        exetype = "x86_64-intel8" if OS.linux?
+      else
+        exetype = "mac10v4-intel"
+      end
+      univ_exetype = "mac10v4" if OS.mac?
+      univ_exetype = "x86_64-intel8" if OS.linux?
     end
-    univ_exetype = "mac10v4" if OS.mac?
-    univ_exetype = "x86_64-intel8" if OS.linux?
 
     pyver = Language::Python.major_minor_version "python"
     inreplace "#{modtop}/bin/mod#{version}" do |s|
@@ -46,6 +51,9 @@ class Modeller < Formula
         s.gsub! /(EXECUTABLE_TYPE\w+)=.*;/, "\\1=#{exetype};"
         s.gsub! /ARCHBINDIR=bin/, "ARCHBINDIR=modbin"
       else
+        if Hardware::CPU.arm?
+          s.gsub! /(EXECUTABLE_TYPE\w*)=.*/, "\\1=#{exetype}"
+        end
         s.gsub! /\/bin\/\$\{EXECUTABLE\}/, "/modbin/${EXECUTABLE}"
       end
 
@@ -69,8 +77,14 @@ class Modeller < Formula
     bin.install "#{modtop}/bin/mod#{version}"
     (prefix/"modbin").install Dir["#{modtop}/bin/*"]
     if OS.mac?
-      lib.install Dir["#{modtop}/lib/mac10v4/libmodeller.*dylib"]
-      lib.install "#{modtop}/lib/mac10v4/libsaxs.dylib"
+      lib.install Dir["#{modtop}/lib/#{univ_exetype}/libmodeller.*dylib"]
+      lib.install "#{modtop}/lib/#{univ_exetype}/libsaxs.dylib"
+      # Delete non-native architecture
+      if Hardware::CPU.arm?
+        rm "#{prefix}/modbin/mod#{version}_mac10v4"
+      else
+        rm "#{prefix}/modbin/mod#{version}_mac11arm64-gnu"
+      end
     elsif OS.linux?
       lib.install Dir["#{modtop}/lib/#{exetype}/libmodeller.so*"]
       lib.install "#{modtop}/lib/#{exetype}/libsaxs.so"
@@ -88,42 +102,73 @@ class Modeller < Formula
     elsif OS.mac?
       ifort_libs = ["ifcore.dylib", "imf.dylib", "intlc.dylib", "irc.dylib",
                     "svml.dylib"]
-      modbins = [prefix/"modbin/mod#{version}_mac10v4",
-                 "#{modtop}/lib/mac10v4/_modeller.so",
+      modbins = [prefix/"modbin/mod#{version}_#{univ_exetype}",
+                 "#{modtop}/lib/#{univ_exetype}/_modeller.so",
                  lib/"libmodeller.#{sover}.dylib",
                  lib/"libsaxs.dylib"]
+      # Our ARM dylibs have the loader path completely stripped or
+      # set to @loader_path;
+      # on Intel the path is set under /Library/modeller-xxx/
+      if Hardware::CPU.arm?
+        dprefix = ""
+      else
+        dprefix = "/#{modtop}/lib/mac10v4/"
+      end
 
       modbins.each do |modbin|
         # Point Modeller binaries to Homebrew-installed HDF5
-        libs = ["hdf5.103", "hdf5_hl.100"]
-        libs.each do |dep|
+        hdf_libs = ["hdf5.103", "hdf5_hl.100"]
+        hdf_libs.each do |dep|
           system "install_name_tool", "-change",
-                 "/#{modtop}/lib/mac10v4/lib#{dep}.dylib",
+                 "#{dprefix}lib#{dep}.dylib",
                  Formula["hdf5@1.10.6"].lib/"lib#{dep}.dylib", modbin
+          if Hardware::CPU.arm?
+            system "install_name_tool", "-change",
+                   "@loader_path/lib#{dep}.dylib",
+                   Formula["hdf5@1.10.6"].lib/"lib#{dep}.dylib", modbin
+          end
         end
 
         # Point Modeller binaries to Homebrew-installed libintl
         system "install_name_tool", "-change",
-               "/#{modtop}/lib/mac10v4/libintl.8.dylib",
+               "#{dprefix}libintl.8.dylib",
                Formula["gettext"].lib/"libintl.8.dylib", modbin
 
         # Point Modeller binaries to Homebrew-installed glib2
         system "install_name_tool", "-change",
-               "/#{modtop}/lib/mac10v4/libglib-2.0.0.dylib",
+               "#{dprefix}libglib-2.0.0.dylib",
                Formula["glib"].lib/"libglib-2.0.0.dylib", modbin
 
         # Point Modeller binaries to Homebrew-installed ifort runtime libraries
-        ifort_libs.each do |dep|
-          system "install_name_tool", "-change",
-                 "/#{modtop}/lib/mac10v4/lib#{dep}",
-                 Formula["ifort-runtime"].lib/"lib#{dep}", modbin
+        if Hardware::CPU.intel?
+          ifort_libs.each do |dep|
+            system "install_name_tool", "-change",
+                   "/#{modtop}/lib/mac10v4/lib#{dep}",
+                   Formula["ifort-runtime"].lib/"lib#{dep}", modbin
+          end
         end
 
         libs = ["modeller.#{sover}", "saxs"]
         libs.each do |dep|
           system "install_name_tool", "-change",
-                 "/#{modtop}/lib/mac10v4/lib#{dep}.dylib",
+                 "#{dprefix}lib#{dep}.dylib",
                  lib/"lib#{dep}.dylib", modbin
+          if Hardware::CPU.arm?
+            system "install_name_tool", "-change",
+                   "@loader_path/lib#{dep}.dylib",
+                   lib/"lib#{dep}.dylib", modbin
+          end
+        end
+      end
+
+      # install_name_tool invalidates signatures, so resign
+      # cp && mv is needed to work around a MacOS bug:
+      # "the codesign_allocate helper tool cannot be found or used"
+      if Hardware::CPU.arm?
+        modbins.each do |modbin|
+          cp modbin, "#{modbin}.new"
+          mv "#{modbin}.new", modbin
+          system "codesign", "-f", "-s", "-", modbin
         end
       end
     end
@@ -136,8 +181,12 @@ class Modeller < Formula
     # Make dynlib directory and symlinks so modXXX --libs works
     Dir.mkdir("#{prefix}/dynlib")
     if OS.mac?
-      ["mac10v4-intel64", "mac10v4-intel"].each do |arch|
-        File.symlink(".", "#{prefix}/dynlib/#{arch}")
+      if Hardware::CPU.arm?
+        File.symlink(".", "#{prefix}/dynlib/mac11arm64-gnu")
+      else
+        ["mac10v4-intel64", "mac10v4-intel"].each do |arch|
+          File.symlink(".", "#{prefix}/dynlib/#{arch}")
+        end
       end
     elsif OS.linux?
       File.symlink(".", "#{prefix}/dynlib/x86_64-intel8")
@@ -154,9 +203,11 @@ libraries.
       File.symlink("../lib/lib#{l}.#{dylib}",
                    "#{prefix}/dynlib/lib#{l}.#{dylib}")
     end
-    ifort_libs.each do |l|
-      File.symlink(Formula["ifort-runtime"].lib/"lib#{l}",
-                   "#{prefix}/dynlib/lib#{l}")
+    if Hardware::CPU.intel?
+      ifort_libs.each do |l|
+        File.symlink(Formula["ifort-runtime"].lib/"lib#{l}",
+                     "#{prefix}/dynlib/lib#{l}")
+      end
     end
     ["hdf5", "hdf5_hl"].each do |l|
       File.symlink(Formula["hdf5@1.10.6"].lib/"lib#{l}.#{dylib}",
@@ -213,7 +264,11 @@ libraries.
     # Add pkg-config support
     Dir.mkdir(lib/"pkgconfig")
     if OS.mac?
-      pkgconfig_extras = " -lhdf5 -lhdf5_hl -lsaxs -limf -lsvml -lifcore -lirc"
+      if Hardware::CPU.intel?
+        pkgconfig_extras = " -lhdf5 -lhdf5_hl -lsaxs -limf -lsvml -lifcore -lirc"
+      else
+        pkgconfig_extras = " -lhdf5 -lhdf5_hl -lsaxs"
+      end
     else
       pkgconfig_extras = " -Wl,-rpath-link,#{prefix}/dylib/#{exetype}"
     end
