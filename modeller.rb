@@ -3,11 +3,10 @@ require "formula"
 class Modeller < Formula
   desc "Homology or comparative modeling of protein structures"
   homepage "https://salilab.org/modeller/"
-  url "https://salilab.org/modeller/10.0/modeller-10.0-mac-as.pax.gz" if OS.mac?
-  sha256 "b8ca3019d771edf34e1d0fe0f5abf4553f0d130680f19ebb19923cc87a51df22" if OS.mac?
-  url "https://salilab.org/modeller/10.0/modeller-10.0.tar.gz" if OS.linux?
-  sha256 "2629a11dd07968d005c307e47496fb8fe6516d2f715ccaab1813f66dabaa0674" if OS.linux?
-  revision 2
+  url "https://salilab.org/modeller/10.1/modeller-10.1-mac.pax.gz" if OS.mac?
+  sha256 "1eb6bda67d1319d284fcc4e9eb556952f6e164b068cd584fd56b6cf5baf3fb59" if OS.mac?
+  url "https://salilab.org/modeller/10.1/modeller-10.1.tar.gz" if OS.linux?
+  sha256 "8dfc3a6d3cec24929d8b2e7bbebf3851a6ab59b4c10ab5b20622132e0adfd982" if OS.linux?
 
   depends_on "patchelf" => :build if OS.linux?
   depends_on "pkg-config" => :build
@@ -32,7 +31,7 @@ class Modeller < Formula
 
     if Hardware::CPU.arm?
       exetype = "mac11arm64-gnu"
-      univ_exetype = exetype
+      univ_exetype = "mac10v4"
     else
       if `uname -m` == "x86_64\n"
         exetype = "mac10v4-intel64" if OS.mac?
@@ -51,9 +50,6 @@ class Modeller < Formula
         s.gsub! /(EXECUTABLE_TYPE\w+)=.*;/, "\\1=#{exetype};"
         s.gsub! /ARCHBINDIR=bin/, "ARCHBINDIR=modbin"
       else
-        if Hardware::CPU.arm?
-          s.gsub! /(EXECUTABLE_TYPE\w*)=.*/, "\\1=#{exetype}"
-        end
         s.gsub! /\/bin\/\$\{EXECUTABLE\}/, "/modbin/${EXECUTABLE}"
       end
 
@@ -79,12 +75,6 @@ class Modeller < Formula
     if OS.mac?
       lib.install Dir["#{modtop}/lib/#{univ_exetype}/libmodeller.*dylib"]
       lib.install "#{modtop}/lib/#{univ_exetype}/libsaxs.dylib"
-      # Delete non-native architecture
-      if Hardware::CPU.arm?
-        rm "#{prefix}/modbin/mod#{version}_mac10v4"
-      else
-        rm "#{prefix}/modbin/mod#{version}_mac11arm64-gnu"
-      end
     elsif OS.linux?
       lib.install Dir["#{modtop}/lib/#{exetype}/libmodeller.so*"]
       lib.install "#{modtop}/lib/#{exetype}/libsaxs.so"
@@ -106,14 +96,7 @@ class Modeller < Formula
                  "#{modtop}/lib/#{univ_exetype}/_modeller.so",
                  lib/"libmodeller.#{sover}.dylib",
                  lib/"libsaxs.dylib"]
-      # Our ARM dylibs have the loader path completely stripped or
-      # set to @loader_path;
-      # on Intel the path is set under /Library/modeller-xxx/
-      if Hardware::CPU.arm?
-        dprefix = ""
-      else
-        dprefix = "/#{modtop}/lib/mac10v4/"
-      end
+      dprefix = "/#{modtop}/lib/mac10v4/"
 
       modbins.each do |modbin|
         # Point Modeller binaries to Homebrew-installed HDF5
@@ -122,11 +105,6 @@ class Modeller < Formula
           system "install_name_tool", "-change",
                  "#{dprefix}lib#{dep}.dylib",
                  Formula["hdf5@1.10.6"].lib/"lib#{dep}.dylib", modbin
-          if Hardware::CPU.arm?
-            system "install_name_tool", "-change",
-                   "@loader_path/lib#{dep}.dylib",
-                   Formula["hdf5@1.10.6"].lib/"lib#{dep}.dylib", modbin
-          end
         end
 
         # Point Modeller binaries to Homebrew-installed libintl
@@ -153,11 +131,6 @@ class Modeller < Formula
           system "install_name_tool", "-change",
                  "#{dprefix}lib#{dep}.dylib",
                  lib/"lib#{dep}.dylib", modbin
-          if Hardware::CPU.arm?
-            system "install_name_tool", "-change",
-                   "@loader_path/lib#{dep}.dylib",
-                   lib/"lib#{dep}.dylib", modbin
-          end
         end
       end
 
