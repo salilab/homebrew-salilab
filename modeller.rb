@@ -70,9 +70,18 @@ class Modeller < Formula
       s.gsub! /\/lib\//, "/dynlib/"
     end
 
+    sover = "13"
+
     bin.install "#{modtop}/bin/mod#{version}"
     (prefix/"modbin").install Dir["#{modtop}/bin/*"]
     if OS.mac?
+      if Hardware::CPU.arm?
+        # Otherwise the Python 3 _modeller extension uses the
+        # old location (in /Library)
+        system "install_name_tool", "-id",
+               lib/"libmodeller.#{sover}.dylib",
+               "#{modtop}/lib/#{univ_exetype}/libmodeller.#{sover}.dylib"
+      end
       lib.install Dir["#{modtop}/lib/#{univ_exetype}/libmodeller.*dylib"]
       lib.install "#{modtop}/lib/#{univ_exetype}/libsaxs.dylib"
     elsif OS.linux?
@@ -86,7 +95,6 @@ class Modeller < Formula
     prefix.install "#{modtop}/modlib"
     prefix.install "#{modtop}/src"
 
-    sover = "13"
     if OS.linux?
       ifort_libs = ["ifcore.so.5", "imf.so", "intlc.so.5", "svml.so"]
     elsif OS.mac?
