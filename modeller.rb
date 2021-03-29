@@ -75,13 +75,11 @@ class Modeller < Formula
     bin.install "#{modtop}/bin/mod#{version}"
     (prefix/"modbin").install Dir["#{modtop}/bin/*"]
     if OS.mac?
-      if Hardware::CPU.arm?
-        # Otherwise the Python 3 _modeller extension uses the
-        # old location (in /Library)
-        system "install_name_tool", "-id",
-               lib/"libmodeller.#{sover}.dylib",
-               "#{modtop}/lib/#{univ_exetype}/libmodeller.#{sover}.dylib"
-      end
+      # Otherwise the Python 3 _modeller extension uses the
+      # old location (in /Library)
+      system "install_name_tool", "-id",
+             lib/"libmodeller.#{sover}.dylib",
+             "#{modtop}/lib/#{univ_exetype}/libmodeller.#{sover}.dylib"
       lib.install Dir["#{modtop}/lib/#{univ_exetype}/libmodeller.*dylib"]
       lib.install "#{modtop}/lib/#{univ_exetype}/libsaxs.dylib"
     elsif OS.linux?
