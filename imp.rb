@@ -9,7 +9,7 @@ class Imp < Formula
   revision 2
 
   bottle do
-    root_url "https://dl.bintray.com/salilab/homebrew"
+    root_url "https://salilab.org/homebrew/bottles"
     sha256 arm64_big_sur: "ad5892891488c3f42f4dabee1440dd87bd8b3bff6891f28454530a630d5f1c20"
     sha256 big_sur:       "72cbe16a0482c894c029dd2f8e68f2cfa54b1b3d03b54e0341a65740c4d1495a"
     sha256 catalina:      "4c78d71a71887882e926d51c44b3231008446207bbd341f4857259ddcc8f883e"
