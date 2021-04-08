@@ -265,19 +265,23 @@ Cflags: -I#{prefix}/src/include -I#{prefix}/src/include/#{exetype}
   end
 
   def post_install
-    if ENV["KEY_MODELLER"] != nil
-      inreplace "#{prefix}/modlib/modeller/config.py" do |s|
-        s.gsub! /XXXX/, ENV["KEY_MODELLER"]
+    if FileTest.exists?("#{etc}/modeller/license")
+      lines = File.readlines("#{etc}/modeller/license")
+      if lines.size >= 1
+        inreplace "#{prefix}/modlib/modeller/config.py" do |s|
+          s.gsub! /XXXX/, lines[0].chomp
+        end
       end
     end
   end
 
   def caveats
-    if ENV["KEY_MODELLER"] == nil
+    unless FileTest.exists?("#{etc}/modeller/license")
       <<~EOS
         Edit #{prefix}/modlib/modeller/config.py
         and replace XXXX with your Modeller license key
-        (or set the KEY_MODELLER environment variable before running "brew install").
+        (or write your license key into #{etc}/modeller/license before
+        running "brew install").
       EOS
     end
   end
