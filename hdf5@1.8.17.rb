@@ -13,9 +13,9 @@ class Hdf5AT1817 < Formula
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 "38c800df7c38554ace63dd0b725c633362c8abeb522124c0631c3ddc1e16a242" => :yosemite
-    sha256 "25a78331e42be52f9af7db72e3a05053d7291ab5c502f9863bbd70fc5a58ddb2" => :el_capitan
-    sha256 "6f80ff24e2accd94048d47f4e141b990fc347e3aca3448044f6c8630a6597c4d" => :sierra
+    sha256 yosemite:      "38c800df7c38554ace63dd0b725c633362c8abeb522124c0631c3ddc1e16a242"
+    sha256 el_capitan:    "25a78331e42be52f9af7db72e3a05053d7291ab5c502f9863bbd70fc5a58ddb2"
+    sha256 sierra:        "6f80ff24e2accd94048d47f4e141b990fc347e3aca3448044f6c8630a6597c4d"
   end
 
   # TODO - warn that these options conflict

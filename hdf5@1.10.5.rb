@@ -13,10 +13,10 @@ class Hdf5AT1105 < Formula
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 "638700819587b456e9d4d4783b6cdd882bcfe80206dc5b014ef5a9b70fd898c4" => :mojave
-    sha256 "40671955f2ceba97891e6d441129864fdee0d1d74031082045f48a3235dc8cc7" => :catalina
-    sha256 "10c00482504d53e175f68409e57c6e06f95cc9cb1c6c7ac051a5be571db895bb" => :high_sierra
-    sha256 "d470abf94568ebf4fdb520806c95fef3f1739f9517aa581019a3b39e57046756" => :sierra
+    sha256 mojave:        "638700819587b456e9d4d4783b6cdd882bcfe80206dc5b014ef5a9b70fd898c4"
+    sha256 catalina:      "40671955f2ceba97891e6d441129864fdee0d1d74031082045f48a3235dc8cc7"
+    sha256 high_sierra:   "10c00482504d53e175f68409e57c6e06f95cc9cb1c6c7ac051a5be571db895bb"
+    sha256 sierra:        "d470abf94568ebf4fdb520806c95fef3f1739f9517aa581019a3b39e57046756"
   end
 
   # TODO - warn that these options conflict
