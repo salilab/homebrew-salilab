@@ -6,14 +6,14 @@ class Imp < Formula
   url "https://integrativemodeling.org/2.14.0/download/imp-2.14.0.tar.gz"
   sha256 "67c7b5c4a57949786cd65d9f918694b59c9f11f5cf1515b8d13970a908e58126"
   license "LGPL/GPL"
-  revision 2
+  revision 3
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_big_sur: "ad5892891488c3f42f4dabee1440dd87bd8b3bff6891f28454530a630d5f1c20"
-    sha256 big_sur:       "72cbe16a0482c894c029dd2f8e68f2cfa54b1b3d03b54e0341a65740c4d1495a"
-    sha256 catalina:      "4c78d71a71887882e926d51c44b3231008446207bbd341f4857259ddcc8f883e"
-    sha256 mojave:        "df25314b29d1c537d19f797f2cef458d86074ef4d2b0063c089e3a9bc3a15219"
+    sha256 arm64_big_sur: "bdb084201ae45976bff87caa8843c2eec10da90d87e36a9798701b75e82e3164"
+    sha256 big_sur:       "376d7448945dabc9683fcd4c5d18ecd6856ced1c55b5ff709bf0764c884c424b"
+    sha256 catalina:      "2613e3f91c7d72e355684da4430bda59431254e221ae25d13f9819330e52f1b2"
+    sha256 mojave:        "edeb524e24f6e0e0a7e33121274d2b6b0844afd8d469a285bc47d3987f8f40e9"
   end
 
   depends_on "cmake" => :build
@@ -46,6 +46,10 @@ class Imp < Formula
     args << ".."
     # We need explicit C++11 in order for the OpenCV compile test to work
     args << '-DCMAKE_CXX_FLAGS="-std=c++11"'
+    # Otherwise linkage of _IMP_em2d.so fails on arm64 because it can't find
+    # @rpath/libgcc_s.1.1.dylib
+    gcclib = Formula["gcc"].lib/"gcc/11"
+    args << "-DCMAKE_MODULE_LINKER_FLAGS=-L#{gcclib}"
     # Don't install in lib64 on Linux systems
     args << "-DCMAKE_INSTALL_LIBDIR=#{lib}"
     args << "-DCMAKE_INSTALL_PYTHONDIR=#{lib}/python#{pyver}/site-packages"
