@@ -38,6 +38,12 @@ class Imp < Formula
     sha256 "49d0952c1fae55e0e3cd2e827de8213b2161099d8cd8be6c237c384e3e83bbf3"
   end
 
+  # Fix build with Boost 1.76
+  patch do
+    url "https://github.com/salilab/imp/commit/d532e8bd4e052fa4dda0f955c89e98158a7347d3.patch?full_index=1"
+    sha256 "9c6e737b90a40ed233c98119ad51f8f56fd9b8760f78eea5725de2b0aa696543"
+  end
+
   def install
     ENV.cxx11
     pyver = Language::Python.major_minor_version "python2.7"
