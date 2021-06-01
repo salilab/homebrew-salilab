@@ -3,17 +3,16 @@ require "formula"
 class Imp < Formula
   desc "Integrative Modeling Platform"
   homepage "https://integrativemodeling.org/"
-  url "https://integrativemodeling.org/2.14.0/download/imp-2.14.0.tar.gz"
-  sha256 "67c7b5c4a57949786cd65d9f918694b59c9f11f5cf1515b8d13970a908e58126"
+  url "https://integrativemodeling.org/2.15.0/download/imp-2.15.0.tar.gz"
+  sha256 "be2c13c95e4347f2fa4fe4f845a109464e9b95c6a417e286ba57aa79a7cd1a16"
   license "LGPL/GPL"
-  revision 4
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_big_sur: "c2d0a4972bfbc3b79bd855bb166ed066b0737c7b2fa93eec27f729b2e82198dd"
-    sha256 big_sur:       "5705ca00511470b3d9ab4b2919da011b6e623b19031068ce1617c0786b74112d"
-    sha256 catalina:      "efefa1146cb57e4d4543cd717e656ef620ea9a60fac31f6091009fd6d1e743da"
-    sha256 mojave:        "1726e4a2728d536af474c5db706e238671a16597b2dc90eff775aec10156a5ba"
+    sha256 arm64_big_sur: "525876a4f2a0a0d2a2769cfb8eb797e1e82ace4bcb55ccb898bb289b0c721500"
+    sha256 big_sur:       "918bb67eee4424be4f5ed79683739fc5fbd002978ce26d1956d8974b7d23da4e"
+    sha256 catalina:      "779f9e6c155e70285a62a1d246114efec3b6ac33b4a3386bf0bdc7546cf0a6d9"
+    sha256 mojave:        "a98a8df268010190affbb5165c6ffc8088ccafbae20bc6a497732c648d2fef20"
   end
 
   depends_on "cmake" => :build
@@ -31,12 +30,6 @@ class Imp < Formula
   depends_on "libtau" => :recommended
   depends_on "opencv" => :recommended
   depends_on "python@3.9" => :recommended
-
-  # Fix build with Boost 1.75
-  patch do
-    url "https://github.com/salilab/imp/commit/1296e92ac8c5e723bd0ec042d06e18d56ebb2747.patch?full_index=1"
-    sha256 "49d0952c1fae55e0e3cd2e827de8213b2161099d8cd8be6c237c384e3e83bbf3"
-  end
 
   # Fix build with Boost 1.76
   patch do
