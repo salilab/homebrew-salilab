@@ -50,8 +50,6 @@ class Imp < Formula
     args = std_cmake_args
     args << "-DIMP_DISABLED_MODULES=scratch"
     args << ".."
-    # We need explicit C++11 in order for the OpenCV compile test to work
-    args << '-DCMAKE_CXX_FLAGS="-std=c++11"'
     # Otherwise linkage of _IMP_em2d.so fails on arm64 because it can't find
     # @rpath/libgcc_s.1.1.dylib
     gcclib = Formula["gcc"].lib/"gcc/11"
