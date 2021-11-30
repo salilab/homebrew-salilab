@@ -82,6 +82,9 @@ class Modeller < Formula
              "#{modtop}/lib/#{univ_exetype}/libmodeller.#{sover}.dylib"
       lib.install Dir["#{modtop}/lib/#{univ_exetype}/libmodeller.*dylib"]
       lib.install "#{modtop}/lib/#{univ_exetype}/libsaxs.dylib"
+      if Hardware::CPU.arm?
+        lib.install "#{modtop}/lib/#{univ_exetype}/libgcc_s.1.1.dylib"
+      end
     elsif OS.linux?
       lib.install Dir["#{modtop}/lib/#{exetype}/libmodeller.so*"]
       lib.install "#{modtop}/lib/#{exetype}/libsaxs.so"
