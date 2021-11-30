@@ -135,7 +135,10 @@ class Modeller < Formula
           end
         end
 
-        libs = ["modeller.#{sover}", "saxs", "gcc_s.1.1"]
+        libs = ["modeller.#{sover}", "saxs"]
+        if Hardware::CPU.arm?
+          libs << "gcc_s.1.1"
+        end
         libs.each do |dep|
           system "install_name_tool", "-change",
                  "#{dprefix}lib#{dep}.dylib",
