@@ -132,7 +132,7 @@ class Modeller < Formula
           end
         end
 
-        libs = ["modeller.#{sover}", "saxs"]
+        libs = ["modeller.#{sover}", "saxs", "gcc_s.1.1"]
         libs.each do |dep|
           system "install_name_tool", "-change",
                  "#{dprefix}lib#{dep}.dylib",
