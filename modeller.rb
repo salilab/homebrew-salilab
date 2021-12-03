@@ -107,6 +107,20 @@ class Modeller < Formula
                  lib/"libsaxs.dylib"]
       dprefix = "/#{modtop}/lib/mac10v4/"
 
+      # Get only the native arch for Modeller dylibs to work around
+      # Homebrew thinking we have broken dependencies (arm64 version links
+      # to libgcc_s; Intel version does not)
+      if Hardware::CPU.arm?
+        exargs = ["-extract", "arm64"]
+      else
+        exargs = ["-extract", "i386", "-extract", "x86_64"]
+      end
+      ["modeller.#{sover}", "saxs"].each do |l|
+        system "lipo", *exargs, "-output", lib/"lib#{l}.dylib.new",
+               lib/"lib#{l}.dylib"
+        mv lib/"lib#{l}.dylib.new", lib/"lib#{l}.dylib"
+      end
+
       modbins.each do |modbin|
         # Point Modeller binaries to Homebrew-installed HDF5
         hdf_libs = ["hdf5.103", "hdf5_hl.100"]
