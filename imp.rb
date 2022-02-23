@@ -48,6 +48,10 @@ class Imp < Formula
     # Don't link against gperftools, even if they were found, since then the
     # bottle won't work on systems without gperftools installed
     args << "-DGPerfTools_found=0"
+    # Don't link against log4cxx, even if available, since then the
+    # bottle won't work on systems without log4cxx installed
+    args << "-DLog4CXX_LIBRARY=Log4CXX_LIBRARY-NOTFOUND"
+    args << "-DIMP_NO_LOG4CXX=1"
     # Help cmake to find CGAL
     ENV["CGAL_DIR"] = Formula["cgal"].lib/"cmake/CGAL"
     # Force Python 2
@@ -64,7 +68,8 @@ class Imp < Formula
         version = Language::Python.major_minor_version Formula["python@3.9"].opt_bin/"python3"
         args = ["..",
                 "-DCMAKE_INSTALL_PYTHONDIR=#{lib}/python#{version}/site-packages",
-                "-DUSE_PYTHON2=off"]
+                "-DUSE_PYTHON2=off",
+                "-DLog4CXX_LIBRARY=Log4CXX_LIBRARY-NOTFOUND"]
         system "cmake", *args
         system "make", "install"
         cd bin do
