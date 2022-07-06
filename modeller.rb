@@ -254,7 +254,7 @@ libraries.
         # Avoid possible confusion between Python 2 and Python 3 site modules
         ENV.delete("PYTHONPATH")
         system Formula["python@3.9"].opt_bin/"python3", "setup.py", "build"
-        (lib/"python#{pyver}/site-packages").install Dir["build/lib.*#{pyver}/_modeller.*so"]
+        (lib/"python#{pyver}/site-packages").install Dir["build/lib.*/_modeller.*so"]
         File.delete("modeller_wrap.c")
         rm_rf("build")
       end
