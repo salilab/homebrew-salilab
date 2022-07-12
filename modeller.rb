@@ -3,10 +3,10 @@ require "formula"
 class Modeller < Formula
   desc "Homology or comparative modeling of protein structures"
   homepage "https://salilab.org/modeller/"
-  url "https://salilab.org/modeller/10.2/modeller-10.2-mac.pax.gz" if OS.mac?
-  sha256 "7a18187bacd6b087e128692d0ee6c16f746bacde622ebf487f0d1a5b55c715e4" if OS.mac?
-  url "https://salilab.org/modeller/10.2/modeller-10.2.tar.gz" if OS.linux?
-  sha256 "c55686b733ed709cb6d3635c4d3067b07161d0cdba2241494cb3e6154f3df8d2" if OS.linux?
+  url "https://salilab.org/modeller/10.3/modeller-10.3-mac.pax.gz" if OS.mac?
+  sha256 "f7ccab4897a71c4aaaf9da28c2a0ab687c7af1227bfd1199cb5f1c0d34c72050" if OS.mac?
+  url "https://salilab.org/modeller/10.3/modeller-10.3.tar.gz" if OS.linux?
+  sha256 "a3d910d88465a4b6684e98668ce6df8fb3bb2193ad7159ae2b44fd9ad1d6c6a7" if OS.linux?
 
   depends_on "patchelf" => :build if OS.linux?
   depends_on "pkg-config" => :build
@@ -54,7 +54,7 @@ class Modeller < Formula
       end
 
       # Find _modeller.so in Python path
-      s.gsub! /^exec/, "export PYTHONPATH=#{lib}/python#{pyver}/site-packages\nexec"
+      s.gsub! /^# run the/, "export PYTHONPATH=#{lib}/python#{pyver}/site-packages\n\n#run the"
     end
 
     # Rename Modeller's 'bin' directory to 'modbin', since the contents are
@@ -83,8 +83,10 @@ class Modeller < Formula
       lib.install Dir["#{modtop}/lib/#{univ_exetype}/libmodeller.*dylib"]
       lib.install "#{modtop}/lib/#{univ_exetype}/libsaxs.dylib"
       if Hardware::CPU.arm?
-        lib.install "#{modtop}/lib/#{univ_exetype}/libgcc_s.1.1.dylib"
+        lib.install "#{modtop}/lib/#{univ_exetype}/libquadmath.0.dylib"
       end
+      (prefix/"py2_compat").install "#{modtop}/py2_compat/Python"
+      (prefix/"py2_compat").install "#{modtop}/py2_compat/site.py"
     elsif OS.linux?
       lib.install Dir["#{modtop}/lib/#{exetype}/libmodeller.so*"]
       lib.install "#{modtop}/lib/#{exetype}/libsaxs.so"
@@ -109,7 +111,7 @@ class Modeller < Formula
 
       # Get only the native arch for Modeller dylibs to work around
       # Homebrew thinking we have broken dependencies (arm64 version links
-      # to libgcc_s; Intel version does not)
+      # to libquadmath; Intel version does not)
       if Hardware::CPU.arm?
         exargs = ["-extract", "arm64"]
       else
@@ -151,7 +153,7 @@ class Modeller < Formula
 
         libs = ["modeller.#{sover}", "saxs"]
         if Hardware::CPU.arm?
-          libs << "gcc_s.1.1"
+          libs << "quadmath.0"
         end
         libs.each do |dep|
           system "install_name_tool", "-change",
@@ -159,6 +161,18 @@ class Modeller < Formula
                  lib/"lib#{dep}.dylib", modbin
         end
       end
+
+      # Make py2_compat binary that pulls in bundled Python
+      cp prefix/"modbin/mod#{version}_#{univ_exetype}",
+         prefix/"py2_compat/mod#{version}_#{univ_exetype}"
+      system "install_name_tool", "-change",
+             "/System/Library/Frameworks/Python.framework/Versions/2.6/Python",
+             prefix/"py2_compat/Python",
+             prefix/"py2_compat/mod#{version}_#{univ_exetype}"
+      system "install_name_tool", "-change",
+             "/System/Library/Frameworks/Python.framework/Versions/2.7/Python",
+             prefix/"py2_compat/Python",
+             prefix/"py2_compat/mod#{version}_#{univ_exetype}"
 
       # install_name_tool invalidates signatures, so resign
       # cp && mv is needed to work around a MacOS bug:
@@ -169,6 +183,10 @@ class Modeller < Formula
           mv "#{modbin}.new", modbin
           system "codesign", "-f", "-s", "-", modbin
         end
+        modbin = prefix/"py2_compat/mod#{version}_#{univ_exetype}"
+        cp modbin, "#{modbin}.new"
+        mv "#{modbin}.new", modbin
+        system "codesign", "-f", "-s", "-", modbin
       end
     end
 
