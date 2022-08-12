@@ -67,13 +67,13 @@ class Imp < Formula
       cd bin do
         # Make sure binaries use Homebrew Python
         inreplace pybins, %r{^#!.*python.*$},
-                          "#!#{Formula["python@3.9"].opt_bin}/python3"
+                          "#!#{Formula["python@3.9"].opt_bin}/python3.9"
       end
     end
   end
 
   test do
-    pythons = [Formula["python@3.9"].opt_bin/"python3"]
+    pythons = [Formula["python@3.9"].opt_bin/"python3.9"]
     pythons.each do |python|
       system python, "-c", "import IMP; assert(IMP.__version__ == '#{version}')"
       system python, "-c", "import IMP.em2d; assert(IMP.em2d.__version__ == '#{version}')"
