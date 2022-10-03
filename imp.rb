@@ -6,14 +6,14 @@ class Imp < Formula
   url "https://integrativemodeling.org/2.17.0/download/imp-2.17.0.tar.gz"
   sha256 "2667f7a4f7b4830ba27e0d41e2cab0fc21ca22176625bfd8b2f353b283dfc8af"
   license "LGPL/GPL"
-  revision 4
+  revision 5
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_monterey: "36e91e9183048c4d4f85e7fbaca1377477c975d7761afab726c62abea16b2f88"
-    sha256 monterey:       "bb1dce4879a6fd7658604fedd53669886433b4676bc664294e2d0df5629aea3f"
-    sha256 big_sur:        "8296f07e800c930ae00739484d4765eddf5023c2136d0914d2479043847dc60d"
-    sha256 catalina:       "c9d379450b5fd300651fbcf3821103a8dc6e5923622f75884e9e8cb240cd4410"
+    sha256 arm64_monterey: "1cf6b5c2745731b67150e5370adb209594b9cfa0d2f8328273df3d0fefb94c12"
+    sha256 monterey:       "6e9ade5f353a12ea1b055ac3947aa46c63ae83a0736bb69d18921c4fa7cb1a3f"
+    sha256 big_sur:        "c175136aa9bbb32de1c08f7e4f0c091c87b0416a5ad950181419abc473a35930"
+    sha256 catalina:       "23f45609781b2c2d6c89bb310d90afa824a37c096fb98707daf2effddadfbf12"
   end
 
   depends_on "cmake" => :build
@@ -51,7 +51,7 @@ class Imp < Formula
     args << "-DCMAKE_INSTALL_PYTHONDIR=#{lib}/python#{version}/site-packages"
     # Otherwise linkage of _IMP_em2d.so fails on arm64 because it can't find
     # @rpath/libgcc_s.1.1.dylib
-    gcclib = Formula["gcc"].lib/"gcc/11"
+    gcclib = Formula["gcc"].lib/"gcc/current"
     args << "-DCMAKE_MODULE_LINKER_FLAGS=-L#{gcclib}"
     # Don't install in lib64 on Linux systems
     args << "-DCMAKE_INSTALL_LIBDIR=#{lib}"
