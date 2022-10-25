@@ -7,11 +7,13 @@ class Libtau < Formula
   url 'https://integrativemodeling.org/libTAU/libTAU-1.0.2.zip'
   sha256 'd539436c0f4222bfb27ef34c9220a1977431f1f5989720321a6209b7e5bc532a'
 
+  depends_on "python@3.10" => :build
+
   def install
     args = ["#{prefix}"]
 
     if OS.mac?
-      system "./mac-install.py", *args
+      system Formula["python@3.10"].opt_bin/"python3.10", "mac-install.py", *args
     elsif OS.linux?
       lib.install "lib/Fedora23.x86_64/libTAU.so.1"
       ln_s "libTAU.so.1", lib/"libTAU.so"
