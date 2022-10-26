@@ -12,6 +12,7 @@ class Imp < Formula
     root_url "https://salilab.org/homebrew/bottles"
     sha256 arm64_ventura:  "fff87118d13b82862e6eef1c4382283447931d2c41a3f06e3004511efc040011"
     sha256 arm64_monterey: "1cf6b5c2745731b67150e5370adb209594b9cfa0d2f8328273df3d0fefb94c12"
+    sha256 ventura:        "7bfe659e3da2516f1ec2313bd59c8e938c3ed16bf9a20e8a3043644152812a9c"
     sha256 monterey:       "6e9ade5f353a12ea1b055ac3947aa46c63ae83a0736bb69d18921c4fa7cb1a3f"
     sha256 big_sur:        "c175136aa9bbb32de1c08f7e4f0c091c87b0416a5ad950181419abc473a35930"
     sha256 catalina:       "23f45609781b2c2d6c89bb310d90afa824a37c096fb98707daf2effddadfbf12"
