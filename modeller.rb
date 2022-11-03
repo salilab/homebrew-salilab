@@ -3,10 +3,10 @@ require "formula"
 class Modeller < Formula
   desc "Homology or comparative modeling of protein structures"
   homepage "https://salilab.org/modeller/"
-  url "https://salilab.org/modeller/10.3/modeller-10.3-mac.pax.gz" if OS.mac?
-  sha256 "f7ccab4897a71c4aaaf9da28c2a0ab687c7af1227bfd1199cb5f1c0d34c72050" if OS.mac?
-  url "https://salilab.org/modeller/10.3/modeller-10.3.tar.gz" if OS.linux?
-  sha256 "a3d910d88465a4b6684e98668ce6df8fb3bb2193ad7159ae2b44fd9ad1d6c6a7" if OS.linux?
+  url "https://salilab.org/modeller/10.4/modeller-10.4-mac.pax.gz" if OS.mac?
+  sha256 "9dbd905406755cade5ed11672042cd441bd7251e1feb66e5319ab226ba2cf618" if OS.mac?
+  url "https://salilab.org/modeller/10.4/modeller-10.4.tar.gz" if OS.linux?
+  sha256 "ed08fcbbee1db095a2c243028b567569398e03dabfe2ad459dca1a5298bb8ac9" if OS.linux?
   revision 1
 
   depends_on "patchelf" => :build if OS.linux?
@@ -31,7 +31,7 @@ class Modeller < Formula
     end
 
     if Hardware::CPU.arm?
-      exetype = "mac11arm64-gnu"
+      exetype = "mac12arm64-gnu"
       univ_exetype = "mac10v4"
     else
       if `uname -m` == "x86_64\n"
@@ -200,7 +200,7 @@ class Modeller < Formula
     Dir.mkdir("#{prefix}/dynlib")
     if OS.mac?
       if Hardware::CPU.arm?
-        File.symlink(".", "#{prefix}/dynlib/mac11arm64-gnu")
+        File.symlink(".", "#{prefix}/dynlib/mac12arm64-gnu")
       else
         ["mac10v4-intel64", "mac10v4-intel"].each do |arch|
           File.symlink(".", "#{prefix}/dynlib/#{arch}")
