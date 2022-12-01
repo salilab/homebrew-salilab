@@ -44,6 +44,9 @@ class Imp < Formula
     sha256 "c10fc7b3913725f7123cbdbd14eec57a4126e11aaf0a5e53f541e02ad36937cf"
   end
 
+  # Fix build with SWIG 4.1
+  patch :DATA
+
   def install
     ENV.cxx11
     version = Language::Python.major_minor_version Formula["python@3.10"].opt_bin/"python3.10"
@@ -102,3 +105,22 @@ class Imp < Formula
     system "foxs"
   end
 end
+
+__END__
+diff --git a/modules/npctransport/include/ParticleTransportStatisticsOptimizerState.h b/modules/npctransport/include/ParticleTransportStatisticsOptimizerState.h
+index f02476df0cd5b7daec3027ff9b21c5b48478cf87..f46c88d71b5e948483fcfde7e4ce9b701bc5ce5b 100644
+--- a/modules/npctransport/include/ParticleTransportStatisticsOptimizerState.h
++++ b/modules/npctransport/include/ParticleTransportStatisticsOptimizerState.h
+@@ -72,7 +72,12 @@ class IMPNPCTRANSPORTEXPORT ParticleTransportStatisticsOptimizerState
+   //! returns the simulator that was declared in the constructor or by
+   //set_owner()
+   //! to moves this particle, and provide simulation time information about it.
++#ifdef SWIG
++  // Help out SWIG 4.1, which gets confused by the WeakPointer here
++  IMP::atom::Simulator* get_owner() const { return owner_; }
++#else
+   WeakPointer<IMP::atom::Simulator> get_owner() const { return owner_; }
++#endif
+ 
+   /**
+       Returns the number of times the particle crossed the channel
