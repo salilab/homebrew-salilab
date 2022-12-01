@@ -6,16 +6,10 @@ class Imp < Formula
   url "https://integrativemodeling.org/2.17.0/download/imp-2.17.0.tar.gz"
   sha256 "2667f7a4f7b4830ba27e0d41e2cab0fc21ca22176625bfd8b2f353b283dfc8af"
   license "LGPL/GPL"
-  revision 5
+  revision 6
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_ventura:  "fff87118d13b82862e6eef1c4382283447931d2c41a3f06e3004511efc040011"
-    sha256 arm64_monterey: "1cf6b5c2745731b67150e5370adb209594b9cfa0d2f8328273df3d0fefb94c12"
-    sha256 ventura:        "7bfe659e3da2516f1ec2313bd59c8e938c3ed16bf9a20e8a3043644152812a9c"
-    sha256 monterey:       "6e9ade5f353a12ea1b055ac3947aa46c63ae83a0736bb69d18921c4fa7cb1a3f"
-    sha256 big_sur:        "c175136aa9bbb32de1c08f7e4f0c091c87b0416a5ad950181419abc473a35930"
-    sha256 catalina:       "23f45609781b2c2d6c89bb310d90afa824a37c096fb98707daf2effddadfbf12"
   end
 
   depends_on "cmake" => :build
@@ -23,6 +17,8 @@ class Imp < Formula
   depends_on "swig" => :build
 
   depends_on "boost"
+  depends_on "rmf"
+  depends_on "ihm"
   depends_on "eigen"
   depends_on "fftw"
   depends_on "hdf5"
@@ -49,11 +45,14 @@ class Imp < Formula
 
   def install
     ENV.cxx11
-    version = Language::Python.major_minor_version Formula["python@3.10"].opt_bin/"python3.10"
+    pybin = Formula["python@3.10"].opt_bin/"python3.10"
+    pyver = Language::Python.major_minor_version pybin
     args = std_cmake_args
     args << "-DIMP_DISABLED_MODULES=scratch"
+    args << "-DIMP_USE_SYSTEM_RMF=on"
+    args << "-DIMP_USE_SYSTEM_IHM=on"
     args << ".."
-    args << "-DCMAKE_INSTALL_PYTHONDIR=#{lib}/python#{version}/site-packages"
+    args << "-DCMAKE_INSTALL_PYTHONDIR=#{lib}/python#{pyver}/site-packages"
     # Otherwise linkage of _IMP_em2d.so fails on arm64 because it can't find
     # @rpath/libgcc_s.1.1.dylib
     gcclib = Formula["gcc"].lib/"gcc/current"
@@ -71,18 +70,18 @@ class Imp < Formula
     ENV["CGAL_DIR"] = Formula["cgal"].lib/"cmake/CGAL"
     # Force Python 3
     args << "-DUSE_PYTHON2=off"
+    args << "-DPython3_EXECUTABLE:FILEPATH=#{pybin}"
     mkdir "build" do
       system "cmake", *args
-      pybins = []
+      imppybins = []
       cd "bin" do
-        pybins = Dir.glob("*")
+        imppybins = Dir.glob("*")
       end
       system "make"
       system "make", "install"
       cd bin do
         # Make sure binaries use Homebrew Python
-        inreplace pybins, %r{^#!.*python.*$},
-                          "#!#{Formula["python@3.10"].opt_bin}/python3.10"
+        inreplace imppybins, %r{^#!.*python.*$}, "#!#{pybin}"
       end
     end
   end
