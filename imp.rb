@@ -3,19 +3,17 @@ require "formula"
 class Imp < Formula
   desc "Integrative Modeling Platform"
   homepage "https://integrativemodeling.org/"
-  url "https://integrativemodeling.org/2.17.0/download/imp-2.17.0.tar.gz"
-  sha256 "2667f7a4f7b4830ba27e0d41e2cab0fc21ca22176625bfd8b2f353b283dfc8af"
+  url "https://integrativemodeling.org/2.18.0/download/imp-2.18.0.tar.gz"
+  sha256 "48ca1f1451bfe8c237a02cd58892b3aaaf6b0f15d9ac65f8048781a901f42ff5"
   license "LGPL/GPL"
-  revision 6
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_ventura:  "c97041980a9af4cec05c7df2904bfb38a4c82f491ad55e6fd412959324c8d113"
-    sha256 arm64_monterey: "ad5689f0a8f1f021d060c235aefe833dc79ac7dc9716ef913270f12cde1a79bc"
-    sha256 ventura:        "9963d075bf1e59a41258748c8ca5ed3ddd1cd535863b6f7f7f716ed346bcfe98"
-    sha256 monterey:       "9f5260f86045bd7c7c3daaead6a826c65894c7d11a32bcfa08d3b04fc5303d9b"
-    sha256 big_sur:        "de7d4f701807b30fffa65c6385222b44da865179047caac07035fcbb3a975524"
-    sha256 catalina:       "9dff16872109b5f44cbd03e48e3203d7b7eef4662a4cf1b04a7e35d1aa329892"
+    sha256 arm64_ventura:  "02ba1a5cb9602af75d00b3e79931565ed57f12d7a8d8b97c4c9c66c6b07a4200"
+    sha256 arm64_monterey: "8048732c088ed55d19f4754c413b6adce67044674fd1148f1f1336cc8c33e95a"
+    sha256 ventura:        "c4ee20a4e746d972daab1120c5b55aad61bb1d87d3d18009e1d5f651aabee512"
+    sha256 monterey:       "e917109c8fbe1f19d3fc998da5ce5500a2343c75842f1f48a5b159ae2f4ec33d"
+    sha256 big_sur:        "1dea9de9376a4992253ef41f0339f75b90c4917dc3d6e195e9f405a936d060bb"
   end
 
   depends_on "cmake" => :build
@@ -35,19 +33,6 @@ class Imp < Formula
   depends_on "gsl" => :recommended
   depends_on "libtau" => :recommended
   depends_on "opencv" => :recommended
-
-  # Fix build with newer CGAL
-  patch do
-    url "https://github.com/salilab/imp/commit/c1522b37fb8bcf53c1d9738e30519a0a5c2b0831.patch?full_index=1"
-    sha256 "6b5bc748a393b006dcd76bda02163d5b80b573cfb07a944d50bb49ef7dc8851f"
-  end
-  patch do
-    url "https://github.com/salilab/imp/commit/806d3f182b4e8f23420f5cc6687a48836099b0c7.patch?full_index=1"
-    sha256 "c10fc7b3913725f7123cbdbd14eec57a4126e11aaf0a5e53f541e02ad36937cf"
-  end
-
-  # Fix build with SWIG 4.1
-  patch :DATA
 
   def install
     ENV.cxx11
@@ -110,22 +95,3 @@ class Imp < Formula
     system "foxs"
   end
 end
-
-__END__
-diff --git a/modules/npctransport/include/ParticleTransportStatisticsOptimizerState.h b/modules/npctransport/include/ParticleTransportStatisticsOptimizerState.h
-index f02476df0cd5b7daec3027ff9b21c5b48478cf87..f46c88d71b5e948483fcfde7e4ce9b701bc5ce5b 100644
---- a/modules/npctransport/include/ParticleTransportStatisticsOptimizerState.h
-+++ b/modules/npctransport/include/ParticleTransportStatisticsOptimizerState.h
-@@ -72,7 +72,12 @@ class IMPNPCTRANSPORTEXPORT ParticleTransportStatisticsOptimizerState
-   //! returns the simulator that was declared in the constructor or by
-   //set_owner()
-   //! to moves this particle, and provide simulation time information about it.
-+#ifdef SWIG
-+  // Help out SWIG 4.1, which gets confused by the WeakPointer here
-+  IMP::atom::Simulator* get_owner() const { return owner_; }
-+#else
-   WeakPointer<IMP::atom::Simulator> get_owner() const { return owner_; }
-+#endif
- 
-   /**
-       Returns the number of times the particle crossed the channel
