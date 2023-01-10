@@ -6,15 +6,15 @@ class Imp < Formula
   url "https://integrativemodeling.org/2.18.0/download/imp-2.18.0.tar.gz"
   sha256 "48ca1f1451bfe8c237a02cd58892b3aaaf6b0f15d9ac65f8048781a901f42ff5"
   license "LGPL/GPL"
-  revision 1
+  revision 2
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_ventura:  "429c701ae697824e0bb60755adf13989e23634090a3c0328fc343f4a3469a6c1"
-    sha256 arm64_monterey: "a7f065db0ed2dc4b2ff715cb9cbd5b001fd79178d810c840bae122a1074b596e"
-    sha256 ventura:        "dc50465d4ef48177b53f89e4b84bbbaa9d6e244403634d71eadf45b308bccf7d"
-    sha256 monterey:       "51da97e6a57748ae59a8e9cedf6479ff353e1f4b4193c24420d5edf1a15c2164"
-    sha256 big_sur:        "bed9f61e340c0af4b3e9af31412615657f533622715e90f9656ed9605a7d6aef"
+    sha256 arm64_ventura:  "85a6af16cccf78f03546c5e0c0db670d88a51cc3a7045b66674ffc4eece71fcf"
+    sha256 arm64_monterey: "0d88af739e2acbf711609a0e3f714fe0f8d33fc2fcd17035a37ede0427be1105"
+    sha256 ventura:        "cb6128667315cacf33a966629d19b27d5a15bbe004fa20a7b511edf9fc5d001e"
+    sha256 monterey:       "df38822c623eddf21c5fed535a793ac3280380f0af842aa67caa21c8b42a0fe7"
+    sha256 big_sur:        "648efd69ac0d6d33be5ac789a311827b588b018b08a3c5a2ff4261471a7779bc"
   end
 
   depends_on "cmake" => :build
@@ -34,6 +34,12 @@ class Imp < Formula
   depends_on "gsl" => :recommended
   depends_on "libtau" => :recommended
   depends_on "opencv" => :recommended
+
+  # Fix build with Boost 1.81
+  patch do
+    url "https://github.com/salilab/imp/commit/c8863fc2047c0462d233780bec1fdc661b3ce913.patch?full_index=1"
+    sha256 "dc0987efe8b23d802ad0cab41e303693d3a3d5f75866e742672ce42d7cc79a67"
+  end
 
   def install
     ENV.cxx11
