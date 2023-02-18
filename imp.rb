@@ -6,15 +6,15 @@ class Imp < Formula
   url "https://integrativemodeling.org/2.18.0/download/imp-2.18.0.tar.gz"
   sha256 "48ca1f1451bfe8c237a02cd58892b3aaaf6b0f15d9ac65f8048781a901f42ff5"
   license "LGPL/GPL"
-  revision 2
+  revision 3
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_ventura:  "85a6af16cccf78f03546c5e0c0db670d88a51cc3a7045b66674ffc4eece71fcf"
-    sha256 arm64_monterey: "0d88af739e2acbf711609a0e3f714fe0f8d33fc2fcd17035a37ede0427be1105"
-    sha256 ventura:        "cb6128667315cacf33a966629d19b27d5a15bbe004fa20a7b511edf9fc5d001e"
-    sha256 monterey:       "df38822c623eddf21c5fed535a793ac3280380f0af842aa67caa21c8b42a0fe7"
-    sha256 big_sur:        "648efd69ac0d6d33be5ac789a311827b588b018b08a3c5a2ff4261471a7779bc"
+    sha256 arm64_ventura:  "53296e5bdea7056452db1a8796a3e858db655132715d6ff7511df1a1d53aafc5"
+    sha256 arm64_monterey: "9eaaf188175ae2ee27044615b1e6eb9723ba0af3f66be2e2d4048ac1fd54d46f"
+    sha256 ventura:        "eb59628d9cccc725bcaf44dc3878e7e63834444f8aea2543af51b2bc07fec423"
+    sha256 monterey:       "092b8b9e444041fc87b0cb1a1102d090f875af17ba636ede78469936ee3bf949"
+    sha256 big_sur:        "c8393bcdb8747b8b512c9dcb75c3566c6db053e0d27c1d28adb0ed2645895f5a"
   end
 
   depends_on "cmake" => :build
@@ -29,7 +29,7 @@ class Imp < Formula
   depends_on "hdf5"
   depends_on "open-mpi"
   depends_on "protobuf"
-  depends_on "python@3.10"
+  depends_on "python@3.11"
   depends_on "cgal" => :recommended
   depends_on "gsl" => :recommended
   depends_on "libtau" => :recommended
@@ -43,7 +43,7 @@ class Imp < Formula
 
   def install
     ENV.cxx11
-    pybin = Formula["python@3.10"].opt_bin/"python3.10"
+    pybin = Formula["python@3.11"].opt_bin/"python3.11"
     pyver = Language::Python.major_minor_version pybin
     args = std_cmake_args
     args << "-DIMP_DISABLED_MODULES=scratch"
@@ -85,7 +85,7 @@ class Imp < Formula
   end
 
   test do
-    pythons = [Formula["python@3.10"].opt_bin/"python3.10"]
+    pythons = [Formula["python@3.11"].opt_bin/"python3.11"]
     pythons.each do |python|
       system python, "-c", "import IMP; assert(IMP.__version__ == '#{version}')"
       system python, "-c", "import IMP.em2d; assert(IMP.em2d.__version__ == '#{version}')"
