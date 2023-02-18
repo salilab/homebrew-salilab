@@ -6,14 +6,14 @@ class Mdt < Formula
   url "https://salilab.org/mdt/5.5/mdt-5.5.tar.gz"
   sha256 "94b3dbd3050be14568ed613cc1d534e11ef37cb32a646116f35ef66cab5c187c"
   license "GPL-2.0-or-later"
-  revision 10
+  revision 11
 
   depends_on "patchelf" => :build if OS.linux?
   depends_on "cmake" => :build
   depends_on "swig" => :build
   depends_on "glib"
   depends_on "modeller"
-  depends_on "python@3.10" => :recommended
+  depends_on "python@3.11" => :recommended
 
   # Be sure to link against HDF5 HL library
   patch do
@@ -24,10 +24,10 @@ class Mdt < Formula
   def install
     hdf5_formula = Formula["hdf5@1.10.7"]
 
-    if build.with? "python@3.10"
-      python_version = Language::Python.major_minor_version Formula["python@3.10"].opt_bin/"python3.10"
-      python_framework = Formula["python@3.10"].opt_prefix/"Frameworks/Python.framework/Versions/#{python_version}"
-      py3_binary = Formula["python@3.10"].opt_prefix/"bin/python3.10"
+    if build.with? "python@3.11"
+      python_version = Language::Python.major_minor_version Formula["python@3.11"].opt_bin/"python3.11"
+      python_framework = Formula["python@3.11"].opt_prefix/"Frameworks/Python.framework/Versions/#{python_version}"
+      py3_binary = Formula["python@3.11"].opt_prefix/"bin/python3.11"
       py3_lib = "#{python_framework}/lib/libpython#{python_version}.dylib"
       py3_inc = "#{python_framework}/Headers"
       py3_sitepack = "#{lib}/python#{python_version}/site-packages"
