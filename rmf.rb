@@ -6,15 +6,15 @@ class Rmf < Formula
   url "https://github.com/salilab/rmf/archive/refs/tags/1.4.1.tar.gz"
   sha256 "8ab3a0b13466ecf41e9e42b759c9935d740ceb4698490648a27501b9b27adda0"
   license "Apache-2.0"
-  revision 1
+  revision 2
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_ventura:  "c01d056d1920c4db468781c4134ffa1c4ce53743f4248ee4c2fb7bd314d03396"
-    sha256 arm64_monterey: "13eed0ef94086378169262afd595231849827afd6cd037c42fe4f85e67b72b96"
-    sha256 ventura:        "f537349a1c22162e8ed4e3dfc7bb2f2b45bda15e77a8b92c015fc0734c465461"
-    sha256 monterey:       "46c3d9aec476dbb5e8180709b7038604356735cd2dc8f78f4b4187b60b282e49"
-    sha256 big_sur:        "1bada11d5bcf45917e2c6434b8eab38bf1fc27ef63f0eac76e1739eecf12fbad"
+    sha256 arm64_ventura:  "eec4edbfc01e4b1fe27d1038321b7508b047bdf9aac688186ae1be40e307448d"
+    sha256 arm64_monterey: "c0b74e4e842fe3d160aeccb8d0f170af4a703a010599cbfec7cd4923028f91d4"
+    sha256 ventura:        "1031f0cc99de72334a10ddd04710b27746ab91a516aa6fd0d611d27d19ddfbba"
+    sha256 monterey:       "a01632d5d49a54664c7863846dcaa21aaebf34f7714bd7e7854a576aede49a11"
+    sha256 big_sur:        "2a720d8e3d93b9e759fe85de5ecd92106a332649f5acd6030001ca1aa0b58240"
   end
 
   depends_on "cmake" => :build
@@ -23,11 +23,11 @@ class Rmf < Formula
 
   depends_on "boost"
   depends_on "hdf5"
-  depends_on "python@3.10"
+  depends_on "python@3.11"
 
   def install
     ENV.cxx11
-    pybin = Formula["python@3.10"].opt_bin/"python3.10"
+    pybin = Formula["python@3.11"].opt_bin/"python3.11"
     pyver = Language::Python.major_minor_version pybin
     args = std_cmake_args
     args << ".."
@@ -49,7 +49,7 @@ class Rmf < Formula
   end
 
   test do
-    pythons = [Formula["python@3.10"].opt_bin/"python3.10"]
+    pythons = [Formula["python@3.11"].opt_bin/"python3.11"]
     pythons.each do |python|
       system python, "-c", "import RMF; assert(RMF.__version__ == '1.4')"
     end
