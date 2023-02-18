@@ -4,21 +4,22 @@ class Ihm < Formula
   url "https://pypi.io/packages/source/i/ihm/ihm-0.37.tar.gz"
   sha256 "5ffab3ed3a983b594379de7968bbd42f7ce3b7908142e9552c7f10ed070e7db3"
   license "MIT"
+  revision 1
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_ventura:  "f6d60adb4cea6713751ccd4a93c911991e9fae0f214a97ec0b6cfb3507e8938b"
-    sha256 arm64_monterey: "d9319964b3aa11405f5dc008c19cd050dfe44a4d1ba3240ea36e2a4dfac9cbb2"
-    sha256 ventura:        "a93d2420ea8bcacccfd3f583e77481dbac816e68402520ffdc08104dd523aa17"
-    sha256 monterey:       "603f19c5e7dd300e71fe204e82193868c017a23e2cca237e0354870fb0759f8c"
-    sha256 big_sur:        "d132dfab1db9d34af85186f8b008da50a07d7f469e32825eb4f00190d66793e1"
+    sha256 arm64_ventura:  "5fe51aac44364e5dec96b0e2490b41d8d51cadc4515c9391bb1d718ac75028bf"
+    sha256 arm64_monterey: "80c7779c95ac32209ac2d4eea4c99b6237b5ec326ac4fd49f46034938579da53"
+    sha256 ventura:        "9cab9d05c6ee66a7ec4720d1d4684254a1f1fafee89a29d5974979085fa11242"
+    sha256 monterey:       "13b1afae575994c306fe6f5a0a12ec719e9b3cfbd84486de1ab97e9d81bef9b9"
+    sha256 big_sur:        "46dc3873fd3d7ea8750aa37c5b5927b1a407f4d13a3830d846e17234e94d044a"
   end
 
-  depends_on "python@3.10"
+  depends_on "python@3.11"
 
   def install
     ENV.cxx11
-    pybin = Formula["python@3.10"].opt_bin/"python3.10"
+    pybin = Formula["python@3.11"].opt_bin/"python3.11"
     prefix_site_packages = prefix/Language::Python.site_packages(pybin)
     system pybin, "setup.py", "install",
            "--single-version-externally-managed",
@@ -27,7 +28,7 @@ class Ihm < Formula
   end
 
   test do
-    pythons = [Formula["python@3.10"].opt_bin/"python3.10"]
+    pythons = [Formula["python@3.11"].opt_bin/"python3.11"]
     (testpath/"test.py").write <<~EOS
       import ihm
       import ihm.dumper
