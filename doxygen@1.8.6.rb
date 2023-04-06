@@ -2,8 +2,7 @@ require 'formula'
 
 class DoxygenAT186 < Formula
   homepage 'http://www.doxygen.org/'
-  url 'http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.6.src.tar.gz'
-  mirror 'http://downloads.sourceforge.net/project/doxygen/rel-1.8.6/doxygen-1.8.6.src.tar.gz'
+  url 'http://downloads.sourceforge.net/project/doxygen/rel-1.8.6/doxygen-1.8.6.src.tar.gz'
   sha256 '6a718625f0c0c1eb3dee78ec1f83409b49e790f4c6c47fd44cd51cb92695535f'
   license "GPL-2.0-only"
 
