@@ -15,6 +15,15 @@ class DoxygenAT186 < Formula
   depends_on 'llvm' => 'with-clang' if build.with? 'libclang'
 
   def install
+    on_catalina :or_newer do
+      inreplace %w[ src/Makefile.libdoxycfg
+                    tmake/lib/macosx-c++/tmake.conf
+                    tmake/lib/macosx-intel-c++/tmake.conf
+                    tmake/lib/macosx-uni-c++/tmake.conf ] do |s|
+        s.gsub! /\-D__FreeBSD__=6/, ''
+      end
+    end
+
     args = ["--prefix", prefix]
     args << '--with-libclang' if build.with? 'libclang'
     system "./configure", *args
