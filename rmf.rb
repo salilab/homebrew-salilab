@@ -56,6 +56,7 @@ class Rmf < Formula
     pythons = [Formula["python@3.11"].opt_bin/"python3.11"]
     pythons.each do |python|
       system python, "-c", "import RMF; assert(RMF.__version__ == '1.5.0')"
+      system python, "-c", "import RMF; assert(hasattr(RMF, 'get_all_global_coordinates'))"
     end
     system "rmf3_dump", "--version"
   end
