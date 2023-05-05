@@ -14,6 +14,7 @@ class Imp < Formula
     sha256 arm64_monterey: "42cc5fc66685c9db0515b225493b4defd88d674e316ff23a6b60f153dd2e0a96"
     sha256 ventura:        "3003581a6b501fe26189041f65b69243d0ce25dc955a1da81388ebe50d651ca7"
     sha256 monterey:       "7338fee0e6691f398646a734ad2defa3f408832b9e03d3203e26f607bed916a7"
+    sha256 big_sur:        "dde27f7134a3f04949dbaf256f70b5f35a10ecd09cf36d1a4b2d57d6c9c0aeee"
   end
 
   depends_on "cmake" => :build
