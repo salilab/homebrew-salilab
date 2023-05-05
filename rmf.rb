@@ -14,6 +14,7 @@ class Rmf < Formula
     sha256 arm64_monterey: "9309873f80542ff25e8dba418a2adddbed4fa22b80c43e870117f232683d4e1c"
     sha256 ventura:        "d0b84809a13b0f36bd313d7cde1321ae1bc894304ece322b68c996e70b32c5e4"
     sha256 monterey:       "1a444faa8fff6f68357d86c566c01729bc64e47efb38f2d3c021196baf0c9372"
+    sha256 big_sur:        "0d6024db30de60683c32cbef9596ca62539a2352ce29062109a5cdef150cb961"
   end
 
   depends_on "cmake" => :build
