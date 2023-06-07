@@ -6,15 +6,15 @@ class Imp < Formula
   url "https://integrativemodeling.org/2.18.0/download/imp-2.18.0.tar.gz"
   sha256 "48ca1f1451bfe8c237a02cd58892b3aaaf6b0f15d9ac65f8048781a901f42ff5"
   license "LGPL/GPL"
-  revision 5
+  revision 6
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_ventura:  "b6824ec5b1b37cba399f0a81029099991449e29c39dcc78a435f70ff6012a1eb"
-    sha256 arm64_monterey: "42cc5fc66685c9db0515b225493b4defd88d674e316ff23a6b60f153dd2e0a96"
-    sha256 ventura:        "3003581a6b501fe26189041f65b69243d0ce25dc955a1da81388ebe50d651ca7"
-    sha256 monterey:       "7338fee0e6691f398646a734ad2defa3f408832b9e03d3203e26f607bed916a7"
-    sha256 big_sur:        "dde27f7134a3f04949dbaf256f70b5f35a10ecd09cf36d1a4b2d57d6c9c0aeee"
+    sha256 arm64_ventura:  "837a0e0d7e00031f7133c148ef5ad6796d213199e0828082d7af217024047504"
+    sha256 arm64_monterey: "60b8598fb7715bb2a0a1f35f044aac4f71bc3f22d154dcc0b1ec6307a19bd856"
+    sha256 ventura:        "e74e47003e492d14e95a3dfd19e48c32bf25df4173d859499e26bc4dfb62323a"
+    sha256 monterey:       "c96ef762f9a0c8d6318aa2fa2f9c6a19c7d3aa1eced83db2dc522b65eccd814b"
+    sha256 big_sur:        "d57fa2f41805cd024219f608506b7039db09e2668ed1d8dcf2da5d42eed7daf9"
   end
 
   depends_on "cmake" => :build
@@ -28,7 +28,8 @@ class Imp < Formula
   depends_on "fftw"
   depends_on "hdf5"
   depends_on "open-mpi"
-  depends_on "protobuf"
+  # Stick with old protobuf for now to match opencv
+  depends_on "protobuf@21"
   depends_on "python@3.11"
   depends_on "cgal" => :recommended
   depends_on "gsl" => :recommended
@@ -64,6 +65,10 @@ class Imp < Formula
     # bottle won't work on systems without log4cxx installed
     args << "-DLog4CXX_LIBRARY=Log4CXX_LIBRARY-NOTFOUND"
     args << "-DIMP_NO_LOG4CXX=1"
+    # Use older protobuf for now to match opencv
+    ENV.prepend_path "PATH", #{Formula["protobuf@21"].bin}
+    args << "-DCMAKE_INCLUDE_PATH=#{Formula['protobuf@21'].include}"
+    args << "-DCMAKE_LIBRARY_PATH=#{Formula['protobuf@21'].opt_lib}"
     # Help cmake to find CGAL
     ENV["CGAL_DIR"] = Formula["cgal"].lib/"cmake/CGAL"
     # Force Python 3
