@@ -3,18 +3,17 @@ require "formula"
 class Rmf < Formula
   desc "Rich Molecular Format library"
   homepage "https://integrativemodeling.org/rmf/"
-  url "https://github.com/salilab/rmf/archive/refs/tags/1.5.0.tar.gz"
-  sha256 "cc53760f207faf3523e3ab75d81e41228f28916d7935298fb59455f006f3669a"
+  url "https://github.com/salilab/rmf/archive/refs/tags/1.5.1.tar.gz"
+  sha256 "9e885b2342bc0896502ca4fd9c1712103af199b9b6c170b8f004fa82feb94ada"
   license "Apache-2.0"
-  revision 1
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_ventura:  "6323f55534909fd9208de9957e57485bc6e3927bb56d5907277c7b94acca351e"
-    sha256 arm64_monterey: "9309873f80542ff25e8dba418a2adddbed4fa22b80c43e870117f232683d4e1c"
-    sha256 ventura:        "d0b84809a13b0f36bd313d7cde1321ae1bc894304ece322b68c996e70b32c5e4"
-    sha256 monterey:       "1a444faa8fff6f68357d86c566c01729bc64e47efb38f2d3c021196baf0c9372"
-    sha256 big_sur:        "0d6024db30de60683c32cbef9596ca62539a2352ce29062109a5cdef150cb961"
+    sha256 arm64_ventura:  "3eb704f8ea5b304ef365a0ffb19b69876cdfc8387e23414daa4dbf58559cc87b"
+    sha256 arm64_monterey: "5b0faa876f646316c5e33381b38a46825334e7be983347720f32f06e00ac9f9f"
+    sha256 ventura:        "9db5776f6ceb7bc05a45f05f241e2561baa7744aad602a7c5a9f82a3476e9a7e"
+    sha256 monterey:       "064cd608c36471d46b20bab0a4ca0f24d1e9cd32e7bcbca1cfa1262888f346bf"
+    sha256 big_sur:        "825d9102ebe7f16fda0399d08cac917dabba66fd0754da12a300c7dfa14b1e52"
   end
 
   depends_on "cmake" => :build
@@ -56,7 +55,7 @@ class Rmf < Formula
   test do
     pythons = [Formula["python@3.11"].opt_bin/"python3.11"]
     pythons.each do |python|
-      system python, "-c", "import RMF; assert(RMF.__version__ == '1.5.0')"
+      system python, "-c", "import RMF; assert(RMF.__version__ == '1.5.1')"
       system python, "-c", "import RMF; assert(hasattr(RMF, 'get_all_global_coordinates'))"
     end
     system "rmf3_dump", "--version"
