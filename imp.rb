@@ -3,23 +3,23 @@ require "formula"
 class Imp < Formula
   desc "Integrative Modeling Platform"
   homepage "https://integrativemodeling.org/"
-  url "https://integrativemodeling.org/2.18.0/download/imp-2.18.0.tar.gz"
-  sha256 "48ca1f1451bfe8c237a02cd58892b3aaaf6b0f15d9ac65f8048781a901f42ff5"
+  url "https://integrativemodeling.org/2.19.0/download/imp-2.19.0.tar.gz"
+  sha256 "75529285e6d94ffe5b4246097d70e223d984947193226b39313c1a85bc011ddd"
   license "LGPL/GPL"
-  revision 7
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_ventura:  "cea67019c8e9cb81e2f8b0f6e391c4a8e2aa297fb15fe4365304e910cfae9a5c"
-    sha256 arm64_monterey: "8a26295866990e871cd034ee7bac13a3079d3762532b80250ce05d0d378b4629"
-    sha256 ventura:        "257cddaf0e6f7f0518a549389a096a859b88411753ca1adb2b66178ceb633cf6"
-    sha256 monterey:       "b3b37e0b700bbbee8a0bcb248860fa2c14e175303cffc398d29b268e5d07cc5f"
-    sha256 big_sur:        "ade19c3c7f18cc103de53f19c4189a0ebd9591417801a3d6398b046544b642af"
+    sha256 arm64_ventura:  "1017c7284d02d3e9cdea35e67534c71b925fd63643ac678c4728a42220a515ab"
+    sha256 arm64_monterey: "acdcda756c64fcf43af9e28fbc8903ebf4aae6aeb3e3903713e800395b25ffc0"
+    sha256 ventura:        "eee88463387fdd8e2b890d999005dc9692b8d9e8f2d93cb025a9a9deba94bf5a"
+    sha256 monterey:       "5ba39de4b4f8f3537389cf67f2b43a81a278d951cbe7eb2f12e612b9787b1263"
+    sha256 big_sur:        "036275583f4346ad6483ce080e38defeeb28464fde0fbc454dbfa621ffe31c12"
   end
 
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
   depends_on "swig" => :build
+  depends_on "cereal" => :build
 
   depends_on "boost"
   depends_on "rmf"
@@ -28,25 +28,21 @@ class Imp < Formula
   depends_on "fftw"
   depends_on "hdf5"
   depends_on "open-mpi"
-  # Stick with old protobuf for now to match opencv
-  depends_on "protobuf@21"
+  depends_on "protobuf"
   depends_on "python@3.11"
   depends_on "cgal" => :recommended
   depends_on "gsl" => :recommended
   depends_on "libtau" => :recommended
   depends_on "opencv" => :recommended
 
-  # Fix build with Boost 1.81
-  patch do
-    url "https://github.com/salilab/imp/commit/c8863fc2047c0462d233780bec1fdc661b3ce913.patch?full_index=1"
-    sha256 "dc0987efe8b23d802ad0cab41e303693d3a3d5f75866e742672ce42d7cc79a67"
-  end
+  # We need C++17 support for protobuf
+  fails_with gcc: "5"
 
   def install
-    ENV.cxx11
     pybin = Formula["python@3.11"].opt_bin/"python3.11"
     pyver = Language::Python.major_minor_version pybin
     args = std_cmake_args
+    args << "-DCMAKE_CXX_FLAGS=-std=c++17"
     args << "-DIMP_DISABLED_MODULES=scratch"
     args << "-DIMP_USE_SYSTEM_RMF=on"
     args << "-DIMP_USE_SYSTEM_IHM=on"
@@ -65,10 +61,6 @@ class Imp < Formula
     # bottle won't work on systems without log4cxx installed
     args << "-DLog4CXX_LIBRARY=Log4CXX_LIBRARY-NOTFOUND"
     args << "-DIMP_NO_LOG4CXX=1"
-    # Use older protobuf for now to match opencv
-    ENV.prepend_path "PATH", #{Formula["protobuf@21"].bin}
-    args << "-DCMAKE_INCLUDE_PATH=#{Formula['protobuf@21'].include}"
-    args << "-DCMAKE_LIBRARY_PATH=#{Formula['protobuf@21'].opt_lib}"
     # Help cmake to find CGAL
     ENV["CGAL_DIR"] = Formula["cgal"].lib/"cmake/CGAL"
     # Force Python 3
