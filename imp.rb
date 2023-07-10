@@ -6,14 +6,15 @@ class Imp < Formula
   url "https://integrativemodeling.org/2.19.0/download/imp-2.19.0.tar.gz"
   sha256 "75529285e6d94ffe5b4246097d70e223d984947193226b39313c1a85bc011ddd"
   license "LGPL/GPL"
+  revision 1
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_ventura:  "1017c7284d02d3e9cdea35e67534c71b925fd63643ac678c4728a42220a515ab"
-    sha256 arm64_monterey: "acdcda756c64fcf43af9e28fbc8903ebf4aae6aeb3e3903713e800395b25ffc0"
-    sha256 ventura:        "eee88463387fdd8e2b890d999005dc9692b8d9e8f2d93cb025a9a9deba94bf5a"
-    sha256 monterey:       "5ba39de4b4f8f3537389cf67f2b43a81a278d951cbe7eb2f12e612b9787b1263"
-    sha256 big_sur:        "036275583f4346ad6483ce080e38defeeb28464fde0fbc454dbfa621ffe31c12"
+    sha256 arm64_ventura:  "3c433a63f64f106b1b76f8bebc251b3e4758810b840fe6c8dd8e7eb9ce31576b"
+    sha256 arm64_monterey: "84b5ffce42d5c73b06c9dd1c7edcca272935d21e056b1ff584cb702ddd6d0792"
+    sha256 ventura:        "801556816faa4063e85ba08adb9e5caec6a275e0f9c88a195850850c6c40bfda"
+    sha256 monterey:       "a61e8d343bb805098752b669d3151a1b8243799737822948eed47d7d7c306789"
+    sha256 big_sur:        "d599585ea2f0fbc77f9fc9a6c8407f72ed4698e1724110338dcbc6c605db47b3"
   end
 
   depends_on "cmake" => :build
