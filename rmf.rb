@@ -10,6 +10,7 @@ class Rmf < Formula
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
+    sha256 arm64_sonoma:   "775b698223f7ddc93fcba7a09dba8e0060386b762251330c50b48f6e039813fe"
     sha256 arm64_ventura:  "bbd81d45d4bc254da773488f8abdfe276b393368043aea14d0f02b1dcd04b020"
     sha256 arm64_monterey: "7ddfa0835583c9efb050671a3b2089db0273cb0e92803ddada251215972faafe"
     sha256 ventura:        "018cf5b78f10631455d2f42bced02a1e9fdcee99d01e445671798398df517ad9"
@@ -45,6 +46,8 @@ class Rmf < Formula
     # Force Python 3
     args << "-DUSE_PYTHON2=off"
     args << "-DPython3_EXECUTABLE:FILEPATH=#{pybin}"
+    # Work around boost/clang incompatibility
+    args << "-DCMAKE_CXX_FLAGS=-D_LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION"
 
     mkdir "build" do
       system "cmake", *args
