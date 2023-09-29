@@ -7,6 +7,7 @@ class Ihm < Formula
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
+    sha256 arm64_sonoma:   "6802a38fb5f9f559787fdd119fa0611e7360598e89c6a412faf5de85997d7706"
     sha256 arm64_ventura:  "9c8879cf79b60f4b1b80a907880b8ba56ec21207884c0ceb584791c96cfaa627"
     sha256 arm64_monterey: "8f06deb79b7be53aec8443a28cc71a0f41c199c95788ba16649a762672c4caf7"
     sha256 ventura:        "dd330cf39b54d09e98c11ef61fd24e77b34c488133d7b850c47444902f183c29"
