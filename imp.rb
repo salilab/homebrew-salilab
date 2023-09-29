@@ -10,6 +10,7 @@ class Imp < Formula
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
+    sha256 arm64_sonoma:   "115895d458da0d99eb2f801a0595455547da5a7401bc3c28773cdf90bf7193dc"
     sha256 arm64_ventura:  "99aa4ab01f3ee2d7bb417c0a0cb9fa3cb12398cda134ea924dfed69b7b76885a"
     sha256 arm64_monterey: "29a74834b81d7b89b353adbd482dc8dcb3c76f7ad0a8d467523d270b406751fe"
     sha256 ventura:        "2958e39f90ffbb7ef2e04089e54bcbeb8a1b685f4e8640200fb115d8aea9ba54"
@@ -43,7 +44,8 @@ class Imp < Formula
     pybin = Formula["python@3.11"].opt_bin/"python3.11"
     pyver = Language::Python.major_minor_version pybin
     args = std_cmake_args
-    args << "-DCMAKE_CXX_FLAGS=-std=c++17"
+    # Work around boost/clang incompatibility
+    args << "-DCMAKE_CXX_FLAGS='-std=c++17 -D_LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION'"
     args << "-DIMP_DISABLED_MODULES=scratch"
     args << "-DIMP_USE_SYSTEM_RMF=on"
     args << "-DIMP_USE_SYSTEM_IHM=on"
