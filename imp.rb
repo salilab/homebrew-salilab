@@ -13,6 +13,7 @@ class Imp < Formula
     sha256 arm64_sonoma:   "115895d458da0d99eb2f801a0595455547da5a7401bc3c28773cdf90bf7193dc"
     sha256 arm64_ventura:  "99aa4ab01f3ee2d7bb417c0a0cb9fa3cb12398cda134ea924dfed69b7b76885a"
     sha256 arm64_monterey: "29a74834b81d7b89b353adbd482dc8dcb3c76f7ad0a8d467523d270b406751fe"
+    sha256 sonoma:         "f1d939eaa55108f9a6ae5188f3b80949bfced1139958045d17f5fd1b8adb7b28"
     sha256 ventura:        "2958e39f90ffbb7ef2e04089e54bcbeb8a1b685f4e8640200fb115d8aea9ba54"
     sha256 monterey:       "5896448d2bd98f62fe08b3ac72b943ed438946eb2240c2a5a565b321b029db97"
     sha256 big_sur:        "54f8f81dea0cb26f526f239b53f07ae6937c479445625d713e1dc24a37003b18"
