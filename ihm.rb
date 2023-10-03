@@ -1,18 +1,18 @@
 class Ihm < Formula
   desc "Package for handling IHM mmCIF and BinaryCIF files"
   homepage "https://github.com/ihmwg/python-ihm"
-  url "https://pypi.io/packages/source/i/ihm/ihm-0.40.tar.gz"
-  sha256 "ef33f5c089ec6bb09ace79dd395e46e90df7641f11557b05755dbac1009e0cb7"
+  url "https://pypi.io/packages/source/i/ihm/ihm-0.41.tar.gz"
+  sha256 "74b6c7ed1742571ee0241efbe56cc14fab8a84febc45a6275d55a0d258273ab0"
   license "MIT"
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_sonoma:   "6802a38fb5f9f559787fdd119fa0611e7360598e89c6a412faf5de85997d7706"
-    sha256 arm64_ventura:  "9c8879cf79b60f4b1b80a907880b8ba56ec21207884c0ceb584791c96cfaa627"
-    sha256 arm64_monterey: "8f06deb79b7be53aec8443a28cc71a0f41c199c95788ba16649a762672c4caf7"
-    sha256 sonoma:         "b20e6d38aba239167f3c2592d69d0b834176e4eb5cf8aab4f004fe9f1fe3f23e"
-    sha256 ventura:        "dd330cf39b54d09e98c11ef61fd24e77b34c488133d7b850c47444902f183c29"
-    sha256 monterey:       "2bafa65a1a2aae588a9d0acd9f39298bd241c027ce5332231aa017d94c62b711"
+    sha256 arm64_sonoma:   "49f234feff10f7fa8ef4b9d50c374b666d7533e85af7f7e8ff080193f5f37110"
+    sha256 arm64_ventura:  "6ec4d6fa505d4df0913b49fdc4959dcb01502e62c083e3161511091ecb9da42d"
+    sha256 arm64_monterey: "eed1ba552a7162d5e3924eeab7f19e6781b840e17bbe96d5fd992cdb3b634e74"
+    sha256 sonoma:         "4bee7518e7f3aa6cbfbd0f4f32314348ef3d1561cfb11ed646924a013e74839b"
+    sha256 ventura:        "6920a2bc7324c82db18b8db3f2f73b6b880e77da7b115bd8cc9f1fbb5adbc644"
+    sha256 monterey:       "7d9f9a93a910af6920a78a54774ba745ed7ee6d03768de3232138f04088f45ca"
   end
 
   depends_on "python@3.11"
