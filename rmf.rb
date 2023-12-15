@@ -3,20 +3,18 @@ require "formula"
 class Rmf < Formula
   desc "Rich Molecular Format library"
   homepage "https://integrativemodeling.org/rmf/"
-  url "https://github.com/salilab/rmf/archive/refs/tags/1.5.1.tar.gz"
-  sha256 "9e885b2342bc0896502ca4fd9c1712103af199b9b6c170b8f004fa82feb94ada"
+  url "https://github.com/salilab/rmf/archive/refs/tags/1.6.0.tar.gz"
+  sha256 "4ab69a6e1c8c67c670377b387439ebcbd6ad10226e0414ce5e9113883738c383"
   license "Apache-2.0"
-  revision 1
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_sonoma:   "775b698223f7ddc93fcba7a09dba8e0060386b762251330c50b48f6e039813fe"
-    sha256 arm64_ventura:  "bbd81d45d4bc254da773488f8abdfe276b393368043aea14d0f02b1dcd04b020"
-    sha256 arm64_monterey: "7ddfa0835583c9efb050671a3b2089db0273cb0e92803ddada251215972faafe"
-    sha256 sonoma:         "02723e3cdafdbc8f9ccd0a1bb8145602c407adab46b67ae0942591e6a246c422"
-    sha256 ventura:        "018cf5b78f10631455d2f42bced02a1e9fdcee99d01e445671798398df517ad9"
-    sha256 monterey:       "40d7d0ab4feca4b37154047948ac6f42366c44472ea35a0f551b49424f8cbb09"
-    sha256 big_sur:        "88d7262df407bf8b7d783f11e4362470767ff37fe63938fccdd024683af9ee95"
+    sha256 arm64_sonoma:   "44c8d8a7a6f48f8920a7a72a9c91b1928467a245af51cde4e842b9d230bd80a0"
+    sha256 arm64_ventura:  "993ef2f029d9350c7ee2e3d33afed527854bd3237cc4b6809bb3c24278cf1993"
+    sha256 arm64_monterey: "7e6f3d94d1cd27c3dd4e55e75d44b99de5ac096f91516d094acc133211f9a0ee"
+    sha256 sonoma:         "48b989da268d7b514bee5cd18272948c815aedb6faaff355480b892357770ee3"
+    sha256 ventura:        "98f29797c7126e0a52ddf9a38f4368e999fb0392bb7eff0446eb5307a57b2d80"
+    sha256 monterey:       "794da3d2a0ab1fe0e12839c5db654fed37de0ec2791143c46674888352ddf4c9"
   end
 
   depends_on "cmake" => :build
@@ -60,7 +58,7 @@ class Rmf < Formula
   test do
     pythons = [Formula["python@3.11"].opt_bin/"python3.11"]
     pythons.each do |python|
-      system python, "-c", "import RMF; assert(RMF.__version__ == '1.5.1')"
+      system python, "-c", "import RMF; assert(RMF.__version__ == '1.6.0')"
       system python, "-c", "import RMF; assert(hasattr(RMF, 'get_all_global_coordinates'))"
     end
     system "rmf3_dump", "--version"
