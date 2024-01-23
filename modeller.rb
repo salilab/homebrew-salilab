@@ -3,11 +3,10 @@ require "formula"
 class Modeller < Formula
   desc "Homology or comparative modeling of protein structures"
   homepage "https://salilab.org/modeller/"
-  url "https://salilab.org/modeller/10.4/modeller-10.4-mac.pax.gz" if OS.mac?
-  sha256 "9dbd905406755cade5ed11672042cd441bd7251e1feb66e5319ab226ba2cf618" if OS.mac?
-  url "https://salilab.org/modeller/10.4/modeller-10.4.tar.gz" if OS.linux?
-  sha256 "ed08fcbbee1db095a2c243028b567569398e03dabfe2ad459dca1a5298bb8ac9" if OS.linux?
-  revision 2
+  url "https://salilab.org/modeller/10.5/modeller-10.5-mac.pax.gz" if OS.mac?
+  sha256 "188fc3dac9fec39418b356dcf9d78203d17ee8578e03f9b95367e874639d5e6d" if OS.mac?
+  url "https://salilab.org/modeller/10.5/modeller-10.5.tar.gz" if OS.linux?
+  sha256 "acbee4481d79e669dd0251d5e075902dbe0a7dfeb13f8777c8d602cae64a28ad" if OS.linux?
 
   depends_on "patchelf" => :build if OS.linux?
   depends_on "pkg-config" => :build
