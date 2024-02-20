@@ -6,16 +6,16 @@ class Imp < Formula
   url "https://integrativemodeling.org/2.20.1/download/imp-2.20.1.tar.gz"
   sha256 "9cf1173f3c2eba3ae65d0f62a6ecf35d8ccbea64988de5818bbafa69ef125186"
   license "LGPL/GPL"
-  revision 1
+  revision 2
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_sonoma:   "73fbef379ac0f1a0de8730b550970d6518577218ad92dc56f49468bad527fc4a"
-    sha256 arm64_ventura:  "d2870ad44788025dd79ab764536bf96e1d8a5c34ff3c2fd025a9a056ca27023b"
-    sha256 arm64_monterey: "2f0e46518538da15167e914e52cc084f6bbac2d106601f2b390ada5856ca33d9"
-    sha256 sonoma:         "25612b96a8532313c3af69f4fa329b0a2c7c31173f2da505f8115962aa166b77"
-    sha256 ventura:        "e9be613ca65226495f092baade5fd7bdee91f564aab0f4facee7877ad0b152ac"
-    sha256 monterey:       "008f304e970974964cda18830b8de51e97b5f9259d3290dbc64d423bae6be615"
+    sha256 arm64_sonoma:   "6d45948533995770af1951d275e60482995115d8e00fcca5b86a1c8058e1ef3e"
+    sha256 arm64_ventura:  "d77605dbb2ebddf66a40bd7dab5055299533fc44a3e07fc15f1535f6b51b8725"
+    sha256 arm64_monterey: "06a1b9d5a12265aa648198b1ec0676c7fc463ca74e75f7240ba7c35b9f4965fe"
+    sha256 sonoma:         "1c34e632253091b934912487bb2dee266e68e669f243b063bc493991370a663b"
+    sha256 ventura:        "4658997f2a1a2367b42bf3a1208baaa132e3a7b933106e41413827d36f20e129"
+    sha256 monterey:       "3f0bd24eb882f1da757fee71caf11f80e54b8be5a6890912b2c46ff300c6eb74"
   end
 
   depends_on "cmake" => :build
@@ -39,6 +39,12 @@ class Imp < Formula
 
   # We need C++17 support for protobuf
   fails_with gcc: "5"
+
+  # Force cereal for serializing boost::unordered_map
+  patch do
+    url "https://github.com/salilab/imp/commit/b9b18196d9b31165191068e1e3db3950d6883b86.patch?full_index=1"
+    sha256 "ea6508f9060a90bd76cf77b3c8fdb36d2ec766371515ad3a669d99db0c2912e0"
+  end
 
   def install
     pybin = Formula["python@3.11"].opt_bin/"python3.11"
