@@ -6,15 +6,16 @@ class Rmf < Formula
   url "https://github.com/salilab/rmf/archive/refs/tags/1.6.0.tar.gz"
   sha256 "4ab69a6e1c8c67c670377b387439ebcbd6ad10226e0414ce5e9113883738c383"
   license "Apache-2.0"
+  revision 1
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_sonoma:   "44c8d8a7a6f48f8920a7a72a9c91b1928467a245af51cde4e842b9d230bd80a0"
-    sha256 arm64_ventura:  "993ef2f029d9350c7ee2e3d33afed527854bd3237cc4b6809bb3c24278cf1993"
-    sha256 arm64_monterey: "7e6f3d94d1cd27c3dd4e55e75d44b99de5ac096f91516d094acc133211f9a0ee"
-    sha256 sonoma:         "48b989da268d7b514bee5cd18272948c815aedb6faaff355480b892357770ee3"
-    sha256 ventura:        "98f29797c7126e0a52ddf9a38f4368e999fb0392bb7eff0446eb5307a57b2d80"
-    sha256 monterey:       "794da3d2a0ab1fe0e12839c5db654fed37de0ec2791143c46674888352ddf4c9"
+    sha256 arm64_sonoma:   "5ea63afbb6a4d96df49dbc9e482e4a3025b5da1245b032eed6f32413ef58c3a1"
+    sha256 arm64_ventura:  "320cfa1f28582b3f15647aa8128b8bfcc7101f10e2a69d3065595939f173c681"
+    sha256 arm64_monterey: "fb47d2ffc84cc9c0fa82c5b111f91b4f6ae87cf0006f52748c85e4b37a845283"
+    sha256 sonoma:         "cf6511d4def3e7aa072a36d700ab0e9d772cca27a01654854ba6f418ff9c6e58"
+    sha256 ventura:        "d28f52e03c4b3141a3d6fe65278e3909d8bee799e6fe74fcb6afa87fa1ffd0c6"
+    sha256 monterey:       "ab78c8dfc8024246bf760bed5dc04acbcad307227414b3f10f1b25535f138a8d"
   end
 
   depends_on "cmake" => :build
@@ -23,7 +24,7 @@ class Rmf < Formula
 
   depends_on "boost"
   depends_on "hdf5"
-  depends_on "python@3.11"
+  depends_on "python@3.12"
   depends_on "numpy"
 
   on_big_sur :or_older do
@@ -32,7 +33,7 @@ class Rmf < Formula
 
   def install
     ENV.cxx11
-    pybin = Formula["python@3.11"].opt_bin/"python3.11"
+    pybin = Formula["python@3.12"].opt_bin/"python3.12"
     pyver = Language::Python.major_minor_version pybin
     args = std_cmake_args
     args << ".."
@@ -56,7 +57,7 @@ class Rmf < Formula
   end
 
   test do
-    pythons = [Formula["python@3.11"].opt_bin/"python3.11"]
+    pythons = [Formula["python@3.12"].opt_bin/"python3.12"]
     pythons.each do |python|
       system python, "-c", "import RMF; assert(RMF.__version__ == '1.6.0')"
       system python, "-c", "import RMF; assert(hasattr(RMF, 'get_all_global_coordinates'))"
