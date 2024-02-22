@@ -6,16 +6,16 @@ class Imp < Formula
   url "https://integrativemodeling.org/2.20.1/download/imp-2.20.1.tar.gz"
   sha256 "9cf1173f3c2eba3ae65d0f62a6ecf35d8ccbea64988de5818bbafa69ef125186"
   license "LGPL/GPL"
-  revision 2
+  revision 3
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_sonoma:   "6d45948533995770af1951d275e60482995115d8e00fcca5b86a1c8058e1ef3e"
-    sha256 arm64_ventura:  "d77605dbb2ebddf66a40bd7dab5055299533fc44a3e07fc15f1535f6b51b8725"
-    sha256 arm64_monterey: "06a1b9d5a12265aa648198b1ec0676c7fc463ca74e75f7240ba7c35b9f4965fe"
-    sha256 sonoma:         "1c34e632253091b934912487bb2dee266e68e669f243b063bc493991370a663b"
-    sha256 ventura:        "4658997f2a1a2367b42bf3a1208baaa132e3a7b933106e41413827d36f20e129"
-    sha256 monterey:       "3f0bd24eb882f1da757fee71caf11f80e54b8be5a6890912b2c46ff300c6eb74"
+    sha256 arm64_sonoma:   "0254e485ec079e445d6602f2f6926b946ba8fc12f634704f42b9df55f49be78f"
+    sha256 arm64_ventura:  "a22b9fb606dbe228519235c5eaba3631f6373d7aa3a1d5ea2d791e20c1431358"
+    sha256 arm64_monterey: "e965cf686caa3a0620c2fd5c95cdb81a0f3788c117fbf2be6476846bbe902a70"
+    sha256 sonoma:         "422062489bc03a517bf7fcdeb27aa4e04359bdf1589175d61a7c5d3da8c1bb1f"
+    sha256 ventura:        "394a7bb463e453bfcf9b4e588ef8018ff4c197fae8c912044c526dd365033f0a"
+    sha256 monterey:       "c775b6bd64f8647b71b86a70a1e62ff63a11fe3f75db7e8ec118445402e21821"
   end
 
   depends_on "cmake" => :build
@@ -31,7 +31,7 @@ class Imp < Formula
   depends_on "hdf5"
   depends_on "open-mpi"
   depends_on "protobuf"
-  depends_on "python@3.11"
+  depends_on "python@3.12"
   depends_on "cgal" => :recommended
   depends_on "gsl" => :recommended
   depends_on "libtau" => :recommended
@@ -47,7 +47,7 @@ class Imp < Formula
   end
 
   def install
-    pybin = Formula["python@3.11"].opt_bin/"python3.11"
+    pybin = Formula["python@3.12"].opt_bin/"python3.12"
     pyver = Language::Python.major_minor_version pybin
     args = std_cmake_args
     # Work around boost/clang incompatibility
@@ -91,7 +91,7 @@ class Imp < Formula
   end
 
   test do
-    pythons = [Formula["python@3.11"].opt_bin/"python3.11"]
+    pythons = [Formula["python@3.12"].opt_bin/"python3.12"]
     pythons.each do |python|
       system python, "-c", "import IMP; assert(IMP.__version__ == '#{version}')"
       system python, "-c", "import IMP.em2d; assert(IMP.em2d.__version__ == '#{version}')"
