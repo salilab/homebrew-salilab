@@ -4,22 +4,23 @@ class Ihm < Formula
   url "https://pypi.io/packages/source/i/ihm/ihm-1.0.tar.gz"
   sha256 "d6b76b5d32c0a7034a6bb3b424df858dc5cc1e42424b57512db155ff073a89b4"
   license "MIT"
+  revision 1
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_sonoma:   "d0b31e6fbe18be30d0ef2daf4464c2e0e294b1afb0fc9008287347670d33ca41"
-    sha256 arm64_ventura:  "5d0ce7ba8714f1de66562205afc9d103448e20b75c91956ea2ab11c3baf57ef0"
-    sha256 arm64_monterey: "38ad7e6b36db1bb7dd117f645f6ffca4c7393909a29ff9d99409af32f4d20267"
-    sha256 sonoma:         "8f0a188098ed0e7ea1f4942cffbc83dbf72bbd593f235fb7f0b5e95ea568595a"
-    sha256 ventura:        "c79941fb0bf8fd791c351439027980a40ab5de02cecba2cf0e6e13f8ba4579c5"
-    sha256 monterey:       "2650e12a52fe09e066677ddc9b74ffd72045cacc847af9b98887686ea0793a4a"
+    sha256 arm64_sonoma:   "075a4c048fa043b532d2acf9ba57a7d72435cafa8ba5e791e9a8710cef1fc427"
+    sha256 arm64_ventura:  "a96da4fa5abad9558eb1161b6aed18194cafa1b923a28d291f5d8849a59558ea"
+    sha256 arm64_monterey: "fe62457f6be291775310992f79ecb8e5f9d2d386c8a7a34963a32953360eb30e"
+    sha256 sonoma:         "6e0aa47a6155d1b589e3b539b0597938322b6f000a2aca50aa9f0dbeb63907cc"
+    sha256 ventura:        "c2c71520b6fcec825a6ca03da1d2cf51b2589b7eab3845fef1a121e034897647"
+    sha256 monterey:       "a3d9a49fe6b7326493c35bddf0cff40fe6a964aa22e00f5c57c8f65cccb50ab3"
   end
 
-  depends_on "python@3.11"
+  depends_on "python@3.12"
 
   def install
     ENV.cxx11
-    pybin = Formula["python@3.11"].opt_bin/"python3.11"
+    pybin = Formula["python@3.12"].opt_bin/"python3.12"
     prefix_site_packages = prefix/Language::Python.site_packages(pybin)
     system pybin, "setup.py", "install",
            "--single-version-externally-managed",
@@ -28,7 +29,7 @@ class Ihm < Formula
   end
 
   test do
-    pythons = [Formula["python@3.11"].opt_bin/"python3.11"]
+    pythons = [Formula["python@3.12"].opt_bin/"python3.12"]
     (testpath/"test.py").write <<~EOS
       import ihm
       import ihm.dumper
