@@ -6,16 +6,16 @@ class Rmf < Formula
   url "https://github.com/salilab/rmf/archive/refs/tags/1.6.0.tar.gz"
   sha256 "4ab69a6e1c8c67c670377b387439ebcbd6ad10226e0414ce5e9113883738c383"
   license "Apache-2.0"
-  revision 1
+  revision 2
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_sonoma:   "5ea63afbb6a4d96df49dbc9e482e4a3025b5da1245b032eed6f32413ef58c3a1"
-    sha256 arm64_ventura:  "320cfa1f28582b3f15647aa8128b8bfcc7101f10e2a69d3065595939f173c681"
-    sha256 arm64_monterey: "fb47d2ffc84cc9c0fa82c5b111f91b4f6ae87cf0006f52748c85e4b37a845283"
-    sha256 sonoma:         "cf6511d4def3e7aa072a36d700ab0e9d772cca27a01654854ba6f418ff9c6e58"
-    sha256 ventura:        "d28f52e03c4b3141a3d6fe65278e3909d8bee799e6fe74fcb6afa87fa1ffd0c6"
-    sha256 monterey:       "ab78c8dfc8024246bf760bed5dc04acbcad307227414b3f10f1b25535f138a8d"
+    sha256 arm64_sonoma:   "78bc581cc44892f6abfff744f9b0c0c041c35a54b0186e480eec863f50293cdb"
+    sha256 arm64_ventura:  "a692725b9a2c4483bd3d329071e46ea9bd1cd4225b9240d7947c36e35843db8c"
+    sha256 arm64_monterey: "c43ede14c12406a9347e52c738193494bee5c7d7276aa9589b6736916c7c9faa"
+    sha256 sonoma:         "adc71c6c55b2db1f81f4fd44d2a10a3f8463f7ad6e820f0bf2569dd154e343c7"
+    sha256 ventura:        "2f53c773647eef4bfdc9c9aeae085e7dd8230df249300021b59638235fc70c2a"
+    sha256 monterey:       "2663ad93b0b66b5828a6e99106a37252f7362507b888fb90070924b82fdb376c"
   end
 
   depends_on "cmake" => :build
@@ -26,6 +26,18 @@ class Rmf < Formula
   depends_on "hdf5"
   depends_on "python@3.12"
   depends_on "numpy"
+
+  # Fix build with Boost 1.85
+  patch do
+    url "https://github.com/salilab/rmf/commit/dc27f6810c2011424f0ee241fe64de8583c1236a.patch?full_index=1"
+    sha256 "7005b6c75841b05be009a619a882f576bf47e8d761da4dcf18b69f64f7487a19"
+  end
+
+  # Fix failure to find HDF5 libraries
+  patch do
+    url "https://github.com/salilab/rmf/commit/643ad763ce9466784dbd21baa789171dd32f3056.patch?full_index=1"
+    sha256 "71d3bf0cc45d91a1ee1aefc973cbcd81e1714b46b0add38d418b18789611079f"
+  end
 
   on_big_sur :or_older do
     patch :DATA
