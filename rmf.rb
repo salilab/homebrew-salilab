@@ -3,19 +3,18 @@ require "formula"
 class Rmf < Formula
   desc "Rich Molecular Format library"
   homepage "https://integrativemodeling.org/rmf/"
-  url "https://github.com/salilab/rmf/archive/refs/tags/1.6.0.tar.gz"
-  sha256 "4ab69a6e1c8c67c670377b387439ebcbd6ad10226e0414ce5e9113883738c383"
+  url "https://github.com/salilab/rmf/archive/refs/tags/1.6.1.tar.gz"
+  sha256 "abe143e7411b910e5ba863c162b3a23bfdec440cbb1c4909e88727c0e63ad772"
   license "Apache-2.0"
-  revision 2
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_sonoma:   "78bc581cc44892f6abfff744f9b0c0c041c35a54b0186e480eec863f50293cdb"
-    sha256 arm64_ventura:  "a692725b9a2c4483bd3d329071e46ea9bd1cd4225b9240d7947c36e35843db8c"
-    sha256 arm64_monterey: "c43ede14c12406a9347e52c738193494bee5c7d7276aa9589b6736916c7c9faa"
-    sha256 sonoma:         "adc71c6c55b2db1f81f4fd44d2a10a3f8463f7ad6e820f0bf2569dd154e343c7"
-    sha256 ventura:        "2f53c773647eef4bfdc9c9aeae085e7dd8230df249300021b59638235fc70c2a"
-    sha256 monterey:       "2663ad93b0b66b5828a6e99106a37252f7362507b888fb90070924b82fdb376c"
+    sha256 arm64_sonoma:   "9afd026022ae51b5d929331145ef681618381707a0963582e8f3c8b841e8b1a4"
+    sha256 arm64_ventura:  "a1bee43ae172dd086507347edbc5978a5adf914858e8b8339c5ff005cb522627"
+    sha256 arm64_monterey: "9c2ba0ed88a12cf25006436c33293ca21d55b2a0e3e2ebd2f3c0999d1dd289dc"
+    sha256 sonoma:         "f43d8374c86281836489a7af1cf7267347ff4fb653d89781e3efe86990b84e4b"
+    sha256 ventura:        "38174060fe121ed8d4b7dd8451bf4985fc73b92b3b72c559331252c83cba8b91"
+    sha256 monterey:       "af6019cbbe42dd1a6768444143f2f05c03bf42ad9f4185935d09c8694af8aae3"
   end
 
   depends_on "cmake" => :build
@@ -26,18 +25,6 @@ class Rmf < Formula
   depends_on "hdf5"
   depends_on "python@3.12"
   depends_on "numpy"
-
-  # Fix build with Boost 1.85
-  patch do
-    url "https://github.com/salilab/rmf/commit/dc27f6810c2011424f0ee241fe64de8583c1236a.patch?full_index=1"
-    sha256 "7005b6c75841b05be009a619a882f576bf47e8d761da4dcf18b69f64f7487a19"
-  end
-
-  # Fix failure to find HDF5 libraries
-  patch do
-    url "https://github.com/salilab/rmf/commit/643ad763ce9466784dbd21baa789171dd32f3056.patch?full_index=1"
-    sha256 "71d3bf0cc45d91a1ee1aefc973cbcd81e1714b46b0add38d418b18789611079f"
-  end
 
   on_big_sur :or_older do
     patch :DATA
@@ -71,7 +58,7 @@ class Rmf < Formula
   test do
     pythons = [Formula["python@3.12"].opt_bin/"python3.12"]
     pythons.each do |python|
-      system python, "-c", "import RMF; assert(RMF.__version__ == '1.6.0')"
+      system python, "-c", "import RMF; assert(RMF.__version__ == '1.6.1')"
       system python, "-c", "import RMF; assert(hasattr(RMF, 'get_all_global_coordinates'))"
     end
     system "rmf3_dump", "--version"
