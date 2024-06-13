@@ -3,19 +3,18 @@ require "formula"
 class Imp < Formula
   desc "Integrative Modeling Platform"
   homepage "https://integrativemodeling.org/"
-  url "https://integrativemodeling.org/2.20.2/download/imp-2.20.2.tar.gz"
-  sha256 "056b48f25f8c3de81c4ce73ce82c7bb1d550dfc936d57e0aaea0157dad7326cb"
+  url "https://integrativemodeling.org/2.21.0/download/imp-2.21.0.tar.gz"
+  sha256 "c3dcafdd5f9d555a801d3daeff6a0c66293834a3d7240d35698f3c2b2fbc6f71"
   license "LGPL/GPL"
-  revision 1
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_sonoma:   "54e6f97b87d2c738d43a46baac14b248167023d848aedeba62af6864c7665eb8"
-    sha256 arm64_ventura:  "c6e51b89475e9d9550081c16df44c7d37aaf1a10ba3a729b18a28043c8c352c1"
-    sha256 arm64_monterey: "f163051768907afa20dfae56154dfd25b9cf12a97be7ee6e77da5974c5fddf18"
-    sha256 sonoma:         "b8be57a48b6dcd270a744bb35c61aa7b0004669be47f3e875b6f53ece180d7d8"
-    sha256 ventura:        "3443e4ac7424dc3a4cce957c1ff65841cc89a6b0aa9991002a0b0f6d89821a0c"
-    sha256 monterey:       "94e5d89a7df5119506b574e040659e17c2efdeb003a455cc5902f371af90e063"
+    sha256 arm64_sonoma:   "5312b5e3ba19a46debb1c88bf98d12499ea2be65ab2a2bbf1daba715dd77b854"
+    sha256 arm64_ventura:  "cf1a4bedd3af082cc2a8ce8fed9e25a1ee515a4c985691c77aeacde38be96a4b"
+    sha256 arm64_monterey: "662a16940248f1747224a9e78a45bceb2ce9affb615fc3320eadf2e30ea20666"
+    sha256 sonoma:         "ae27edacf193d67ede47b9e14f2551378acd081a6035414eb57a5a38ac31b7c5"
+    sha256 ventura:        "05d9d9d65d099199a3912d8d7d0396456965943c88ffdc844da2de7f379a8fd4"
+    sha256 monterey:       "da60e91631f2c3aa69df6f435ec70b195631c46aebc947223c2b77f19bdce59c"
   end
 
   depends_on "cmake" => :build
@@ -36,24 +35,6 @@ class Imp < Formula
   depends_on "gsl" => :recommended
   depends_on "libtau" => :recommended
   depends_on "opencv" => :recommended
-
-  # Fix build with Boost 1.85, filesystem_error
-  patch do
-    url "https://github.com/salilab/imp/commit/b3a5ae88faa4eb06a7dcc4c53fb663a7471f17e1.patch?full_index=1"
-    sha256 "e8deedc75f5e7dedf6ce7805f7af404fb49c0452103c0513f7377c50bec2648e"
-  end
-
-  # Fix build with Boost 1.85, filesystem::extension
-  patch do
-    url "https://github.com/salilab/imp/commit/627bb2d94ab406b19b27e64203a20d3494d2f770.patch?full_index=1"
-    sha256 "df96108ae5847e896b065893e2b9b925cb7fd02d1812424108dd4b44684a7f4f"
-  end
-
-  # Fix failure to find boost::mpl::not_
-  patch do
-    url "https://integrativemodeling.org/2.20.2/patches/boost_not.patch"
-    sha256 "4bdae7a3bf7ddeabe6369370864b2e676dc8b1974092feda00aab2794f72b8a7"
-  end
 
   # We need C++17 support for protobuf
   fails_with gcc: "5"
