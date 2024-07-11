@@ -6,15 +6,16 @@ class Rmf < Formula
   url "https://github.com/salilab/rmf/archive/refs/tags/1.6.1.tar.gz"
   sha256 "abe143e7411b910e5ba863c162b3a23bfdec440cbb1c4909e88727c0e63ad772"
   license "Apache-2.0"
+  revision 1
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_sonoma:   "9afd026022ae51b5d929331145ef681618381707a0963582e8f3c8b841e8b1a4"
-    sha256 arm64_ventura:  "a1bee43ae172dd086507347edbc5978a5adf914858e8b8339c5ff005cb522627"
-    sha256 arm64_monterey: "9c2ba0ed88a12cf25006436c33293ca21d55b2a0e3e2ebd2f3c0999d1dd289dc"
-    sha256 sonoma:         "f43d8374c86281836489a7af1cf7267347ff4fb653d89781e3efe86990b84e4b"
-    sha256 ventura:        "38174060fe121ed8d4b7dd8451bf4985fc73b92b3b72c559331252c83cba8b91"
-    sha256 monterey:       "af6019cbbe42dd1a6768444143f2f05c03bf42ad9f4185935d09c8694af8aae3"
+    sha256 arm64_sonoma:   "ec85006ad6576e2b024458d0482e98ea105295835e50c9a84866c02caf8bafe4"
+    sha256 arm64_ventura:  "f303754c4dc590363e8faea66e3c24d1a1ca0701b389222cd2919455a1c79d29"
+    sha256 arm64_monterey: "04be6b615f1003a79078ee64c4899ca371a1a67e4985a9761f0fab7d7cc95d74"
+    sha256 sonoma:         "64e108d8cce84da0f419253fa0b5d785aa38a16da7b025b7a7c4b674884a32e8"
+    sha256 ventura:        "5fac71ef1179bf0a142fb5ae5683b1e0ccc579431955ff7af6c50a63758d75fb"
+    sha256 monterey:       "2f9d2477681b13d4a40f04accfa76f30d1c20e414c6d8c0ed8b37a9fba7369dd"
   end
 
   depends_on "cmake" => :build
