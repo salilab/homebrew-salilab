@@ -305,7 +305,7 @@ Cflags: -I#{prefix}/src/include -I#{prefix}/src/include/#{exetype}
   end
 
   def post_install
-    if FileTest.exists?("#{etc}/modeller/license")
+    if FileTest.exist?("#{etc}/modeller/license")
       lines = File.readlines("#{etc}/modeller/license")
       if lines.size >= 1
         inreplace "#{prefix}/modlib/modeller/config.py" do |s|
@@ -316,7 +316,7 @@ Cflags: -I#{prefix}/src/include -I#{prefix}/src/include/#{exetype}
   end
 
   def caveats
-    unless FileTest.exists?("#{etc}/modeller/license")
+    unless FileTest.exist?("#{etc}/modeller/license")
       <<~EOS
         Edit #{prefix}/modlib/modeller/config.py
         and replace XXXX with your Modeller license key
