@@ -13,6 +13,11 @@ class DoxygenAT186 < Formula
   depends_on 'graphviz'
   depends_on 'llvm' => 'with-clang' if build.with? 'libclang'
 
+  bottle do
+    root_url "https://salilab.org/homebrew/bottles"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "73dcbe2e040424eb9dafeb1f46aaff0b031e3dfb9251ec580a0da964a965559c"
+  end
+
   def install
     on_catalina :or_newer do
       inreplace %w[ src/Makefile.libdoxycfg
