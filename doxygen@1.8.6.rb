@@ -8,10 +8,9 @@ class DoxygenAT186 < Formula
 
   head 'https://doxygen.svn.sourceforge.net/svnroot/doxygen/trunk'
 
-  option 'with-dot', 'Build with dot command support from Graphviz.'
   option 'with-libclang', 'Build with libclang support.'
 
-  depends_on 'graphviz' if build.with? 'dot'
+  depends_on 'graphviz'
   depends_on 'llvm' => 'with-clang' if build.with? 'libclang'
 
   def install
