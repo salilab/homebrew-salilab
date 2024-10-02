@@ -40,6 +40,12 @@ class Imp < Formula
   # We need C++17 support for protobuf
   fails_with gcc: "5"
 
+   # Fix build with CGAL 6
+   patch do
+     url "https://github.com/salilab/imp/commit/7cb8855c6086e5924cbdbd5b14e6ea238b02c2ef.patch?full_index=1"
+    sha256 "a89e1ba4aa2b373a14f721f6f25f67ee858aa93b570693de6c977088e0adeb42"
+   end
+
   def install
     pybin = Formula["python@3.12"].opt_bin/"python3.12"
     pyver = Language::Python.major_minor_version pybin
