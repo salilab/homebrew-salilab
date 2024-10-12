@@ -21,6 +21,18 @@ class Mdt < Formula
     sha256 "fa8746c87b603b3993f139478b6195ede113a1a4777a2addd8754cca261c8bd4"
   end
 
+  # Fix build with Python 3.13
+  patch do
+    url "https://github.com/salilab/mdt/commit/0227a4229179f32aa20fdab400e5c47cc8c9cfb6.patch?full_index=1"
+    sha256 "8409ec0330015921f8f91de30f48cdceb6d54d953795952f20bb0da4057df059"
+  end
+
+  # Fix build with Numpy 2
+  patch do
+    url "https://github.com/salilab/mdt/commit/7053e44ab0e0087a45db1d87646823fa4afc885c.patch?full_index=1"
+    sha256 "39a56a5ac0ad869c30feb5cf49d3f2efa7dd9e137fdac498c2966c869454dca9"
+  end
+
   def install
     hdf5_formula = Formula["hdf5@1.10.7"]
 
