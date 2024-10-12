@@ -19,6 +19,9 @@ class Modeller < Formula
   depends_on "ifort-runtime" if Hardware::CPU.intel?
   depends_on "python@3.13" => :recommended
 
+  # Python 3.13 support
+  patch :DATA
+
   # otherwise python3 setup.py build cannot find pkg-config
   env :std
 
@@ -333,3 +336,106 @@ Cflags: -I#{prefix}/src/include -I#{prefix}/src/include/#{exetype}
     system "mod#{version}", "--cflags", "--libs"
   end
 end
+
+__END__
+--- a/Library/modeller-10.5/src/swig/helperfuncs/python-callbacks.i
++++ b/Library/modeller-10.5/src/swig/helperfuncs/python-callbacks.i
+@@ -13,7 +13,7 @@
+   if (!(arglist = Py_BuildValue("()"))) {
+     return 1;
+   }
+-  result = PyEval_CallObject(func, arglist);
++  result = PyObject_Call(func, arglist, NULL);
+   Py_DECREF(arglist);
+   if (result && PyBool_Check(result)) {
+     *out1 = PyInt_AsLong(result);
+@@ -42,7 +42,7 @@
+   if (!arglist) {
+     return 1;
+   }
+-  result = PyEval_CallObject(func, arglist);
++  result = PyObject_Call(func, arglist, NULL);
+   Py_DECREF(arglist);
+   if (result && PyNumber_Check(result)) {
+     *out1 = PyFloat_AsDouble(result);
+@@ -72,7 +72,7 @@
+   if (!arglist) {
+     return 1;
+   }
+-  result = PyEval_CallObject(func, arglist);
++  result = PyObject_Call(func, arglist, NULL);
+   Py_DECREF(arglist);
+   if (result && PySequence_Check(result) && PySequence_Size(result) == 3) {
+     PyObject *o1, *o2, *o3;
+@@ -116,7 +116,7 @@
+   if (!arglist) {
+     return 1;
+   }
+-  result = PyEval_CallObject(func, arglist);
++  result = PyObject_Call(func, arglist, NULL);
+   Py_DECREF(arglist);
+   if (result && deriv && PySequence_Check(result)
+       && PySequence_Size(result) == 4) {
+@@ -174,7 +174,7 @@
+   if (!arglist) {
+     return 1;
+   }
+-  result = PyEval_CallObject(func, arglist);
++  result = PyObject_Call(func, arglist, NULL);
+   Py_DECREF(arglist);
+   if (result && PyFloat_Check(result)) {
+     *val = PyFloat_AsDouble(result);
+@@ -212,7 +212,7 @@
+   if (!arglist) {
+     return 1;
+   }
+-  result = PyEval_CallObject(func, arglist);
++  result = PyObject_Call(func, arglist, NULL);
+   Py_DECREF(arglist);
+   if (result && deriv && PySequence_Check(result)
+       && PySequence_Size(result) == 2) {
+@@ -261,7 +261,7 @@
+   if (!arglist) {
+     return 1;
+   }
+-  result = PyEval_CallObject(func, arglist);
++  result = PyObject_Call(func, arglist, NULL);
+   Py_DECREF(arglist);
+ 
+   if (result && PySequence_Check(result) && PySequence_Size(result) == 2) {
+@@ -310,7 +310,7 @@
+   if (!arglist) {
+     return 1;
+   }
+-  result = PyEval_CallObject(func, arglist);
++  result = PyObject_Call(func, arglist, NULL);
+   Py_DECREF(arglist);
+   if (result && PyNumber_Check(result)) {
+     *val = PyFloat_AsDouble(result);
+@@ -346,7 +346,7 @@
+   if (!arglist) {
+     return 1;
+   }
+-  result = PyEval_CallObject(func, arglist);
++  result = PyObject_Call(func, arglist, NULL);
+   Py_DECREF(arglist);
+   if (result) {
+     int ret = !python_to_float_array(result, n_feat, NULL, val, "val");
+@@ -366,7 +366,7 @@
+   if (!(arglist = Py_BuildValue("(O)", optobj))) {
+     return 1;
+   }
+-  result = PyEval_CallObject(func, arglist);
++  result = PyObject_Call(func, arglist, NULL);
+   Py_DECREF(arglist);
+   if (result && result != Py_None) {
+     PyErr_SetString(PyExc_ValueError,
+@@ -390,7 +390,7 @@
+   if (!arglist) {
+     return 1;
+   }
+-  result = PyEval_CallObject(func, arglist);
++  result = PyObject_Call(func, arglist, NULL);
+   Py_DECREF(arglist);
+   if (result && result != Py_None) {
+     PyErr_SetString(PyExc_ValueError,
