@@ -337,8 +337,9 @@ Cflags: -I#{prefix}/src/include -I#{prefix}/src/include/#{exetype}
 end
 
 __END__
---- a/Library/modeller-10.5/src/swig/helperfuncs/fixed-size-arrays.i
-+++ b/Library/modeller-10.5/src/swig/helperfuncs/fixed-size-arrays.i
+diff -Nur a/Library/modeller-10.6/src/swig/typemaps/fixed-size-arrays.i b/Library/modeller-10.6/src/swig/typemaps/fixed-size-arrays.i
+--- a/Library/modeller-10.6/src/swig/typemaps/fixed-size-arrays.i	2024-10-19 04:33:17
++++ b/Library/modeller-10.6/src/swig/typemaps/fixed-size-arrays.i	2024-10-22 10:27:05
 @@ -11,16 +11,16 @@
  #endif
  
@@ -360,8 +361,9 @@ __END__
  }
  %typemap(in,numinputs=0) int[ANY] {
    $1 = malloc(sizeof(int) * $1_dim0);
---- a/Library/modeller-10.5/src/swig/typemaps/python-callbacks.i
-+++ b/Library/modeller-10.5/src/swig/typemaps/python-callbacks.i
+diff -Nur a/Library/modeller-10.6/src/swig/typemaps/python-callbacks.i b/Library/modeller-10.6/src/swig/typemaps/python-callbacks.i
+--- a/Library/modeller-10.6/src/swig/typemaps/python-callbacks.i	2024-10-19 04:33:17
++++ b/Library/modeller-10.6/src/swig/typemaps/python-callbacks.i	2024-10-22 10:26:37
 @@ -78,9 +78,9 @@
    $1 = malloc(arg3 * sizeof(float));
  }
@@ -374,9 +376,10 @@ __END__
  }
  %apply float dervx[] { float dervy[] };
  %apply float dervx[] { float dervz[] };
---- a/Library/modeller-10.5/src/swig/typemaps/strings.i
-+++ b/Library/modeller-10.5/src/swig/typemaps/strings.i
-@@ -17,7 +17,7 @@
+diff -Nur a/Library/modeller-10.6/src/swig/typemaps/strings.i b/Library/modeller-10.6/src/swig/typemaps/strings.i
+--- a/Library/modeller-10.6/src/swig/typemaps/strings.i	2024-10-19 04:33:17
++++ b/Library/modeller-10.6/src/swig/typemaps/strings.i	2024-10-22 10:26:30
+@@ -17,17 +17,17 @@
    $1 = &temp;
  }
  #ifdef SWIGPYTHON
@@ -385,7 +388,6 @@ __END__
    if (*$1) {
  %#if PY_VERSION_HEX < 0x03000000
      PyObject *o = PyString_FromString(*$1);
-@@ -24,10 +24,10 @@
  %#else
      PyObject *o = PyUnicode_FromString(*$1);
  %#endif
@@ -407,8 +409,9 @@ __END__
    }
  }
  #endif
---- a/Library/modeller-10.5/src/swig/typemaps/variable-size-arrays.i
-+++ b/Library/modeller-10.5/src/swig/typemaps/variable-size-arrays.i
+diff -Nur a/Library/modeller-10.6/src/swig/typemaps/variable-size-arrays.i b/Library/modeller-10.6/src/swig/typemaps/variable-size-arrays.i
+--- a/Library/modeller-10.6/src/swig/typemaps/variable-size-arrays.i	2024-10-19 04:33:17
++++ b/Library/modeller-10.6/src/swig/typemaps/variable-size-arrays.i	2024-10-22 10:26:51
 @@ -54,9 +54,9 @@
    $1 = NULL;
  }
