@@ -18,6 +18,9 @@ class Modeller < Formula
   depends_on "ifort-runtime" if Hardware::CPU.intel?
   depends_on "python@3.13" => :recommended
 
+  # SWIG 4.3 support
+  patch :DATA
+
   # otherwise python3 setup.py build cannot find pkg-config
   env :std
 
@@ -332,3 +335,101 @@ Cflags: -I#{prefix}/src/include -I#{prefix}/src/include/#{exetype}
     system "mod#{version}", "--cflags", "--libs"
   end
 end
+
+__END__
+--- a/Library/modeller-10.5/src/swig/helperfuncs/fixed-size-arrays.i
++++ b/Library/modeller-10.5/src/swig/helperfuncs/fixed-size-arrays.i
+@@ -11,16 +11,16 @@
+ #endif
+ 
+ #ifdef SWIGPYTHON
+-%typemap(argout,fragment="t_output_helper") float[ANY] {
++%typemap(argout) float[ANY] {
+     PyObject *o = python_from_float_array($1, $1_dim0);
+-    $result = t_output_helper($result, o);
++    $result = SWIG_AppendOutput($result, o);
+ }
+ %typemap(in,numinputs=0) float[ANY] {
+   $1 = malloc(sizeof(float) * $1_dim0);
+ }
+-%typemap(argout,fragment="t_output_helper") int[ANY] {
++%typemap(argout) int[ANY] {
+     PyObject *o = python_from_int_array($1, $1_dim0);
+-    $result = t_output_helper($result, o);
++    $result = SWIG_AppendOutput($result, o);
+ }
+ %typemap(in,numinputs=0) int[ANY] {
+   $1 = malloc(sizeof(int) * $1_dim0);
+--- a/Library/modeller-10.5/src/swig/typemaps/python-callbacks.i
++++ b/Library/modeller-10.5/src/swig/typemaps/python-callbacks.i
+@@ -78,9 +78,9 @@
+   $1 = malloc(arg3 * sizeof(float));
+ }
+ 
+-%typemap(argout,fragment="t_output_helper") float dervx[] {
++%typemap(argout) float dervx[] {
+   PyObject *o = python_from_float_array($1, arg3);
+-  $result = t_output_helper($result, o);
++  $result = SWIG_AppendOutput($result, o);
+ }
+ %apply float dervx[] { float dervy[] };
+ %apply float dervx[] { float dervz[] };
+--- a/Library/modeller-10.5/src/swig/typemaps/strings.i
++++ b/Library/modeller-10.5/src/swig/typemaps/strings.i
+@@ -17,7 +17,7 @@
+   $1 = &temp;
+ }
+ #ifdef SWIGPYTHON
+-%typemap(argout,fragment="t_output_helper") const char ** {
++%typemap(argout) const char ** {
+   if (*$1) {
+ %#if PY_VERSION_HEX < 0x03000000
+     PyObject *o = PyString_FromString(*$1);
+@@ -24,10 +24,10 @@
+ %#else
+     PyObject *o = PyUnicode_FromString(*$1);
+ %#endif
+-    $result = t_output_helper($result, o);
++    $result = SWIG_AppendOutput($result, o);
+   }
+ }
+-%typemap(argout,fragment="t_output_helper") char ** {
++%typemap(argout) char ** {
+   if (*$1) {
+ %#if PY_VERSION_HEX < 0x03000000
+     PyObject *o = PyString_FromString(*$1);
+@@ -35,7 +35,7 @@
+     PyObject *o = PyUnicode_FromString(*$1);
+ %#endif
+     free(*$1);
+-    $result = t_output_helper($result, o);
++    $result = SWIG_AppendOutput($result, o);
+   }
+ }
+ #endif
+--- a/Library/modeller-10.5/src/swig/typemaps/variable-size-arrays.i
++++ b/Library/modeller-10.5/src/swig/typemaps/variable-size-arrays.i
+@@ -54,9 +54,9 @@
+   $1 = NULL;
+ }
+ #ifdef SWIGPYTHON
+-%typemap(argout,fragment="t_output_helper") (int **OUTVARARRAY, int *N_OUTVARARRAY) {
++%typemap(argout) (int **OUTVARARRAY, int *N_OUTVARARRAY) {
+     PyObject *o = python_from_int_array(*$1, *$2);
+-    $result = t_output_helper($result, o);
++    $result = SWIG_AppendOutput($result, o);
+ }
+ #endif
+ %typemap(freearg) (int **OUTVARARRAY, int *N_OUTVARARRAY) {
+@@ -68,9 +68,9 @@
+   $1 = &temp1;
+   $2 = &temp2;
+ }
+-%typemap(argout,fragment="t_output_helper") (float **OUTVARARRAY, int *N_OUTVARARRAY) {
++%typemap(argout) (float **OUTVARARRAY, int *N_OUTVARARRAY) {
+     PyObject *o = python_from_float_array(*$1, *$2);
+-    $result = t_output_helper($result, o);
++    $result = SWIG_AppendOutput($result, o);
+ }
+ #endif
+ %typemap(freearg) (float **OUTVARARRAY, int *N_OUTVARARRAY) {
