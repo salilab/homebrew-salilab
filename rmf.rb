@@ -3,19 +3,18 @@ require "formula"
 class Rmf < Formula
   desc "Rich Molecular Format library"
   homepage "https://integrativemodeling.org/rmf/"
-  url "https://github.com/salilab/rmf/archive/refs/tags/1.6.1.tar.gz"
-  sha256 "abe143e7411b910e5ba863c162b3a23bfdec440cbb1c4909e88727c0e63ad772"
+  url "https://github.com/salilab/rmf/archive/refs/tags/1.7.0.tar.gz"
+  sha256 "37997f189702b4705f69b2db5f64cef31cfa9ab9eb151dfc0457c72dba422345"
   license "Apache-2.0"
-  revision 2
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_sequoia: "bee60fd13281a65ddc76de31f7cfe82ad78671a0df15145efb72086d72d8a6ad"
-    sha256 arm64_sonoma:  "9e524f6d7e3242d2608c538583be1934496555d153cc10f07f1909c31ac4c898"
-    sha256 arm64_ventura: "5c6ed570eb4d81fdbc69d40f9a8ea77849f216058d8c3575caf9f055cc8bcbe9"
-    sha256 sequoia:       "4657a103a548568a9adec530bc1b88f338047eeafec47fb3f51d40d12cd19329"
-    sha256 sonoma:        "4fb9f0f6dc7c0d5819120200feb9a9b382c041b535950f056f61564579567df3"
-    sha256 ventura:       "12a74a1c3cbf03ac96b3da4ce9a78706c80d2cc7df52f1faa19b1f69e8e01a9b"
+    sha256 arm64_sequoia: "f5455dc19c813499722c962be2843e66e2d07781b8a66d4ea003ab51cc13f594"
+    sha256 arm64_sonoma:  "741b2da011f25654c5f6ca6bd6b2996cd5b615e0a09af20bc3b9ffbb38bf4fbe"
+    sha256 arm64_ventura: "565f6c062b32f399519cdc36992f908961a6ea17235f48833df60ec6b280823a"
+    sha256 sequoia:       "efab102788398724d37a32c578b078aaa40ecb4d2d39f9495bd66981cc5f8ea3"
+    sha256 sonoma:        "39908a4b859843a217e4857cfee0f47367d36e51075cba3388c290dd130f1003"
+    sha256 ventura:       "578fd0a02041ab3e55be6103b6608a969006093d3d3742ac6ed42dbc29d9aae9"
   end
 
   depends_on "cmake" => :build
@@ -43,8 +42,6 @@ class Rmf < Formula
     # Don't link against log4cxx, even if available, since then the
     # bottle won't work on systems without log4cxx installed
     args << "-DLog4CXX_LIBRARY=Log4CXX_LIBRARY-NOTFOUND"
-    # Force Python 3
-    args << "-DUSE_PYTHON2=off"
     args << "-DPython3_EXECUTABLE:FILEPATH=#{pybin}"
     # Work around boost/clang incompatibility
     args << "-DCMAKE_CXX_FLAGS=-D_LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION"
@@ -59,7 +56,7 @@ class Rmf < Formula
   test do
     pythons = [Formula["python@3.13"].opt_bin/"python3.13"]
     pythons.each do |python|
-      system python, "-c", "import RMF; assert(RMF.__version__ == '1.6.1')"
+      system python, "-c", "import RMF; assert(RMF.__version__ == '1.7.0')"
       system python, "-c", "import RMF; assert(hasattr(RMF, 'get_all_global_coordinates'))"
     end
     system "rmf3_dump", "--version"
