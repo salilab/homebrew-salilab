@@ -3,19 +3,18 @@ require "formula"
 class Imp < Formula
   desc "Integrative Modeling Platform"
   homepage "https://integrativemodeling.org/"
-  url "https://integrativemodeling.org/2.21.0/download/imp-2.21.0.tar.gz"
-  sha256 "c3dcafdd5f9d555a801d3daeff6a0c66293834a3d7240d35698f3c2b2fbc6f71"
+  url "https://integrativemodeling.org/2.22.0/download/imp-2.22.0.tar.gz"
+  sha256 "8dd1b6afd1f07b5c36763b21d8ad0a2e1413d7e8fd66759de2deb9c842963e3c"
   license "LGPL/GPL"
-  revision 14
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_sequoia: "ad4432a02cdac209c6f1f0de2267874dce1db81a7854629f113c4d263e989b62"
-    sha256 arm64_sonoma:  "3d300a68a88008820bae575711413f7bd7629c167b33d6dbc6a81eb194128e28"
-    sha256 arm64_ventura: "22356208b80ac25046ca4a273532971e2aea9f4375fd49842570a3b86b0b9e5b"
-    sha256 sequoia:       "aad530b5b910bb0d4826babd39d2802d6d895a5bffee4fa4274c07b935b64748"
-    sha256 sonoma:        "8d1220ed64bc921da4cbaea12116cd1400a8e52166787f8e8ee69d4f407e08d9"
-    sha256 ventura:       "07d4d93f21f8e7ea206bd169e088f306f49ed1e86c160de854e232e15880e19f"
+    sha256 arm64_sequoia: "d83b9a90f6226bbd39811aff650d41c82f5fecd23e352a783572e42a2b42ac10"
+    sha256 arm64_sonoma:  "f9c8c012b8689161e51f9a6908198400dd2756ddbdbfcd8e7815f62ca3234e82"
+    sha256 arm64_ventura: "0bd0e9bbe1f91af4d1010182b858a1eb5973c81c0fa49326815a824a323939d8"
+    sha256 sequoia:       "46575c7414d2cf7f5f0c5cead4407218bf4872c957c37f0050e384b4d58537d9"
+    sha256 sonoma:        "20b56bebe03c49f7574aec961c00ba8cad8620bc4e09fbdd24fd7ef393753352"
+    sha256 ventura:       "8fe8dd91232cefa8f92ae0a9eaf5bd6d9d9808d93c6a8c72098e9b8856dae919"
   end
 
   depends_on "cmake" => :build
@@ -39,12 +38,6 @@ class Imp < Formula
 
   # We need C++17 support for protobuf
   fails_with gcc: "5"
-
-   # Fix build with CGAL 6
-   patch do
-     url "https://github.com/salilab/imp/commit/7cb8855c6086e5924cbdbd5b14e6ea238b02c2ef.patch?full_index=1"
-    sha256 "a89e1ba4aa2b373a14f721f6f25f67ee858aa93b570693de6c977088e0adeb42"
-   end
 
   def install
     pybin = Formula["python@3.13"].opt_bin/"python3.13"
@@ -72,8 +65,7 @@ class Imp < Formula
     args << "-DIMP_NO_LOG4CXX=1"
     # Help cmake to find CGAL
     ENV["CGAL_DIR"] = Formula["cgal"].lib/"cmake/CGAL"
-    # Force Python 3
-    args << "-DUSE_PYTHON2=off"
+    # Make sure we use Homebrew Python
     args << "-DPython3_EXECUTABLE:FILEPATH=#{pybin}"
     mkdir "build" do
       system "cmake", *args
