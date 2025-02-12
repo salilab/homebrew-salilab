@@ -1,21 +1,31 @@
 class Ihm < Formula
   desc "Package for handling IHM mmCIF and BinaryCIF files"
   homepage "https://github.com/ihmwg/python-ihm"
-  url "https://pypi.io/packages/source/i/ihm/ihm-1.8.tar.gz"
-  sha256 "6c19813642487a5af3603beb51a1854559e55ccaa8fddd10986c3026a11b948f"
+  url "https://pypi.io/packages/source/i/ihm/ihm-2.0.tar.gz"
+  sha256 "50d4fbef40138c7cabe6626a2ff25fb951256738ecce1274032feea7af9604b1"
   license "MIT"
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_sequoia: "026181636ef48f034cd4c166ea6e298667d1f46acd5aebb62930cc0a58930066"
-    sha256 arm64_sonoma:  "873d3a723ca795ed3320eadd1aa70ff0faf8f6972a256667663b8a753a831cef"
-    sha256 arm64_ventura: "e9d432c7f01491a4a655cadbf07bda0ec3d747d6566a4384a8ef4a1cdc759fd3"
-    sha256 sequoia:       "662220cb0d0cc3dfd3b5a957fcd74410204fcae46ab9ac4c2b056cbf5c35bcdd"
-    sha256 sonoma:        "f94965dbf6c31d81fb75838d9b3226b2af82259423ed9ff34104a96238284ef4"
-    sha256 ventura:       "cd52483fe80736da052b366cfbb02b4db50b20ba7f9e0a24145fb538390162d7"
+    sha256 arm64_sequoia: "45f87759093d96f914c5ca93356ce32a35476cdf68f44b652e015b32d92b27d8"
+    sha256 arm64_sonoma:  "f9818e6694b7def7aa4b24a7b41e8845247e6ff966b5d2ff3b4d4ad19c2fdf4c"
+    sha256 arm64_ventura: "b6611a919f68e8439af8a9cc24ea98fe4f57c62679112d057738c1f279f0e1c9"
+    sha256 sequoia:       "d8325f03a0a0f9de30525a4daebed7af5bc2cefb224bfa2c37670bfb8d630de5"
+    sha256 sonoma:        "7ca7a972e3ec4e6294452ff824c037537ff32e173fe2e1591cbb7b676a8400c0"
+    sha256 ventura:       "03ef8c205b1c8158f1f878226a6c0200a7af2bf4af1e76f69d559bddd18b7ec0"
   end
 
   depends_on "python@3.13"
+
+  # Include upstream BinaryCIF fixes
+  patch do
+    url "https://github.com/ihmwg/python-ihm/commit/bca8d4f24eab38ca0925df54d6df410916aa5323.patch?full_index=1"
+    sha256 "5b8bd60d5329453bb544f0a8e7aa35238661f76b57731b7dbf639b94c893f1f1"
+  end
+  patch do
+    url "https://github.com/ihmwg/python-ihm/commit/206d96404b8cbd74a299127e86d1228f1df28210.patch?full_index=1"
+    sha256 "3a142c8cd5b3901271a5f892b8d4e40e2ba67d734b4516f1348814a19d9a4b2a"
+  end
 
   def install
     ENV.cxx11
