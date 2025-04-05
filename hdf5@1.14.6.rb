@@ -16,6 +16,14 @@ class Hdf5AT1146 < Formula
     root_url "https://salilab.org/homebrew/bottles"
   end
 
+  # OS X 10.6 doesn't have strnlen or strndup
+  if MacOS.version <= :snow_leopard
+    patch do
+      url "https://salilab.org/homebrew/patches/hdf5-mac-strndup-strnlen.patch"
+      sha256 "cb5a460b5074b620eae04c8f7f39546061c262252789b03c49f3fb986e981224"
+    end
+  end
+
   def install
     # The older gcc in OS X 10.6 doesn't like the use of #pragma pack()
     if MacOS.version <= :snow_leopard
