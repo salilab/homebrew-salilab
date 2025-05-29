@@ -3,10 +3,10 @@ require "formula"
 class Modeller < Formula
   desc "Homology or comparative modeling of protein structures"
   homepage "https://salilab.org/modeller/"
-  url "https://salilab.org/modeller/10.6/modeller-10.6-mac.pax.gz" if OS.mac?
-  sha256 "a29ead80ae3bef09e6532079eb228c2798cf44a49a067b31e826065c2e79761d" if OS.mac?
-  url "https://salilab.org/modeller/10.6/modeller-10.6.tar.gz" if OS.linux?
-  sha256 "7b76d2323d63b935e760380f45365411a7efc67d4f8d175c9c0eebc6eeb377e2" if OS.linux?
+  url "https://salilab.org/modeller/10.7/modeller-10.7-mac.pax.gz" if OS.mac?
+  sha256 "8c34e0d776411a0c6b6cf05af53b3757f38728c9550bc7c3fd3f64a8f3d21510" if OS.mac?
+  url "https://salilab.org/modeller/10.7/modeller-10.7.tar.gz" if OS.linux?
+  sha256 "b81ffee26841ef96470341889fa4af560f968cf35ef990d95480c7eb7a5b5c8f" if OS.linux?
 
   depends_on "patchelf" => :build if OS.linux?
   depends_on "pkg-config" => :build
@@ -14,12 +14,9 @@ class Modeller < Formula
   depends_on "python-setuptools" => :build
   depends_on "gettext"
   depends_on "glib"
-  depends_on "hdf5@1.10.7"
+  depends_on "hdf5@1.14.6"
   depends_on "ifort-runtime" if Hardware::CPU.intel?
   depends_on "python@3.13" => :recommended
-
-  # SWIG 4.3 support
-  patch :DATA
 
   # otherwise python3 setup.py build cannot find pkg-config
   env :std
@@ -74,7 +71,7 @@ class Modeller < Formula
       s.gsub! /\/lib\//, "/dynlib/"
     end
 
-    sover = "13"
+    sover = "14"
 
     bin.install "#{modtop}/bin/mod#{version}"
     (prefix/"modbin").install Dir["#{modtop}/bin/*"]
@@ -129,11 +126,11 @@ class Modeller < Formula
 
       modbins.each do |modbin|
         # Point Modeller binaries to Homebrew-installed HDF5
-        hdf_libs = ["hdf5.103", "hdf5_hl.100"]
+        hdf_libs = ["hdf5.310", "hdf5_hl.310"]
         hdf_libs.each do |dep|
           system "install_name_tool", "-change",
                  "#{dprefix}lib#{dep}.dylib",
-                 Formula["hdf5@1.10.7"].lib/"lib#{dep}.dylib", modbin
+                 Formula["hdf5@1.14.6"].lib/"lib#{dep}.dylib", modbin
         end
 
         # Point Modeller binaries to Homebrew-installed libintl
@@ -231,7 +228,7 @@ libraries.
       end
     end
     ["hdf5", "hdf5_hl"].each do |l|
-      File.symlink(Formula["hdf5@1.10.7"].lib/"lib#{l}.#{dylib}",
+      File.symlink(Formula["hdf5@1.14.6"].lib/"lib#{l}.#{dylib}",
                    "#{prefix}/dynlib/lib#{l}.#{dylib}")
     end
 
@@ -260,7 +257,7 @@ libraries.
                  lib/"libmodeller.so.#{sover}",
                  lib/"libsaxs.so",
                  lib/"python#{pyver}/site-packages/_modeller.so"]
-      lib1 = Formula["hdf5@1.10.7"].lib
+      lib1 = Formula["hdf5@1.14.6"].lib
       lib2 = Formula["ifort-runtime"].lib
       modbins.each do |modbin|
         system "patchelf", "--set-rpath", "#{lib1}:#{lib2}:#{HOMEBREW_PREFIX}/lib", modbin
@@ -335,104 +332,3 @@ Cflags: -I#{prefix}/src/include -I#{prefix}/src/include/#{exetype}
     system "mod#{version}", "--cflags", "--libs"
   end
 end
-
-__END__
-diff -Nur a/Library/modeller-10.6/src/swig/typemaps/fixed-size-arrays.i b/Library/modeller-10.6/src/swig/typemaps/fixed-size-arrays.i
---- a/Library/modeller-10.6/src/swig/typemaps/fixed-size-arrays.i	2024-10-19 04:33:17
-+++ b/Library/modeller-10.6/src/swig/typemaps/fixed-size-arrays.i	2024-10-22 10:27:05
-@@ -11,16 +11,16 @@
- #endif
- 
- #ifdef SWIGPYTHON
--%typemap(argout,fragment="t_output_helper") float[ANY] {
-+%typemap(argout) float[ANY] {
-     PyObject *o = python_from_float_array($1, $1_dim0);
--    $result = t_output_helper($result, o);
-+    $result = SWIG_AppendOutput($result, o);
- }
- %typemap(in,numinputs=0) float[ANY] {
-   $1 = malloc(sizeof(float) * $1_dim0);
- }
--%typemap(argout,fragment="t_output_helper") int[ANY] {
-+%typemap(argout) int[ANY] {
-     PyObject *o = python_from_int_array($1, $1_dim0);
--    $result = t_output_helper($result, o);
-+    $result = SWIG_AppendOutput($result, o);
- }
- %typemap(in,numinputs=0) int[ANY] {
-   $1 = malloc(sizeof(int) * $1_dim0);
-diff -Nur a/Library/modeller-10.6/src/swig/typemaps/python-callbacks.i b/Library/modeller-10.6/src/swig/typemaps/python-callbacks.i
---- a/Library/modeller-10.6/src/swig/typemaps/python-callbacks.i	2024-10-19 04:33:17
-+++ b/Library/modeller-10.6/src/swig/typemaps/python-callbacks.i	2024-10-22 10:26:37
-@@ -78,9 +78,9 @@
-   $1 = malloc(arg3 * sizeof(float));
- }
- 
--%typemap(argout,fragment="t_output_helper") float dervx[] {
-+%typemap(argout) float dervx[] {
-   PyObject *o = python_from_float_array($1, arg3);
--  $result = t_output_helper($result, o);
-+  $result = SWIG_AppendOutput($result, o);
- }
- %apply float dervx[] { float dervy[] };
- %apply float dervx[] { float dervz[] };
-diff -Nur a/Library/modeller-10.6/src/swig/typemaps/strings.i b/Library/modeller-10.6/src/swig/typemaps/strings.i
---- a/Library/modeller-10.6/src/swig/typemaps/strings.i	2024-10-19 04:33:17
-+++ b/Library/modeller-10.6/src/swig/typemaps/strings.i	2024-10-22 10:26:30
-@@ -17,17 +17,17 @@
-   $1 = &temp;
- }
- #ifdef SWIGPYTHON
--%typemap(argout,fragment="t_output_helper") const char ** {
-+%typemap(argout) const char ** {
-   if (*$1) {
- %#if PY_VERSION_HEX < 0x03000000
-     PyObject *o = PyString_FromString(*$1);
- %#else
-     PyObject *o = PyUnicode_FromString(*$1);
- %#endif
--    $result = t_output_helper($result, o);
-+    $result = SWIG_AppendOutput($result, o);
-   }
- }
--%typemap(argout,fragment="t_output_helper") char ** {
-+%typemap(argout) char ** {
-   if (*$1) {
- %#if PY_VERSION_HEX < 0x03000000
-     PyObject *o = PyString_FromString(*$1);
-@@ -35,7 +35,7 @@
-     PyObject *o = PyUnicode_FromString(*$1);
- %#endif
-     free(*$1);
--    $result = t_output_helper($result, o);
-+    $result = SWIG_AppendOutput($result, o);
-   }
- }
- #endif
-diff -Nur a/Library/modeller-10.6/src/swig/typemaps/variable-size-arrays.i b/Library/modeller-10.6/src/swig/typemaps/variable-size-arrays.i
---- a/Library/modeller-10.6/src/swig/typemaps/variable-size-arrays.i	2024-10-19 04:33:17
-+++ b/Library/modeller-10.6/src/swig/typemaps/variable-size-arrays.i	2024-10-22 10:26:51
-@@ -54,9 +54,9 @@
-   $1 = NULL;
- }
- #ifdef SWIGPYTHON
--%typemap(argout,fragment="t_output_helper") (int **OUTVARARRAY, int *N_OUTVARARRAY) {
-+%typemap(argout) (int **OUTVARARRAY, int *N_OUTVARARRAY) {
-     PyObject *o = python_from_int_array(*$1, *$2);
--    $result = t_output_helper($result, o);
-+    $result = SWIG_AppendOutput($result, o);
- }
- #endif
- %typemap(freearg) (int **OUTVARARRAY, int *N_OUTVARARRAY) {
-@@ -68,9 +68,9 @@
-   $1 = &temp1;
-   $2 = &temp2;
- }
--%typemap(argout,fragment="t_output_helper") (float **OUTVARARRAY, int *N_OUTVARARRAY) {
-+%typemap(argout) (float **OUTVARARRAY, int *N_OUTVARARRAY) {
-     PyObject *o = python_from_float_array(*$1, *$2);
--    $result = t_output_helper($result, o);
-+    $result = SWIG_AppendOutput($result, o);
- }
- #endif
- %typemap(freearg) (float **OUTVARARRAY, int *N_OUTVARARRAY) {
