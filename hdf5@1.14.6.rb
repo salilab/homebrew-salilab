@@ -14,6 +14,12 @@ class Hdf5AT1146 < Formula
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
+    sha256 arm64_sequoia: "530f8835866249aa7ede534cb048bc2e56d85a630a30c4e92fd872dff07e5f17"
+    sha256 arm64_sonoma:  "853a3c92065242a4e4edf13b0701c35842802f51f3d0d32e161b2d0cd89e9a6b"
+    sha256 arm64_ventura: "7c2d65af89ff56c216928782733790e0e95bb6dcbc52ecad04cb24d42de66124"
+    sha256 sequoia:       "8e1a308d8ce24108d336d3b2dd3bf910939b2d6b6db4cadb288f9ebc6f16ea45"
+    sha256 sonoma:        "d24e9c108dc7cfa93adf816cbab21280ee59076d772b05cae8da2828bdde3b1d"
+    sha256 ventura:       "c34d09ea4168538a10d5cb553a5a57d1a3989f10c685e3d42b7456400da610e8"
   end
 
   # OS X 10.6 doesn't have strnlen or strndup
@@ -40,6 +46,11 @@ class Hdf5AT1146 < Formula
       --enable-static=yes
       --enable-shared=yes
     ]
+
+    # Older llvm is missing the __truncxfhf2 function needed to convert
+    # long double to float16, causing HDF5 tests to fail; see also
+    # https://github.com/HDFGroup/hdf5/issues/4310
+    args << "--disable-nonstandard-feature-float16"
 
     system "./configure", *args
     system "make install"
