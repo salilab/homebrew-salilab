@@ -6,7 +6,7 @@ class Mdt < Formula
   url "https://salilab.org/mdt/5.5/mdt-5.5.tar.gz"
   sha256 "94b3dbd3050be14568ed613cc1d534e11ef37cb32a646116f35ef66cab5c187c"
   license "GPL-2.0-or-later"
-  revision 13
+  revision 14
 
   depends_on "patchelf" => :build if OS.linux?
   depends_on "cmake" => :build
@@ -34,7 +34,7 @@ class Mdt < Formula
   end
 
   def install
-    hdf5_formula = Formula["hdf5@1.10.7"]
+    hdf5_formula = Formula["hdf5@1.14.6"]
 
     if build.with? "python@3.13"
       python_version = Language::Python.major_minor_version Formula["python@3.13"].opt_bin/"python3.13"
@@ -52,6 +52,7 @@ class Mdt < Formula
         args << "-DPYTHON_LIBRARY=#{py3_lib}"
         args << "-DPYTHON_INCLUDE_DIR=#{py3_inc}"
         args << "-DCMAKE_INSTALL_PYTHONDIR=#{py3_sitepack}"
+        args << "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
         args << ".."
         system "cmake", *args
         system "make", "-j#{ENV.make_jobs}", "install"
