@@ -3,10 +3,9 @@ require "formula"
 class Mdt < Formula
   desc "Generate frequency tables used by Modeller and IMP"
   homepage "https://salilab.org/mdt/"
-  url "https://salilab.org/mdt/5.5/mdt-5.5.tar.gz"
-  sha256 "94b3dbd3050be14568ed613cc1d534e11ef37cb32a646116f35ef66cab5c187c"
+  url "https://salilab.org/mdt/5.6/mdt-5.6.tar.gz"
+  sha256 "1ff0aaa4c3995486e11eefc77b99359cb5a80c12f81309f1bc22f486d7bbd3b7"
   license "GPL-2.0-or-later"
-  revision 14
 
   depends_on "patchelf" => :build if OS.linux?
   depends_on "cmake" => :build
@@ -14,24 +13,6 @@ class Mdt < Formula
   depends_on "glib"
   depends_on "modeller"
   depends_on "python@3.13" => :recommended
-
-  # Be sure to link against HDF5 HL library
-  patch do
-    url "https://github.com/salilab/mdt/commit/be7c9e286ae596169750f962490ef733bdb1a841.patch?full_index=1"
-    sha256 "fa8746c87b603b3993f139478b6195ede113a1a4777a2addd8754cca261c8bd4"
-  end
-
-  # Fix build with Python 3.13
-  patch do
-    url "https://github.com/salilab/mdt/commit/0227a4229179f32aa20fdab400e5c47cc8c9cfb6.patch?full_index=1"
-    sha256 "8409ec0330015921f8f91de30f48cdceb6d54d953795952f20bb0da4057df059"
-  end
-
-  # Fix build with Numpy 2
-  patch do
-    url "https://github.com/salilab/mdt/commit/7053e44ab0e0087a45db1d87646823fa4afc885c.patch?full_index=1"
-    sha256 "39a56a5ac0ad869c30feb5cf49d3f2efa7dd9e137fdac498c2966c869454dca9"
-  end
 
   def install
     hdf5_formula = Formula["hdf5@1.14.6"]
@@ -52,7 +33,6 @@ class Mdt < Formula
         args << "-DPYTHON_LIBRARY=#{py3_lib}"
         args << "-DPYTHON_INCLUDE_DIR=#{py3_inc}"
         args << "-DCMAKE_INSTALL_PYTHONDIR=#{py3_sitepack}"
-        args << "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
         args << ".."
         system "cmake", *args
         system "make", "-j#{ENV.make_jobs}", "install"
