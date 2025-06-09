@@ -22,6 +22,9 @@ class Modeller < Formula
   env :std
 
   def install
+    # Set default SOURCE_DATE_EPOCH
+    ENV["SOURCE_DATE_EPOCH"] = "1451574000"
+
     dylib = "dylib" if OS.mac?
     dylib = "so" if OS.linux?
     modtop = "Library/modeller-#{version}" if OS.mac?
