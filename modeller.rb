@@ -14,8 +14,8 @@ class Modeller < Formula
   depends_on "python-setuptools" => :build
   depends_on "gettext"
   depends_on "glib"
-  depends_on "hdf5@1.14.6"
-  depends_on "ifort-runtime" if Hardware::CPU.intel?
+  depends_on "salilab/salilab/hdf5@1.14.6"
+  depends_on "salilab/salilab/ifort-runtime" if Hardware::CPU.intel?
   depends_on "python@3.13" => :recommended
 
   # otherwise python3 setup.py build cannot find pkg-config

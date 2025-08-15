@@ -11,7 +11,7 @@ class Mdt < Formula
   depends_on "cmake" => :build
   depends_on "swig" => :build
   depends_on "glib"
-  depends_on "modeller"
+  depends_on "salilab/salilab/modeller"
   depends_on "python@3.13" => :recommended
 
   def install
