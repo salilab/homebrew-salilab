@@ -24,8 +24,8 @@ class Imp < Formula
   depends_on "cereal" => :build
 
   depends_on "boost"
-  depends_on "rmf"
-  depends_on "ihm"
+  depends_on "salilab/salilab/rmf"
+  depends_on "salilab/salilab/ihm"
   depends_on "eigen"
   depends_on "fftw"
   depends_on "hdf5"
