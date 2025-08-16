@@ -6,16 +6,16 @@ class Imp < Formula
   url "https://integrativemodeling.org/2.23.0/download/imp-2.23.0.tar.gz"
   sha256 "18300beeae294a4917fb112bc697364292118184250acfd8ac76b88023281f20"
   license "LGPL/GPL"
-  revision 2
+  revision 3
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_sequoia: "0781e6e2bbee881eb7809ad07a13b70def12ed1a75649930a72e5ae5778e04c3"
-    sha256 arm64_sonoma:  "6e766c854bcd35d3e39a989a3ba014f97e96d43a2b981e359bddf9cfe7386885"
-    sha256 arm64_ventura: "c70a19ce71c7579b556a0904fedac852d832fb569ea5245844ffe6b773803024"
-    sha256 sequoia:       "c320623f365fc95ed5983fc0bbe2db1f7e4c02592a10c654526e930bdfa23c09"
-    sha256 sonoma:        "77402f7e7bfa4b5ca22d99b4adb62b3395d2e6cc36059039b7a75ee14eff3529"
-    sha256 ventura:       "04fda277bd40b000b7b7dc49ab69afd8970eb72c6c8cd19f3edb3cb65c450e18"
+    sha256 arm64_sequoia: "a0731e45fe6216ddf182264641af2e04a1c60e94e39184cb0095a4241d600c5a"
+    sha256 arm64_sonoma:  "fcccb49a628de9b770e8752dfde59a2a08b6f56fffd993641defa8158368fd8e"
+    sha256 arm64_ventura: "be87b4a700396d5f7bd893b20a459d6159e758a1272316ee14e830b40436841e"
+    sha256 sequoia:       "6d1fa7a176154cf43e99697377446f8bbfc055e10097ae9639760ecec1b4ff1b"
+    sha256 sonoma:        "3d40f04545dca6c1a464964e16a8d0db259de4d994f7b601770876cc4473ec35"
+    sha256 ventura:       "42560e5ef5519ad66229a11ea5c7311d017871486304b592a1894be85ddae3c4"
   end
 
   depends_on "cmake" => :build
@@ -39,6 +39,9 @@ class Imp < Formula
 
   # We need C++17 support for protobuf
   fails_with gcc: "5"
+
+  # Fix build with protobuf v30
+  patch :DATA
 
   def install
     pybin = Formula["python@3.13"].opt_bin/"python3.13"
@@ -101,3 +104,35 @@ class Imp < Formula
     system "foxs"
   end
 end
+__END__
+diff --git a/modules/npctransport/src/protobuf.cpp b/modules/npctransport/src/protobuf.cpp
+index 7e8cbad..d162fa6 100644
+--- a/modules/npctransport/src/protobuf.cpp
++++ b/modules/npctransport/src/protobuf.cpp
+@@ -61,7 +61,8 @@ namespace {
+             show_ranges(oss.str(), &r->GetRepeatedMessage(*message, fd, i));
+           }
+         } else {
+-          show_ranges(fd->name(), &r->GetMessage(*message, fd));
++          show_ranges(static_cast<std::string>(fd->name()),
++                      &r->GetMessage(*message, fd));
+         }
+       }
+       }
+@@ -209,12 +210,14 @@ namespace {
+             int sz = in_r->FieldSize(*in_message, in_fd);
+             for (int i = 0; i < sz; ++i) {
+               ret +=
+-                get_ranges(in_fd->name(), &in_r->GetRepeatedMessage(*in_message, in_fd, i),
++                get_ranges(static_cast<std::string>(in_fd->name()),
++                           &in_r->GetRepeatedMessage(*in_message, in_fd, i),
+                            out_r->AddMessage(out_message, out_fd));
+               // IMP_LOG(VERBOSE, "Got " << IMP::Showable(ret) << std::endl);
+             }
+           } else { // not repeated:
+-            ret += get_ranges(in_fd->name(), &in_r->GetMessage(*in_message, in_fd),
++            ret += get_ranges(static_cast<std::string>(in_fd->name()),
++                              &in_r->GetMessage(*in_message, in_fd),
+                               out_r->MutableMessage(out_message, out_fd));
+             // IMP_LOG(VERBOSE, "Got " << IMP::Showable(ret) << std::endl);
+           }
