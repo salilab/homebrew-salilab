@@ -6,16 +6,16 @@ class Imp < Formula
   url "https://integrativemodeling.org/2.23.0/download/imp-2.23.0.tar.gz"
   sha256 "18300beeae294a4917fb112bc697364292118184250acfd8ac76b88023281f20"
   license "LGPL/GPL"
-  revision 4
+  revision 5
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_sequoia: "3812adcbf19cddcca52fbfec3c3f5e8c30da8bc051bc6a2763b240ba1c51e120"
-    sha256 arm64_sonoma:  "6079e16380388d76b7e62cc05e999d766210ed2eb8d0d0e2e43593310beb0402"
-    sha256 arm64_ventura: "e7db8e54dea8e0ea86a91b7522d13569792d4b208692a606c189479c213078e6"
-    sha256 sequoia:       "825c2aed4e88a326b8326e27f05fc5516dcfccde136e371c477c8508c3fcd7e7"
-    sha256 sonoma:        "c7063822dda04756fc41c888fc7398507473b3b64e0800b24df0e7b87c67c0a0"
-    sha256 ventura:       "a7ffbee3add97cfa8c696485c011f5364c52cfa92b588bd4a1e021d6e5851c4a"
+    sha256 arm64_sequoia: "ca8275ae31232673e4a11e72b0d5e85a9875976ad2d6da0b3aa70054582b8299"
+    sha256 arm64_sonoma:  "0a0a4bc56b3a7c8b8c6451cf1c2ee1bf1fc89a567c9b1ae06976591ac9979944"
+    sha256 arm64_ventura: "15c589fd9cf988af53ab0ae04cdb124ee1551680a16aad764c003907d21a0015"
+    sha256 sequoia:       "755f5a0e8544e34e241096e35d5a25dd6eca978dc97991f4dd1e8018330507ea"
+    sha256 sonoma:        "b8ec702a6896dd98f289752136b393d0b4a5cc126442cb6695c6bcea7a33a146"
+    sha256 ventura:       "edd5fba80dd4330efde4aabfc5a7e0f525a574d5d89b3357709b297e0cd4c53d"
   end
 
   depends_on "cmake" => :build
@@ -42,6 +42,12 @@ class Imp < Formula
 
   # Fix build with protobuf v30
   patch :DATA
+
+  # Fix build with Boost 1.89
+  patch do
+    url "https://github.com/salilab/imp/commit/be6117f488ed78646e382421ae41394419f449ea.patch?full_index=1"
+    sha256 "0e0341fb0826b0fe292a415f67eaec590bc5229454f231348e7315306e82ad87"
+  end
 
   def install
     pybin = Formula["python@3.13"].opt_bin/"python3.13"
