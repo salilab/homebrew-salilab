@@ -32,10 +32,10 @@ class Rmf < Formula
   end
 
   # Fix build with Boost 1.89
-   patch do
-     url "https://github.com/salilab/rmf/commit/a86359a79cc19a8bc8814e12ad778fc7cbfa6f0b.patch?full_index=1"
+  patch do
+    url "https://github.com/salilab/rmf/commit/a86359a79cc19a8bc8814e12ad778fc7cbfa6f0b.patch?full_index=1"
     sha256 "03a730ba5ed1955bad7930e4c59ddd05d35ba63178492d9946590a5a930f7ac4"
-   end
+  end
 
   def install
     ENV.cxx11
