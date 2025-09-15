@@ -6,16 +6,14 @@ class Imp < Formula
   url "https://integrativemodeling.org/2.23.0/download/imp-2.23.0.tar.gz"
   sha256 "18300beeae294a4917fb112bc697364292118184250acfd8ac76b88023281f20"
   license "LGPL/GPL"
-  revision 6
+  revision 7
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_sequoia: "6bc0645e35a8b46d5c00e465d03e5a97c145307b277546f987d6dfea2b7efab5"
-    sha256 arm64_sonoma:  "7becc46406d63a650fb8fbe48972a954070cde5e0a221e160eef78fc29865ad7"
-    sha256 arm64_ventura: "a236e48b85c14026369eee9382896f9708e1cd73761a5984b2f6cb65bea539d8"
-    sha256 sequoia:       "ecc7e77acc65e270346aea07585ea3df929c6b841b789b130c2097712557a84f"
-    sha256 sonoma:        "c1e7cb985b44050d756aa4e06aa739480477551a05e10fe4a723aa4d1fff8db0"
-    sha256 ventura:       "554e871400f3d496907a1798960001fff007700d82611a480315690b67c11d81"
+    sha256 arm64_sequoia: "482bbacbb0d9d59a0cefeeaad37ad98f9679ad67d15087175a732ed87b6cd975"
+    sha256 arm64_sonoma:  "329702bc0f7e06487333d3bf1fce83ecbd490d97ee6325b273b1a184f31911ad"
+    sha256 sequoia:       "72356991377669face525c3bb08f31f65077153025a3df4a4d35de55f3690d43"
+    sha256 sonoma:        "a66c66958fa10e581bd159a8d43a171211fe18a638d344b47552a526317c5634"
   end
 
   depends_on "cmake" => :build
