@@ -10,6 +10,7 @@ class Imp < Formula
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
+    sha256 arm64_tahoe:   "50ee3379a5af17092c9c3f44601c6bb72614f546db6d50604d159a8eeeaa01df"
     sha256 arm64_sequoia: "482bbacbb0d9d59a0cefeeaad37ad98f9679ad67d15087175a732ed87b6cd975"
     sha256 arm64_sonoma:  "329702bc0f7e06487333d3bf1fce83ecbd490d97ee6325b273b1a184f31911ad"
     sha256 arm64_ventura: "a49b5459c5317b7b76293791a3448271d85a38011fca4fae6b77901a87b30f56"
