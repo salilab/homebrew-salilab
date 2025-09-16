@@ -14,9 +14,11 @@ class Hdf5AT1146 < Formula
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
+    sha256 arm64_tahoe:   "188ab3a0db3757d879f22dcfba0fc0286dbaee414ff9e7e8761542360cd96402"
     sha256 arm64_sequoia: "530f8835866249aa7ede534cb048bc2e56d85a630a30c4e92fd872dff07e5f17"
     sha256 arm64_sonoma:  "853a3c92065242a4e4edf13b0701c35842802f51f3d0d32e161b2d0cd89e9a6b"
     sha256 arm64_ventura: "7c2d65af89ff56c216928782733790e0e95bb6dcbc52ecad04cb24d42de66124"
+    sha256 tahoe:         "6cc5982833bf53cee2f0c315317069dfef60585c125432d7b8c0cf631086a7cd"
     sha256 sequoia:       "8e1a308d8ce24108d336d3b2dd3bf910939b2d6b6db4cadb288f9ebc6f16ea45"
     sha256 sonoma:        "d24e9c108dc7cfa93adf816cbab21280ee59076d772b05cae8da2828bdde3b1d"
     sha256 ventura:       "c34d09ea4168538a10d5cb553a5a57d1a3989f10c685e3d42b7456400da610e8"

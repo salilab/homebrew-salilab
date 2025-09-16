@@ -10,6 +10,7 @@ class Rmf < Formula
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
+    sha256 arm64_tahoe:   "28bff41f4f218f8fce8accdfcaeafd3d151bd47e2006abe1f4f5e8bdbb9d2941"
     sha256 arm64_sequoia: "d0ffc063badd7485954517bbc3077365d56184108a26d80e6a413af2bbae494e"
     sha256 arm64_sonoma:  "7e02f8f19faf33cddd16a9d28fd9c5db138d8f4a0a4c82310264150ed50974f9"
     sha256 arm64_ventura: "a6cc3da957f799eb59cf3fba9a6bdd2841693b8cfa4f83d7339092ddf43aaf02"
