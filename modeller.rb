@@ -7,6 +7,7 @@ class Modeller < Formula
   sha256 "8c34e0d776411a0c6b6cf05af53b3757f38728c9550bc7c3fd3f64a8f3d21510" if OS.mac?
   url "https://salilab.org/modeller/10.7/modeller-10.7.tar.gz" if OS.linux?
   sha256 "b81ffee26841ef96470341889fa4af560f968cf35ef990d95480c7eb7a5b5c8f" if OS.linux?
+  revision 1
 
   depends_on "patchelf" => :build if OS.linux?
   depends_on "pkg-config" => :build
@@ -16,7 +17,7 @@ class Modeller < Formula
   depends_on "glib"
   depends_on "salilab/salilab/hdf5@1.14.6"
   depends_on "salilab/salilab/ifort-runtime" if Hardware::CPU.intel?
-  depends_on "python@3.13" => :recommended
+  depends_on "python@3.14" => :recommended
 
   # otherwise python3 setup.py build cannot find pkg-config
   env :std
@@ -235,8 +236,8 @@ libraries.
                    "#{prefix}/dynlib/lib#{l}.#{dylib}")
     end
 
-    if build.with? "python@3.13"
-      pyver = Language::Python.major_minor_version Formula["python@3.13"].opt_bin/"python3.13"
+    if build.with? "python@3.14"
+      pyver = Language::Python.major_minor_version Formula["python@3.14"].opt_bin/"python3.14"
       File.open("modeller.pth", "w") do |file|
         file.puts "#{prefix}/modlib"
       end
@@ -267,15 +268,15 @@ libraries.
       end
     end
 
-    # Build Python 3.13 extension from SWIG inputs
-    if build.with? "python@3.13"
-      pyver = Language::Python.major_minor_version Formula["python@3.13"].opt_bin/"python3.13"
+    # Build Python 3.14 extension from SWIG inputs
+    if build.with? "python@3.14"
+      pyver = Language::Python.major_minor_version Formula["python@3.14"].opt_bin/"python3.14"
       Dir.chdir("#{prefix}/src/swig/") do
         system "swig", "-python", "-keyword", "-nodefaultctor",
                "-nodefaultdtor", "-noproxy", "modeller.i"
         # Avoid possible confusion between Python 2 and Python 3 site modules
         ENV.delete("PYTHONPATH")
-        system Formula["python@3.13"].opt_bin/"python3.13", "setup.py", "build"
+        system Formula["python@3.14"].opt_bin/"python3.14", "setup.py", "build"
         (lib/"python#{pyver}/site-packages").install Dir["build/lib.*/_modeller.*so"]
         File.delete("modeller_wrap.c")
         rm_rf("build")
