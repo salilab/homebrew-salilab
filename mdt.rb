@@ -15,6 +15,12 @@ class Mdt < Formula
   depends_on "salilab/salilab/modeller"
   depends_on "python@3.14" => :recommended
 
+  # Fix build with modern NumPy
+  patch do
+    url "https://github.com/salilab/mdt/commit/098326df243ff6c7eea26b2434fd1a68fd4b4094.patch?full_index=1"
+    sha256 "ad745cb8f9211167fbf9a16bb02c0c6ba5c5096fed1bceb0a523cecf2bba6bb7"
+  end
+
   def install
     hdf5_formula = Formula["hdf5@1.14.6"]
 
