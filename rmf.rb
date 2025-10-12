@@ -6,18 +6,16 @@ class Rmf < Formula
   url "https://github.com/salilab/rmf/archive/refs/tags/1.7.0.tar.gz"
   sha256 "37997f189702b4705f69b2db5f64cef31cfa9ab9eb151dfc0457c72dba422345"
   license "Apache-2.0"
-  revision 2
+  revision 3
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_tahoe:   "28bff41f4f218f8fce8accdfcaeafd3d151bd47e2006abe1f4f5e8bdbb9d2941"
-    sha256 arm64_sequoia: "d0ffc063badd7485954517bbc3077365d56184108a26d80e6a413af2bbae494e"
-    sha256 arm64_sonoma:  "7e02f8f19faf33cddd16a9d28fd9c5db138d8f4a0a4c82310264150ed50974f9"
-    sha256 arm64_ventura: "a6cc3da957f799eb59cf3fba9a6bdd2841693b8cfa4f83d7339092ddf43aaf02"
-    sha256 tahoe:         "52c5a81997d98b7f91c2de8b5e97119fb8d280bd49d793309bfb7ea6173bcdf5"
-    sha256 sequoia:       "c51bf238b13be58aab043ac07afa21f93445f65ad99b8607161d65f8e3a82430"
-    sha256 sonoma:        "b03f62ec608099f45211aa12693896fbb3c94ffce41535110b0f369f266d4e56"
-    sha256 ventura:       "d397938c247b1366432d08d59e3ef3e0b0a4dcad5104789f06c7b2229740b149"
+    sha256 arm64_tahoe:   "de169037bd68bc55765d86bdb96c39661b5a4157178bfe6256aee1d51bcb3324"
+    sha256 arm64_sequoia: "0bb47a3a1110a7825612581bfeeed54cdcae32c1102f977ecabe5d3163551d7f"
+    sha256 arm64_sonoma:  "6beee99a6dc79c2b5c3ccc6608eaf7ca3b095b8c55512237cc18a38002f0f79b"
+    sha256 tahoe:         "97ea31e7674403ed3c2028f2ebdabd7a67f8e19880281cfb8f3e76ee7e386f1e"
+    sha256 sequoia:       "198ebbfcb64de288dbb2109276aecde5c1e6b39912febd214da45aaabf9a61ab"
+    sha256 sonoma:        "96ad7233228c7b6a25347d7125171787bec995862c37fc320b53da2843a6b3f2"
   end
 
   depends_on "cmake" => :build
@@ -26,7 +24,7 @@ class Rmf < Formula
 
   depends_on "boost"
   depends_on "hdf5"
-  depends_on "python@3.13"
+  depends_on "python@3.14"
   depends_on "numpy"
 
   on_big_sur :or_older do
@@ -41,7 +39,7 @@ class Rmf < Formula
 
   def install
     ENV.cxx11
-    pybin = Formula["python@3.13"].opt_bin/"python3.13"
+    pybin = Formula["python@3.14"].opt_bin/"python3.14"
     pyver = Language::Python.major_minor_version pybin
     args = std_cmake_args
     args << ".."
@@ -63,7 +61,7 @@ class Rmf < Formula
   end
 
   test do
-    pythons = [Formula["python@3.13"].opt_bin/"python3.13"]
+    pythons = [Formula["python@3.14"].opt_bin/"python3.14"]
     pythons.each do |python|
       system python, "-c", "import RMF; assert(RMF.__version__ == '1.7.0')"
       system python, "-c", "import RMF; assert(hasattr(RMF, 'get_all_global_coordinates'))"
