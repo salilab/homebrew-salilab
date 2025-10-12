@@ -6,18 +6,16 @@ class Imp < Formula
   url "https://integrativemodeling.org/2.23.0/download/imp-2.23.0.tar.gz"
   sha256 "18300beeae294a4917fb112bc697364292118184250acfd8ac76b88023281f20"
   license "LGPL/GPL"
-  revision 7
+  revision 8
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_tahoe:   "50ee3379a5af17092c9c3f44601c6bb72614f546db6d50604d159a8eeeaa01df"
-    sha256 arm64_sequoia: "482bbacbb0d9d59a0cefeeaad37ad98f9679ad67d15087175a732ed87b6cd975"
-    sha256 arm64_sonoma:  "329702bc0f7e06487333d3bf1fce83ecbd490d97ee6325b273b1a184f31911ad"
-    sha256 arm64_ventura: "a49b5459c5317b7b76293791a3448271d85a38011fca4fae6b77901a87b30f56"
-    sha256 tahoe:         "24621268aa271fde4b4a2017741ea79a79998078d81f25bd80a79c55065c40b2"
-    sha256 sequoia:       "72356991377669face525c3bb08f31f65077153025a3df4a4d35de55f3690d43"
-    sha256 sonoma:        "a66c66958fa10e581bd159a8d43a171211fe18a638d344b47552a526317c5634"
-    sha256 ventura:       "e1e6ac4199c5eb0e2726c4da3945bcf2c7bd2248c0837f30a19b280fc24fb847"
+    sha256 arm64_tahoe:   "f868dd545f5a69ef9ace1e8bc4237b5d213ed7e340901e07305b20dab8f0edb5"
+    sha256 arm64_sequoia: "5ce1e4bff7b2e6af78cd38bd9d0eeaf8f281fb78f4ede3b952dcd7c8d8876d95"
+    sha256 arm64_sonoma:  "74aa65f047c3a7ca98b7d2c0fb6d70496f4d16447c00f75ffa29631130c0b63a"
+    sha256 tahoe:         "78feddf7bfaba601a969a1cf0230b99876129290a22c9a2a52e4558c0a0c6913"
+    sha256 sequoia:       "2702017200dbf04fd6952c2f4cb8c35d2400cb6d16c7c0b9ef2809e3158783a9"
+    sha256 sonoma:        "0ea47b02c517a91a18f544c859f3b1079dd26631d62e1367da5149014b676c66"
   end
 
   depends_on "cmake" => :build
@@ -33,7 +31,7 @@ class Imp < Formula
   depends_on "hdf5"
   depends_on "open-mpi"
   depends_on "protobuf"
-  depends_on "python@3.13"
+  depends_on "python@3.14"
   depends_on "cgal" => :recommended
   depends_on "gsl" => :recommended
   depends_on "libtau" => :recommended
@@ -52,7 +50,7 @@ class Imp < Formula
   end
 
   def install
-    pybin = Formula["python@3.13"].opt_bin/"python3.13"
+    pybin = Formula["python@3.14"].opt_bin/"python3.14"
     pyver = Language::Python.major_minor_version pybin
     args = std_cmake_args
     # Work around boost/clang incompatibility
@@ -95,7 +93,7 @@ class Imp < Formula
   end
 
   test do
-    pythons = [Formula["python@3.13"].opt_bin/"python3.13"]
+    pythons = [Formula["python@3.14"].opt_bin/"python3.14"]
     pythons.each do |python|
       system python, "-c", "import IMP; assert(IMP.__version__ == '#{version}')"
       system python, "-c", "import IMP.em2d; assert(IMP.em2d.__version__ == '#{version}')"
