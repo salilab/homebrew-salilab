@@ -4,24 +4,23 @@ class Ihm < Formula
   url "https://pypi.io/packages/source/i/ihm/ihm-2.7.tar.gz"
   sha256 "a3b9eba5545de1e07a15d110e9e6b70369807798d8f2c45908323db2b6fde82c"
   license "MIT"
+  revision 1
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_tahoe:   "50e5ef38a86bfe80d528dbf5cc696822638e3fcfd412f262ad7ee5b3b82766aa"
-    sha256 arm64_sequoia: "ef4d4bc3b91f0d1be1e3197aee1708bd2526dc865ea556816f3b842e3b3c9159"
-    sha256 arm64_sonoma:  "08e9c039e0956f633905dc75e29640f3a325b4130c9db4864679701b019a1d10"
-    sha256 arm64_ventura: "978af999d7f250cb9a7f7fba488987e8858eb43238d0ee9c24817edee9467d40"
-    sha256 tahoe:         "7e2075be0cc2f4fc0e280f0ed52847a4ae91cfd667025187c1196bb782417c1f"
-    sha256 sequoia:       "99d5c89efef5e442a355772e6cc9039d9aa454147316a7e3ef99b8c714187e1f"
-    sha256 sonoma:        "78867823e74756686abbcdcfcf8d9318b553c4a8afc1523cbffef111809e967c"
-    sha256 ventura:       "98714f6a2c07ced517a4a69f0f71d109257177cc11f06e8cf12e5eacb3c60d14"
+    sha256 arm64_tahoe:   "5ad5d42e365b71ca6f9634d0d1e5ceb8fc340a44343bb7da46fe362bd679057e"
+    sha256 arm64_sequoia: "f0c1adae9d780c6f42e73a548e4d8f464b18f2244f2602e1fb2471ef2ac6bec1"
+    sha256 arm64_sonoma:  "9e76b571abae9f4fbceb0ee592aa8a564cf6b1f08c9f38bbe126aa31fa865eb4"
+    sha256 tahoe:         "8692cad148d85d45c596dc2f71ad9823feef4adb60ba014f4e71164817e1a40f"
+    sha256 sequoia:       "2e247f8aa33bf8d5f0222f880f49242e0e48c44037580cbf4295ab85270f2a03"
+    sha256 sonoma:        "69df46636b222be2cf57623d40f4cdd55ba29bceeae20c14374dccf41e099736"
   end
 
-  depends_on "python@3.13"
+  depends_on "python@3.14"
 
   def install
     ENV.cxx11
-    pybin = Formula["python@3.13"].opt_bin/"python3.13"
+    pybin = Formula["python@3.14"].opt_bin/"python3.14"
     prefix_site_packages = prefix/Language::Python.site_packages(pybin)
     system pybin, "setup.py", "install",
            "--single-version-externally-managed",
@@ -30,7 +29,7 @@ class Ihm < Formula
   end
 
   test do
-    pythons = [Formula["python@3.13"].opt_bin/"python3.13"]
+    pythons = [Formula["python@3.14"].opt_bin/"python3.14"]
     (testpath/"test.py").write <<~EOS
       import ihm
       import ihm.dumper
