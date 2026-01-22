@@ -6,16 +6,16 @@ class Rmf < Formula
   url "https://github.com/salilab/rmf/archive/refs/tags/1.7.0.tar.gz"
   sha256 "37997f189702b4705f69b2db5f64cef31cfa9ab9eb151dfc0457c72dba422345"
   license "Apache-2.0"
-  revision 3
+  revision 4
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_tahoe:   "de169037bd68bc55765d86bdb96c39661b5a4157178bfe6256aee1d51bcb3324"
-    sha256 arm64_sequoia: "0bb47a3a1110a7825612581bfeeed54cdcae32c1102f977ecabe5d3163551d7f"
-    sha256 arm64_sonoma:  "6beee99a6dc79c2b5c3ccc6608eaf7ca3b095b8c55512237cc18a38002f0f79b"
-    sha256 tahoe:         "97ea31e7674403ed3c2028f2ebdabd7a67f8e19880281cfb8f3e76ee7e386f1e"
-    sha256 sequoia:       "198ebbfcb64de288dbb2109276aecde5c1e6b39912febd214da45aaabf9a61ab"
-    sha256 sonoma:        "96ad7233228c7b6a25347d7125171787bec995862c37fc320b53da2843a6b3f2"
+    sha256 arm64_tahoe:   "7c74ef4fe8b59ac63f265460936951ac14da96e3fdffe4fa9c6d2dcfe2ebd753"
+    sha256 arm64_sequoia: "708a11470f2f7032d328bf632f80ab677e4ca8f031b70d5604a577f47bfdaa9c"
+    sha256 arm64_sonoma:  "2523ff194e83b1dddb30665ff7accf8dfdd3c1e90525de3fe79d27c99f6219f5"
+    sha256 tahoe:         "b29b621894639d8643cbad395041528fe1b301476072930fcf1c15d5374d1d54"
+    sha256 sequoia:       "339c3f85bc1938f08db163a2ff8a488d7395224115eafd80ad49d7c7d5b9c74b"
+    sha256 sonoma:        "539f5aa5346bd1113bdb88de6baad780a6bdc236c8770c83a5479228c46906db"
   end
 
   depends_on "cmake" => :build
