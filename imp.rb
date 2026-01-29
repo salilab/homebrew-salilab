@@ -3,19 +3,18 @@ require "formula"
 class Imp < Formula
   desc "Integrative Modeling Platform"
   homepage "https://integrativemodeling.org/"
-  url "https://integrativemodeling.org/2.23.0/download/imp-2.23.0.tar.gz"
-  sha256 "18300beeae294a4917fb112bc697364292118184250acfd8ac76b88023281f20"
+  url "https://integrativemodeling.org/2.24.0/download/imp-2.24.0.tar.gz"
+  sha256 "e5ad6795bc950ac24d98983ec0c6799c9de3998b66592ce0e8cb611d826febc9"
   license "LGPL/GPL"
-  revision 15
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_tahoe:   "63fe60de9d3eba1c308d38a876af942440016801b17898213131b1a49e6dae63"
-    sha256 arm64_sequoia: "9c8e1b93e2b51b9ea32dd6283c89785ebcbb49280e0de1d0ab3d7bbfcaa1d4dc"
-    sha256 arm64_sonoma:  "309a988e9f2dd4d62e045fbc0a101fdff6fd8e5ad4abc6e67cc6c69240a217db"
-    sha256 tahoe:         "f42065a430e001f9a601cae0c5404d6e80a707a75e19a39861a87a5224f8b378"
-    sha256 sequoia:       "8da32f04ae75acc38cda494dcfbe81019eaeb44cb8850e67397604c60314a033"
-    sha256 sonoma:        "e52d995ce40675860020338224b618b4140c3e4d3e6a1e5276136b1ac75796c7"
+    sha256 arm64_tahoe:   "bf86ab235bda32aef7d583ebd17f155216c1170b5fe3efcc7e026e8c183397a5"
+    sha256 arm64_sequoia: "4803378ebcbe4a039754c2e23359561a63d4b25c73fc8f217341ef9e1201efa9"
+    sha256 arm64_sonoma:  "e6f46da5954826531a35a5ae634c4a149f2f2d49f96a2a8057dd70a6d78f708d"
+    sha256 tahoe:         "24c69254de9b048f36c92f17cea759b4f8598368d1fc4daf6a169b1db5118674"
+    sha256 sequoia:       "f8d1404fd83e17029fb3321bce34c1443e020eb2319421ce97b7e241cba76131"
+    sha256 sonoma:        "90d1cf4d3aca9cce404ce47e7316ce83a84bd98fddbf07b840d57fc890021072"
   end
 
   depends_on "cmake" => :build
@@ -39,21 +38,6 @@ class Imp < Formula
 
   # We need C++17 support for protobuf
   fails_with gcc: "5"
-
-  # Fix build with protobuf v30
-  patch :DATA
-
-  # Fix build with Boost 1.89
-  patch do
-    url "https://github.com/salilab/imp/commit/be6117f488ed78646e382421ae41394419f449ea.patch?full_index=1"
-    sha256 "0e0341fb0826b0fe292a415f67eaec590bc5229454f231348e7315306e82ad87"
-  end
-
-  # Fix build with Eigen 5
-  patch do
-    url "https://github.com/salilab/imp/commit/c8478b1448aece0c10334eb185409939762aefd7.patch?full_index=1"
-    sha256 "d34099352a0ea198f5d048705a9bdd652c2308f58445bd0b96bd1c0d6a2887ae"
-  end
 
   def install
     pybin = Formula["python@3.14"].opt_bin/"python3.14"
@@ -116,35 +100,3 @@ class Imp < Formula
     system "foxs"
   end
 end
-__END__
-diff --git a/modules/npctransport/src/protobuf.cpp b/modules/npctransport/src/protobuf.cpp
-index 7e8cbad..d162fa6 100644
---- a/modules/npctransport/src/protobuf.cpp
-+++ b/modules/npctransport/src/protobuf.cpp
-@@ -61,7 +61,8 @@ namespace {
-             show_ranges(oss.str(), &r->GetRepeatedMessage(*message, fd, i));
-           }
-         } else {
--          show_ranges(fd->name(), &r->GetMessage(*message, fd));
-+          show_ranges(static_cast<std::string>(fd->name()),
-+                      &r->GetMessage(*message, fd));
-         }
-       }
-       }
-@@ -209,12 +210,14 @@ namespace {
-             int sz = in_r->FieldSize(*in_message, in_fd);
-             for (int i = 0; i < sz; ++i) {
-               ret +=
--                get_ranges(in_fd->name(), &in_r->GetRepeatedMessage(*in_message, in_fd, i),
-+                get_ranges(static_cast<std::string>(in_fd->name()),
-+                           &in_r->GetRepeatedMessage(*in_message, in_fd, i),
-                            out_r->AddMessage(out_message, out_fd));
-               // IMP_LOG(VERBOSE, "Got " << IMP::Showable(ret) << std::endl);
-             }
-           } else { // not repeated:
--            ret += get_ranges(in_fd->name(), &in_r->GetMessage(*in_message, in_fd),
-+            ret += get_ranges(static_cast<std::string>(in_fd->name()),
-+                              &in_r->GetMessage(*in_message, in_fd),
-                               out_r->MutableMessage(out_message, out_fd));
-             // IMP_LOG(VERBOSE, "Got " << IMP::Showable(ret) << std::endl);
-           }
