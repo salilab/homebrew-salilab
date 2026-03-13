@@ -95,6 +95,7 @@ class Imp < Formula
       system python, "-c", "import IMP.bayesianem; assert(IMP.bayesianem.__version__ == '#{version}')"
       system python, "-c", "import IMP.sampcon; assert(IMP.sampcon.__version__ == '#{version}')"
       system python, "-c", "import IMP, RMF, os; name = IMP.create_temporary_file_name('assignments', '.hdf5'); root = RMF.HDF5.create_file(name); del root; os.unlink(name)"
+      system python, "-c", "import IMP.rmf, RMF; b = RMF.BufferHandle(); r = RMF.create_rmf_buffer(b); m = IMP.Model(); p = IMP.Particle(m); IMP.rmf.add_particle(r, p)"
       system python, "-c", "import IMP.mpi; assert(IMP.mpi.__version__ == '#{version}')"
     end
     system "multifit"
