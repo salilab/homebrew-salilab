@@ -1,18 +1,18 @@
 class Ihm < Formula
   desc "Package for handling IHM mmCIF and BinaryCIF files"
   homepage "https://github.com/ihmwg/python-ihm"
-  url "https://pypi.io/packages/source/i/ihm/ihm-2.9.tar.gz"
-  sha256 "2efc460217c66b4d359c1eb7509ffa417568c2e59e04c0e2609995db99fc937f"
+  url "https://pypi.io/packages/source/i/ihm/ihm-2.10.tar.gz"
+  sha256 "d77923a7e1c852fa0a8fe3a96054432febdc9ff4e629e5aa85477be541ceae24"
   license "MIT"
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_tahoe:   "a04ff102cd8ebde35628e7714033a9f00c7231a9093f93abc50575e48efe41cf"
-    sha256 arm64_sequoia: "364bf57fc0da50b8e0b60f1716e1877a5572a8537d97770733e27079a056125f"
-    sha256 arm64_sonoma:  "23590ab10397316fd8e648c05856ba60dfe16b3a37c22b929ed57c03095f9a01"
-    sha256 tahoe:         "430e5c7203bd2b4ca820d79b5bc2f618e0fc011b2b96c922ead080e2ff291be8"
-    sha256 sequoia:       "2bfc2aead7e76e1dea62c470bcd32e310ffc96df174d5c001319e46dd5b230b0"
-    sha256 sonoma:        "cb2d1fce005dcf3852b027d9acf5dbffe816f74c68cf944041957b3b11dee00a"
+    sha256 arm64_tahoe:   "3d83a9b52774ec32dac329beb76a46e775de0f7d369acb01fc32d5289eafb0c8"
+    sha256 arm64_sequoia: "a861b8e307551cf8c0eb43cc1f7c425e62437e220151058e56ac9fe81b8945e6"
+    sha256 arm64_sonoma:  "7652bf6b5991b2d9f96f3cab4a4b7d53b4dbe3cf0a5a1b5d59f0770b02a4a4dd"
+    sha256 tahoe:         "48b8fa203a950259dc41c79f3f590ad4eff127a651205abdf7c811a07b78c0e8"
+    sha256 sequoia:       "fb5917e11fcf1e4ed05f4b47973179dd21da5cbc629e8d13f62b231f22f39f0d"
+    sha256 sonoma:        "93db7cc9d769c24651aa1206be1a4bac3695d42de735cf730042f80f2f2033ee"
   end
 
   depends_on "python@3.14"
