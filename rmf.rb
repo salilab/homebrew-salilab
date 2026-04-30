@@ -3,19 +3,18 @@ require "formula"
 class Rmf < Formula
   desc "Rich Molecular Format library"
   homepage "https://integrativemodeling.org/rmf/"
-  url "https://github.com/salilab/rmf/archive/refs/tags/1.7.0.tar.gz"
-  sha256 "37997f189702b4705f69b2db5f64cef31cfa9ab9eb151dfc0457c72dba422345"
+  url "https://github.com/salilab/rmf/archive/refs/tags/1.7.1.tar.gz"
+  sha256 "7f1b7babf687513966a9b3366b9c95dbcce14e1fe9fc22d8ff146f0c5681747f"
   license "Apache-2.0"
-  revision 6
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_tahoe:   "cbeaf9068969c19492794619748e65bc167f3eb06337284e2fc43e390bfae5a3"
-    sha256 arm64_sequoia: "5c98358d883167bb8654443fdc8d6dca9da79cb28580140c4c8d1aa88ca9b049"
-    sha256 arm64_sonoma:  "3a9ad61af233fcb6ac0fa65f7845b8022c8af22feb1947403de4688ac9432fde"
-    sha256 tahoe:         "79ab9d30843859f9b8faa968c24877083f703f836e54a8f1a9385f4fa360c00e"
-    sha256 sequoia:       "12ceaebcb1ff932162577e07c72e1e2ab749ace3746024aaa954f056a0fa8918"
-    sha256 sonoma:        "c6b7e9736d292ed44e296660289821e05b90112cfc724d84436cb90284bd1cd5"
+    sha256 arm64_tahoe:   "a662f2e1b25ba015ad38870dabe8bbb4db116983080749011ee94fbed5172c30"
+    sha256 arm64_sequoia: "f258a22697977a788045986d12c87bb8e6f51cd4de12ea87aca21a434eb694df"
+    sha256 arm64_sonoma:  "4bbcc57995e4ea0caa120870e67797abfde448da403b34d39b45bfed9d3ecc13"
+    sha256 tahoe:         "5f1931d56af478950011e74d83c1df47dbdabf0b8e9d2ef1ad8dbf1feb8850d2"
+    sha256 sequoia:       "1a02c6c78aba4440fc1f02433d21bd65e773d54d9627c1daf654d076699e4cee"
+    sha256 sonoma:        "f1cfa3c05bdf09ed8ceadd15391618634aa0d037fed8cc489bd651d924a5e4cf"
   end
 
   depends_on "cmake" => :build
@@ -26,16 +25,6 @@ class Rmf < Formula
   depends_on "hdf5"
   depends_on "python@3.14"
   depends_on "numpy"
-
-  on_big_sur :or_older do
-    patch :DATA
-  end
-
-  # Fix build with Boost 1.89
-  patch do
-    url "https://github.com/salilab/rmf/commit/a86359a79cc19a8bc8814e12ad778fc7cbfa6f0b.patch?full_index=1"
-    sha256 "03a730ba5ed1955bad7930e4c59ddd05d35ba63178492d9946590a5a930f7ac4"
-  end
 
   def install
     ENV.cxx11
@@ -63,25 +52,9 @@ class Rmf < Formula
   test do
     pythons = [Formula["python@3.14"].opt_bin/"python3.14"]
     pythons.each do |python|
-      system python, "-c", "import RMF; assert(RMF.__version__ == '1.7.0')"
+      system python, "-c", "import RMF; assert(RMF.__version__ == '1.7.1')"
       system python, "-c", "import RMF; assert(hasattr(RMF, 'get_all_global_coordinates'))"
     end
     system "rmf3_dump", "--version"
   end
 end
-
-__END__
---- a/include/RMF/HDF5/handle.h
-+++ b/include/RMF/HDF5/handle.h
-@@ -70,9 +70,9 @@ class RMFEXPORT Handle : public boost::noncopyable {
-     }
-     h_ = -1;
-   }
--// Older clang does not like exception specification in combination
-+// Many clang/macOS versions do not like exception specification in combination
- // with std::shared_ptr
--#if defined(__clang__) && __clang_major__ <= 7
-+#if defined(__clang__)
-   ~Handle() {
- #else
-   ~Handle() noexcept(false) {
