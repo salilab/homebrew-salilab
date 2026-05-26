@@ -6,16 +6,16 @@ class Imp < Formula
   url "https://integrativemodeling.org/2.24.0/download/imp-2.24.0.tar.gz"
   sha256 "e5ad6795bc950ac24d98983ec0c6799c9de3998b66592ce0e8cb611d826febc9"
   license "LGPL/GPL"
-  revision 3
+  revision 4
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_tahoe:   "88667527fba954ff7f68dec492bfdf77ec6c02656deb881ebefa1e05821c5225"
-    sha256 arm64_sequoia: "5d7e41f248025fb82e30b04374c704a6014de58fd4859c43a127d01196e28e58"
-    sha256 arm64_sonoma:  "c2ddee3d12842e8bda24d1d2d6888a9c5d599485f444f3bd3de691cc2e5285c6"
-    sha256 tahoe:         "3291eae39581cea9e5f37ec5bd7b4379a37fc2978c9b4a89bac4706f513032d4"
-    sha256 sequoia:       "d829cc238e468a014f660b00c04f11ed89c41a311a407b63d32ef67816b91584"
-    sha256 sonoma:        "6c077aaa540454614aaef936e30e04d48d69bd791785cd6ba1b055d1b93bf955"
+    sha256 arm64_tahoe:   "3647667670ded627863a432ece7c732ca2e79f13226dfd622056489df6d46663"
+    sha256 arm64_sequoia: "5f15ba2a85ab10ae4bd4c923df81dbee470fd44fd590c4e24e344dffa55b9b02"
+    sha256 arm64_sonoma:  "c9f1674b3b17da0ddeca00809735fa8875c8f75c0150f1d1f1d661fb806542af"
+    sha256 tahoe:         "b4fa816c295aeb9f3ffd8a844d05634a171d3f8b612d9b39df8f181f825b79e7"
+    sha256 sequoia:       "bd139ec138de5e154372c717d058ae36d3a40bd6df48f626c3c644d08534eaea"
+    sha256 sonoma:        "30ee8e8494cd79333dfb3f88a843bf7d7d470ea1348a3ebca8ee476ea21474ef"
   end
 
   depends_on "cmake" => :build
@@ -44,8 +44,7 @@ class Imp < Formula
     pybin = Formula["python@3.14"].opt_bin/"python3.14"
     pyver = Language::Python.major_minor_version pybin
     args = std_cmake_args
-    # Work around boost/clang incompatibility
-    args << "-DCMAKE_CXX_FLAGS='-std=c++17 -D_LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION'"
+    args << "-DCMAKE_CXX_FLAGS='-std=c++17'"
     args << "-DIMP_DISABLED_MODULES=scratch"
     args << "-DIMP_USE_SYSTEM_RMF=on"
     args << "-DIMP_USE_SYSTEM_IHM=on"
