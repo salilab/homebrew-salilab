@@ -3,18 +3,18 @@ require "formula"
 class Rmf < Formula
   desc "Rich Molecular Format library"
   homepage "https://integrativemodeling.org/rmf/"
-  url "https://github.com/salilab/rmf/archive/refs/tags/1.7.1.tar.gz"
-  sha256 "7f1b7babf687513966a9b3366b9c95dbcce14e1fe9fc22d8ff146f0c5681747f"
+  url "https://github.com/salilab/rmf/archive/refs/tags/1.7.2.tar.gz"
+  sha256 "132599e2904e7533c433a3770dc0ceae25e989f7a4d9a0fbeda93623acfdba60"
   license "Apache-2.0"
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_tahoe:   "a662f2e1b25ba015ad38870dabe8bbb4db116983080749011ee94fbed5172c30"
-    sha256 arm64_sequoia: "f258a22697977a788045986d12c87bb8e6f51cd4de12ea87aca21a434eb694df"
-    sha256 arm64_sonoma:  "4bbcc57995e4ea0caa120870e67797abfde448da403b34d39b45bfed9d3ecc13"
-    sha256 tahoe:         "5f1931d56af478950011e74d83c1df47dbdabf0b8e9d2ef1ad8dbf1feb8850d2"
-    sha256 sequoia:       "1a02c6c78aba4440fc1f02433d21bd65e773d54d9627c1daf654d076699e4cee"
-    sha256 sonoma:        "f1cfa3c05bdf09ed8ceadd15391618634aa0d037fed8cc489bd651d924a5e4cf"
+    sha256 arm64_tahoe:   "aa337bc21706270951e084ebd7f6db48d97bcf7110a91ae62a90f625c89c77c1"
+    sha256 arm64_sequoia: "5b595dc7c49e553ee802537901c7963cea4d678311b6a51790836e4ade069b26"
+    sha256 arm64_sonoma:  "7d40b17d71389949e1a5f9a526b0d037626e8e75bc6569eb0dfb4b54afe8dfce"
+    sha256 tahoe:         "9cc036db073ffc7428f1e134e3ff3c1be7f1005adcff979e8764c3cefc738ea4"
+    sha256 sequoia:       "35b28cc2b0c8becb94ed4f27fcbbda5c351f6d3c234f5843164ac27215206e3d"
+    sha256 sonoma:        "bd347732e6aeaa9d2eba8e375dff61f24cbae3493c84fdf228d62b691730b5b0"
   end
 
   depends_on "cmake" => :build
@@ -52,7 +52,7 @@ class Rmf < Formula
   test do
     pythons = [Formula["python@3.14"].opt_bin/"python3.14"]
     pythons.each do |python|
-      system python, "-c", "import RMF; assert(RMF.__version__ == '1.7.1')"
+      system python, "-c", "import RMF; assert(RMF.__version__ == '1.7.2')"
       system python, "-c", "import RMF; assert(hasattr(RMF, 'get_all_global_coordinates'))"
     end
     system "rmf3_dump", "--version"
