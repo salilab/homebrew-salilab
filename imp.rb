@@ -6,15 +6,16 @@ class Imp < Formula
   url "https://integrativemodeling.org/2.25.0/download/imp-2.25.0.tar.gz"
   sha256 "2f7c1403524e8fa991e8b6cb59fa6c0d5d6c2005c41c20cabb66185f07ba3c5c"
   license "LGPL/GPL"
+  revision 1
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_tahoe:   "bb0984d259863b387b59ec80730230d5d11169bc648242d818421af904e6d4be"
-    sha256 arm64_sequoia: "26a796b07289183551e9604403f53a00238223a1f7c1b25b1cf72930c89d4a4f"
-    sha256 arm64_sonoma:  "f523ac9aa5b9ac0fb1bec7b7931d5f3a9e05cf2ef920859956429986f99568af"
-    sha256 tahoe:         "284c516d5ae13e57de3e18ad36b624c5ffc27d32d93a49546a2e50697b592f25"
-    sha256 sequoia:       "4c467f2e2a1b737279dbb6fdc8893b6ecdaea01a09d729aa866ec889f3cae9e8"
-    sha256 sonoma:        "98d6db1912858ea992fcc0cb45964b0dd74f0163e73e53de4ebc51d58e5ad4ea"
+    sha256 arm64_tahoe:   "530a7ece19a2edf019d4bdc7865fa3525ccdfbfe3668802d7f9dea1b2f19b5da"
+    sha256 arm64_sequoia: "19569df2d92f6ef8ae6a6f4fc2590e7449facf838ced82a5a3d20910aec521de"
+    sha256 arm64_sonoma:  "444f2300386973139cc9598bd8262d732d34441c6c766bb117b2c28537118a6f"
+    sha256 tahoe:         "353ac23686b3887fbd5738e20cb70c902657f78007d55fcff3c8fb66ebaa25e7"
+    sha256 sequoia:       "c59b759c4ddbed7f233741bebb2f91bf5268d093ac9ba147d674e1a07bf5cd9c"
+    sha256 sonoma:        "8e610421b6b1bee42bbed74ce919b776a0f03074ba5036c5553da5618d5d1b7b"
   end
 
   depends_on "cmake" => :build
@@ -38,6 +39,9 @@ class Imp < Formula
 
   # We need C++17 support for protobuf
   fails_with gcc: "5"
+
+  # Fix build with SWIG 4.5
+  patch :DATA
 
   def install
     pybin = Formula["python@3.14"].opt_bin/"python3.14"
@@ -100,3 +104,263 @@ class Imp < Formula
     system "foxs"
   end
 end
+
+__END__
+diff --git a/modules/algebra/pyext/IMP_algebra.transformation2d.i b/modules/algebra/pyext/IMP_algebra.transformation2d.i
+index 146ef330ff..8872b05443 100644
+--- a/modules/algebra/pyext/IMP_algebra.transformation2d.i
++++ b/modules/algebra/pyext/IMP_algebra.transformation2d.i
+@@ -14,8 +14,8 @@ namespace IMP {
+         $action(self, *args)
+         return self
+   %}
+-  %feature("shadow") Transformation2D::__idiv__(double) %{
+-    def __idiv__(self, *args):
++  %feature("shadow") Transformation2D::__itruediv__(double) %{
++    def __itruediv__(self, *args):
+         $action(self, *args)
+         return self
+   %}
+@@ -24,18 +24,11 @@ namespace IMP {
+         $action(self, *args)
+         return self
+   %}
+-  %feature("shadow") Rotation2D::__idiv__(double) %{
+-    def __idiv__(self, *args):
++  %feature("shadow") Rotation2D::__itruediv__(double) %{
++    def __itruediv__(self, *args):
+         $action(self, *args)
+         return self
+   %}
+ 
+  }
+ }
+-
+-%extend IMP::algebra::Transformation2D {
+-  /* Support new-style "true" division */
+-  %pythoncode %{
+-  __truediv__ = __div__
+-  %}
+-}
+diff --git a/modules/algebra/pyext/IMP_algebra.transformation3d.i b/modules/algebra/pyext/IMP_algebra.transformation3d.i
+index c7259dc184..ddd4fd1f8a 100644
+--- a/modules/algebra/pyext/IMP_algebra.transformation3d.i
++++ b/modules/algebra/pyext/IMP_algebra.transformation3d.i
+@@ -14,8 +14,8 @@ namespace IMP {
+         $action(self, *args)
+         return self
+   %}
+-  %feature("shadow") Transformation3D::__idiv__(double) %{
+-    def __idiv__(self, *args):
++  %feature("shadow") Transformation3D::__itruediv__(double) %{
++    def __itruediv__(self, *args):
+         $action(self, *args)
+         return self
+   %}
+@@ -24,25 +24,11 @@ namespace IMP {
+         $action(self, *args)
+         return self
+   %}
+-  %feature("shadow") Rotation3D::__idiv__(double) %{
+-    def __idiv__(self, *args):
++  %feature("shadow") Rotation3D::__itruediv__(double) %{
++    def __itruediv__(self, *args):
+         $action(self, *args)
+         return self
+   %}
+ 
+  }
+ }
+-
+-%extend IMP::algebra::Rotation3D {
+-  /* Support new-style "true" division */
+-  %pythoncode %{
+-  __truediv__ = __div__
+-  %}
+-}
+-
+-%extend IMP::algebra::Transformation3D {
+-  /* Support new-style "true" division */
+-  %pythoncode %{
+-  __truediv__ = __div__
+-  %}
+-}
+diff --git a/modules/kernel/pyext/IMP_kernel.vector.i b/modules/kernel/pyext/IMP_kernel.vector.i
+index c471524ab2..edc0e92ff8 100644
+--- a/modules/kernel/pyext/IMP_kernel.vector.i
++++ b/modules/kernel/pyext/IMP_kernel.vector.i
+@@ -19,8 +19,8 @@ namespace IMP {
+         $action(self, *args)
+         return self
+   %}
+-  %feature("shadow") VectorD<D>::__idiv__(double) %{
+-    def __idiv__(self, *args):
++  %feature("shadow") VectorD<D>::__itruediv__(double) %{
++    def __itruediv__(self, *args):
+         $action(self, *args)
+         return self
+   %}
+@@ -65,7 +65,7 @@ namespace IMP {
+      generate a new SWIG wrapper for the return value (see above). */
+   void __iadd__(const IMP::VectorD<D> &o) { self->operator+=(o); }
+   void __imul__(double f) { self->operator*=(f); }
+-  void __idiv__(double f) { self->operator/=(f); }
++  void __itruediv__(double f) { self->operator/=(f); }
+   void __isub__(const IMP::VectorD<D> &o) { self->operator-=(o); }
+   unsigned int __len__() { return self->get_dimension(); }
+   const IMP::VectorD<D> __rmul__(double f) const {return self->operator*(f);}
+@@ -81,12 +81,6 @@ namespace IMP {
+     IMP_THROW("Geometric primitives cannot be compared",
+               IMP::ValueException);
+   }
+-
+-  /* Support new-style "true" division */
+-  %pythoncode %{
+-  __truediv__ = __div__
+-  __itruediv__ = __idiv__
+-  %}
+ };
+ 
+ IMP_SWIG_VALUE_SERIALIZE_IMPL(IMP, VectorD<D>);
+commit 4d9da70a6e05abe98d328541c6b783aa803e5b34 (HEAD -> refs/heads/salilab, refs/remotes/origin/salilab)
+Author: Ben Webb <benmwebb@gmail.com>
+Date:   Thu Aug 6 21:31:10 2026 -0700
+
+    Don't rely on SWIG compatibility macros
+    
+    SWIG 4.5 no longer adds #defines to map some
+    Python 2 API functions to Python 3 equivalents.
+    In order to build with this SWIG version, use
+    the correct Python 3 API instead.
+
+diff --git a/modules/bff/pyext/numpy.i b/modules/bff/pyext/numpy.i
+index b126c69..68ced13 100644
+--- a/modules/bff/pyext/numpy.i
++++ b/modules/bff/pyext/numpy.i
+@@ -114,8 +114,8 @@
+     if (py_obj == NULL          ) return "C NULL value";
+     if (py_obj == Py_None       ) return "Python None" ;
+     if (PyCallable_Check(py_obj)) return "callable"    ;
+-    if (PyString_Check(  py_obj)) return "string"      ;
+-    if (PyInt_Check(     py_obj)) return "int"         ;
++    if (PyBytes_Check(   py_obj)) return "string"      ;
++    if (PyLong_Check(    py_obj)) return "int"         ;
+     if (PyFloat_Check(   py_obj)) return "float"       ;
+     if (PyDict_Check(    py_obj)) return "dict"        ;
+     if (PyList_Check(    py_obj)) return "list"        ;
+@@ -2007,7 +2007,7 @@
+   (PyObject* array = NULL)
+ {
+   npy_intp dims[1];
+-  if (!PyInt_Check($input))
++  if (!PyLong_Check($input))
+   {
+     const char* typestring = pytype_string($input);
+     PyErr_Format(PyExc_TypeError,
+@@ -2035,7 +2035,7 @@
+   (PyObject* array = NULL)
+ {
+   npy_intp dims[1];
+-  if (!PyInt_Check($input))
++  if (!PyLong_Check($input))
+   {
+     const char* typestring = pytype_string($input);
+     PyErr_Format(PyExc_TypeError,
+diff --git a/modules/kernel/include/internal/swig_helpers_base.h b/modules/kernel/include/internal/swig_helpers_base.h
+index ba20fc09f0..6435b1ca1d 100644
+--- a/modules/kernel/include/internal/swig_helpers_base.h
++++ b/modules/kernel/include/internal/swig_helpers_base.h
+@@ -2,7 +2,7 @@
+  *  \file internal/swig_helpers_base.h
+  *  \brief Functions for use in swig wrappers
+  *
+- *  Copyright 2007-2024 IMP Inventors. All rights reserved.
++ *  Copyright 2007-2026 IMP Inventors. All rights reserved.
+  */
+ 
+ #ifndef IMPKERNEL_INTERNAL_SWIG_HELPERS_BASE_H
+@@ -863,7 +863,7 @@ struct Convert<std::string> {
+                                     argtype),
+                   ValueException);
+       }
+-      std::string s(PyString_AsString(obj));
++      std::string s(PyBytes_AsString(obj));
+       Py_DECREF(obj);
+       return s;
+     }
+@@ -910,16 +910,13 @@ struct Convert<double> : public ConvertFloatBase {
+   static const int converter = 12;
+ };
+ 
+-/* with swig 2.0.6 we seem to need both the Int and Long checks */
+ template <>
+ struct Convert<int> {
+   static const int converter = 13;
+   template <class SwigData>
+   static int get_cpp_object(PyObject* o, const char *symname, int argnum,
+                             const char *argtype, SwigData, SwigData, SwigData) {
+-    if (PyInt_Check(o)) {
+-      return PyInt_AsLong(o);
+-    } else if (PyLong_Check(o)) {
++    if (PyLong_Check(o)) {
+       return PyLong_AsLong(o);
+     } else {
+       long ret = PyLong_AsLong(o);
+@@ -933,12 +930,12 @@ struct Convert<int> {
+   }
+   template <class SwigData>
+   static bool get_is_cpp_object(PyObject* o, SwigData, SwigData, SwigData) {
+-    return PyLong_Check(o) || PyInt_Check(o) || PyNumber_Check(o);
++    return PyLong_Check(o) || PyNumber_Check(o);
+   }
+   template <class SwigData>
+   static PyObject* create_python_object(int f, SwigData, int) {
+     // These may or may not have a ref count
+-    return PyInt_FromLong(f);
++    return PyLong_FromLong(f);
+   }
+ };
+ 
+diff --git a/modules/kernel/pyext/include/IMP_kernel.streams.i b/modules/kernel/pyext/include/IMP_kernel.streams.i
+index 41d0e5fb32..64014e13c6 100644
+--- a/modules/kernel/pyext/include/IMP_kernel.streams.i
++++ b/modules/kernel/pyext/include/IMP_kernel.streams.i
+@@ -328,9 +328,9 @@ protected:
+       // Python exception will be reraised when SWIG method finishes
+       throw std::ostream::failure("Python error on read");
+     } else {
+-      if (PyString_Check(result)) {
+-        if (PyString_Size(result) == 1) {
+-          int c = peeked_ = (unsigned char)(PyString_AsString(result)[0]);
++      if (PyBytes_Check(result)) {
++        if (PyBytes_Size(result) == 1) {
++          int c = peeked_ = (unsigned char)(PyBytes_AsString(result)[0]);
+           Py_DECREF(result);
+           return c;
+         } else {
+@@ -352,9 +352,9 @@ protected:
+     if (!result) {
+       throw std::ostream::failure("Python error on read");
+     } else {
+-      if (PyString_Check(result)) {
+-        int len = PyString_Size(result);
+-        char *str = PyString_AsString(result);
++      if (PyBytes_Check(result)) {
++        int len = PyBytes_Size(result);
++        char *str = PyBytes_AsString(result);
+         if (len > n) {
+           Py_DECREF(result);
+           PyErr_SetString(PyExc_IOError, "Python file-like object read method "
+diff --git a/modules/kernel/pyext/include/IMP_kernel.types.i b/modules/kernel/pyext/include/IMP_kernel.types.i
+index 47cd125a38..c3c082013b 100644
+--- a/modules/kernel/pyext/include/IMP_kernel.types.i
++++ b/modules/kernel/pyext/include/IMP_kernel.types.i
+@@ -33,7 +33,7 @@
+    whether it's signed or not. So we override the default here and force the
+    hash value into a signed type, so it will always fit into a Python 'int'. */
+ %typemap(out) std::size_t __hash__ {
+-  $result = PyInt_FromLong(static_cast<long>($1));
++  $result = PyLong_FromLong(static_cast<long>($1));
+ }
+ 
+ /* Add additional IMP_CONTAINER methods for scripting languages */
