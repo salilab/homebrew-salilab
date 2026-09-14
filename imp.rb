@@ -10,9 +10,10 @@ class Imp < Formula
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_tahoe:   "bac167b36a145bafab9db0bb382fae532057d35badf62b7e7be5e36d5b21b8cc"
-    sha256 arm64_sequoia: "505f3cce1254665a095bd2466ac7b26b4367b608820ddca915c86cffbb748965"
-    sha256 arm64_sonoma:  "87bad09d58159a56a382b960c57367865a5d39145254653482119abc0cade74a"
+    sha256 arm64_golden_gate: "37577f06e4157cecbf2f9090212dbfd332ff4e6f51b3f025ae672e6bb426c860"
+    sha256 arm64_tahoe:       "bac167b36a145bafab9db0bb382fae532057d35badf62b7e7be5e36d5b21b8cc"
+    sha256 arm64_sequoia:     "505f3cce1254665a095bd2466ac7b26b4367b608820ddca915c86cffbb748965"
+    sha256 arm64_sonoma:      "87bad09d58159a56a382b960c57367865a5d39145254653482119abc0cade74a"
   end
 
   depends_on "cmake" => :build
