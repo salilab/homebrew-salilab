@@ -7,12 +7,13 @@ class Ihm < Formula
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_tahoe:   "be5b45e288ba14ffd661a5603d8c30741dc3434ea6dfc01ab3f7955f4a686a30"
-    sha256 arm64_sequoia: "16178ee06f5a2cfe08eadd98a9867837dc3a9f966e559c9dab6695fdadf1d698"
-    sha256 arm64_sonoma:  "aaf0b12b067bbffcca004709542608deff6ce6bc0d137810ae0fc02bdd38d2fc"
-    sha256 tahoe:         "8e01a1b9584f64f5f1c0165c3a74e1d4a99c209cfc648cb964351393c48d68d5"
-    sha256 sequoia:       "612ac36248d39e3fd336a9e4e9fa9f4014b761393cfc29a29f446227896a2775"
-    sha256 sonoma:        "521c557f043fa8152a98304dcac859553d0af9e0395814552c635049fe12c629"
+    sha256 arm64_golden_gate: "e5a1e7cff515af34b095213a4871778338e5df761919029155e7e041bd3ec665"
+    sha256 arm64_tahoe:       "be5b45e288ba14ffd661a5603d8c30741dc3434ea6dfc01ab3f7955f4a686a30"
+    sha256 arm64_sequoia:     "16178ee06f5a2cfe08eadd98a9867837dc3a9f966e559c9dab6695fdadf1d698"
+    sha256 arm64_sonoma:      "aaf0b12b067bbffcca004709542608deff6ce6bc0d137810ae0fc02bdd38d2fc"
+    sha256 tahoe:             "8e01a1b9584f64f5f1c0165c3a74e1d4a99c209cfc648cb964351393c48d68d5"
+    sha256 sequoia:           "612ac36248d39e3fd336a9e4e9fa9f4014b761393cfc29a29f446227896a2775"
+    sha256 sonoma:            "521c557f043fa8152a98304dcac859553d0af9e0395814552c635049fe12c629"
   end
 
   depends_on "python@3.14"
