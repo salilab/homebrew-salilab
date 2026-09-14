@@ -23,8 +23,10 @@ class Modeller < Formula
 
   # Fix build with SWIG 4.5
   patch do
-    url "https://salilab.org/homebrew/patches/modeller-swig45.patch"
-    sha256 "496cb0756725680fcb602ed293d83f0eb94c9136ab18bc3e47a702c04c66b6c4"
+    url "https://salilab.org/homebrew/patches/modeller-swig45-mac.patch" if OS.mac?
+    sha256 "cd746e0fbd1addb9a858f8deaf35035b6db98cf6ecd031b0859ae95b1bd6295f" if OS.mac?
+    url "https://salilab.org/homebrew/patches/modeller-swig45-linux.patch" if OS.linux?
+    sha256 "7c5898e96b09d2d6e96ddd3e636c38271e25f5dea6aefca72ceb93d0dc25c705" if OS.linux?
   end
 
   def install
