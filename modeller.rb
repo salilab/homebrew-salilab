@@ -21,6 +21,12 @@ class Modeller < Formula
   # otherwise python3 setup.py build cannot find pkg-config
   env :std
 
+  # Fix build with SWIG 4.5
+  patch do
+    url "https://salilab.org/homebrew/patches/modeller-swig45.patch"
+    sha256 "496cb0756725680fcb602ed293d83f0eb94c9136ab18bc3e47a702c04c66b6c4"
+  end
+
   def install
     # Set default SOURCE_DATE_EPOCH
     ENV["SOURCE_DATE_EPOCH"] = "1451574000"
