@@ -21,6 +21,12 @@ class Mdt < Formula
     sha256 "ad745cb8f9211167fbf9a16bb02c0c6ba5c5096fed1bceb0a523cecf2bba6bb7"
   end
 
+  # Fix build with SWIG 4.5
+  patch do
+    url "https://github.com/salilab/mdt/commit/d69267e217295b05cc0fa0fba9f5f5756b01e794.patch?full_index=1"
+    sha256 "64b7a572dd596bd7f8b5bfd152a1fef4408842a334184b063e4b1478b96e57d1"
+  end
+
   def install
     hdf5_formula = Formula["hdf5@1.14.6"]
 
