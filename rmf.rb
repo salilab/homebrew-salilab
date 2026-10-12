@@ -6,13 +6,13 @@ class Rmf < Formula
   url "https://github.com/salilab/rmf/archive/refs/tags/1.7.2.tar.gz"
   sha256 "132599e2904e7533c433a3770dc0ceae25e989f7a4d9a0fbeda93623acfdba60"
   license "Apache-2.0"
-  revision 1
+  revision 2
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_golden_gate: "f1f29574c877c05f21e493ad7c7578015be0a0ad259aa9fb2ec0d3d4c21cddca"
-    sha256 arm64_tahoe:       "a707dd66a0896afbf7c00ab88f5147c231834b55cb2c47416b5445f27359faff"
-    sha256 arm64_sequoia:     "d1ba5c8d72df7b45e0a626b1be6345bf751620bbf2254a385f933767070ced6e"
+    sha256 arm64_golden_gate: "605fc005bc6da87ca021e6ceaa273845597302b4394e89a17f02ef2ddfca288b"
+    sha256 arm64_tahoe:       "5aedfb84ba66b47165a4562d3b2a79d5d5414930e24af33d74bea2a81bf057d0"
+    sha256 arm64_sequoia:     "b4a60ed9d380974484b1ef47c9055274f9abcce91865f49136bfad5773756799"
   end
 
   depends_on "cmake" => :build
@@ -21,12 +21,12 @@ class Rmf < Formula
 
   depends_on "boost"
   depends_on "hdf5"
-  depends_on "python@3.14"
+  depends_on "python@3.15"
   depends_on "numpy"
 
   def install
     ENV.cxx11
-    pybin = Formula["python@3.14"].opt_bin/"python3.14"
+    pybin = Formula["python@3.15"].opt_bin/"python3.15"
     pyver = Language::Python.major_minor_version pybin
     args = std_cmake_args
     args << ".."
@@ -48,7 +48,7 @@ class Rmf < Formula
   end
 
   test do
-    pythons = [Formula["python@3.14"].opt_bin/"python3.14"]
+    pythons = [Formula["python@3.15"].opt_bin/"python3.15"]
     pythons.each do |python|
       system python, "-c", "import RMF; assert(RMF.__version__ == '1.7.2')"
       system python, "-c", "import RMF; assert(hasattr(RMF, 'get_all_global_coordinates'))"
