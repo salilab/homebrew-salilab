@@ -60,7 +60,8 @@ class Mdt < Formula
   end
 
   test do
-    Language::Python.each_python(build) do |python, _version|
+    pythons = [Formula["python@3.15"].opt_bin/"python3.15"]
+    pythons.each do |python|
       system python, "-c", "import mdt"
     end
   end
