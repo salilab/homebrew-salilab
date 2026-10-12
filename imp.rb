@@ -6,13 +6,13 @@ class Imp < Formula
   url "https://integrativemodeling.org/2.25.0/download/imp-2.25.0.tar.gz"
   sha256 "2f7c1403524e8fa991e8b6cb59fa6c0d5d6c2005c41c20cabb66185f07ba3c5c"
   license "LGPL/GPL"
-  revision 6
+  revision 7
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_golden_gate: "a88ae1d8eeb9078fc2f892b2cfdb21106d30d83c17d19378687af90f26fa108c"
-    sha256 arm64_tahoe:       "e0d832f8fa1d4698a96f4aab6fc176b2fbcb7a02a44736af3275cfb729cccefe"
-    sha256 arm64_sequoia:     "7155a7909f612cce4bc41e9c477506ddd93c10bfcd9e60d1b872b62825ed658a"
+    sha256 arm64_golden_gate: "f971a8b0d1381204a9fd6b102699b2ec3c5ae2e24f6c890a228b85a075c15e68"
+    sha256 arm64_tahoe:       "b798522e2d64ad316fb02dcc99f6d4f740e42ededc040850db46d782f49b9f3d"
+    sha256 arm64_sequoia:     "fe3c6d75c2d70de356c893331ccb9bf304c25c7d42235c4de7e43ae7cd25292c"
   end
 
   depends_on "cmake" => :build
@@ -28,7 +28,7 @@ class Imp < Formula
   depends_on "hdf5"
   depends_on "open-mpi"
   depends_on "protobuf"
-  depends_on "python@3.14"
+  depends_on "python@3.15"
   depends_on "cgal" => :recommended
   depends_on "gsl" => :recommended
   depends_on "libtau" => :recommended
@@ -41,7 +41,7 @@ class Imp < Formula
   patch :DATA
 
   def install
-    pybin = Formula["python@3.14"].opt_bin/"python3.14"
+    pybin = Formula["python@3.15"].opt_bin/"python3.15"
     pyver = Language::Python.major_minor_version pybin
     args = std_cmake_args
     args << "-DCMAKE_CXX_FLAGS='-std=c++17'"
@@ -83,7 +83,7 @@ class Imp < Formula
   end
 
   test do
-    pythons = [Formula["python@3.14"].opt_bin/"python3.14"]
+    pythons = [Formula["python@3.15"].opt_bin/"python3.15"]
     pythons.each do |python|
       system python, "-c", "import IMP; assert(IMP.__version__ == '#{version}')"
       system python, "-c", "import IMP.em2d; assert(IMP.em2d.__version__ == '#{version}')"
