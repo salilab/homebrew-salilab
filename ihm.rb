@@ -4,19 +4,20 @@ class Ihm < Formula
   url "https://pypi.io/packages/source/i/ihm/ihm-2.12.tar.gz"
   sha256 "1172cb95007d02dd32fdfde257806d43f63f976ddec9ffaa78265ff9e244f3ec"
   license "MIT"
+  revision 1
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_golden_gate: "e578d95a1a39726c74d39b33f2c4d8ffe278ad2402aee265349e4c435935fc59"
-    sha256 arm64_tahoe:       "927b10d99df5335b11c4fac712ea6ccb942f91e1854ee22b0523af540d35252a"
-    sha256 arm64_sequoia:     "2ecf3b982e3ff169bf06798e77c722d9db455a07fc26fd13d1bcbb2b9bcb5a1f"
+    sha256 arm64_golden_gate: "8553ea956058bcd02ff305d00feb2ea797bbd9376ba8efeeec4109c6c93c3b3c"
+    sha256 arm64_tahoe:       "19df7e31a275d7870d47cfc359e1ce83039f0b1aa7cfa65ad9f56bc32e2b20e0"
+    sha256 arm64_sequoia:     "d4cfa0c8e1272cfbcd81bf060ba9de60b1dab00450b94b5fb5e472800eab7c34"
   end
 
-  depends_on "python@3.14"
+  depends_on "python@3.15"
 
   def install
     ENV.cxx11
-    pybin = Formula["python@3.14"].opt_bin/"python3.14"
+    pybin = Formula["python@3.15"].opt_bin/"python3.15"
     prefix_site_packages = prefix/Language::Python.site_packages(pybin)
     system pybin, "setup.py", "install",
            "--single-version-externally-managed",
@@ -25,7 +26,7 @@ class Ihm < Formula
   end
 
   test do
-    pythons = [Formula["python@3.14"].opt_bin/"python3.14"]
+    pythons = [Formula["python@3.15"].opt_bin/"python3.15"]
     (testpath/"test.py").write <<~EOS
       import ihm
       import ihm.dumper
