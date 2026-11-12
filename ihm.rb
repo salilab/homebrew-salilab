@@ -1,16 +1,15 @@
 class Ihm < Formula
   desc "Package for handling IHM mmCIF and BinaryCIF files"
   homepage "https://github.com/ihmwg/python-ihm"
-  url "https://pypi.io/packages/source/i/ihm/ihm-2.12.tar.gz"
-  sha256 "1172cb95007d02dd32fdfde257806d43f63f976ddec9ffaa78265ff9e244f3ec"
+  url "https://pypi.io/packages/source/i/ihm/ihm-2.13.tar.gz"
+  sha256 "71c9e30f4ded27f8985961ecb51fd1b932a9bf5ced17eff4069f1f5fc22093af"
   license "MIT"
-  revision 1
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_golden_gate: "8553ea956058bcd02ff305d00feb2ea797bbd9376ba8efeeec4109c6c93c3b3c"
-    sha256 arm64_tahoe:       "19df7e31a275d7870d47cfc359e1ce83039f0b1aa7cfa65ad9f56bc32e2b20e0"
-    sha256 arm64_sequoia:     "d4cfa0c8e1272cfbcd81bf060ba9de60b1dab00450b94b5fb5e472800eab7c34"
+    sha256 arm64_golden_gate: "81589627e305452ad7a032ceeb71644beabd7cd486b4dfc504485c1534e41431"
+    sha256 arm64_tahoe:       "3a01969b3d339ddf73eef58bb237ba7fd07b4e9a54e511323b4ddf2c9406e5a7"
+    sha256 arm64_sequoia:     "b41d950d126bda807b442bbf5ccafe6a0ef437d200dbe2ed41bac47d52f2f9b7"
   end
 
   depends_on "python@3.15"
