@@ -1,0 +1,100 @@
+name: Build bottles
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  changes:
+    name: Find modified formulae
+    runs-on: ubuntu-latest
+    outputs:
+      formulae: ${{ steps.find.outputs.formulae }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Diff against base
+        id: find
+        env:
+          EVENT: ${{ github.event_name }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+          PUSH_HEAD: ${{ github.sha }}
+        run: |
+          if [ "$EVENT" = "pull_request" ]; then
+            head="$PR_HEAD"
+            start=$(git merge-base "$PR_BASE" "$head")
+          else
+            head="$PUSH_HEAD"
+            # github.event.before is all zeros for a new branch, and may be
+            # missing from history after a force push; fall back to HEAD^.
+            if git cat-file -e "${PUSH_BEFORE}^{commit}" 2>/dev/null; then
+              start="$PUSH_BEFORE"
+            else
+              start="${head}^"
+            fi
+          fi
+          # Formulae live at the top level of the tap; ignore deleted files.
+          formulae=$(git diff --name-only --diff-filter=AMR "$start" "$head" \
+                       -- ':(glob)*.rb' \
+                     | sed -e 's/\.rb$//' -e 's|^|salilab/salilab/|' \
+                     | paste -sd, -)
+          echo "Modified formulae: ${formulae:-<none>}"
+          echo "formulae=$formulae" >> "$GITHUB_OUTPUT"
+
+  bottle:
+    name: Bottle (${{ matrix.name }})
+    needs: changes
+    if: needs.changes.outputs.formulae != ''
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # macOS 27 is only offered under the Xcode-named label.
+          - name: arm64_golden_gate
+            runner: xcode-27
+          - name: arm64_tahoe
+            runner: macos-26
+          - name: arm64_sequoia
+            runner: macos-15
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 360
+    env:
+      HOMEBREW_GITHUB_API_TOKEN: ${{ github.token }}
+      HOMEBREW_NO_AUTO_UPDATE: 1
+    steps:
+      # Checks out this repository directly into Homebrew's Taps directory
+      # as salilab/salilab and installs brew test-bot.
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@main
+
+      - run: brew test-bot --only-cleanup-before
+
+      - run: brew test-bot --only-setup
+
+      - name: Build and test bottles
+        env:
+          FORMULAE: ${{ needs.changes.outputs.formulae }}
+        run: |
+          brew test-bot --only-formulae \
+            --root-url=https://salilab.org/homebrew/bottles \
+            --testing-formulae="$FORMULAE"
+
+      - name: Upload bottles
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bottles-${{ matrix.name }}
+          path: '*.bottle.*'
+          if-no-files-found: warn
