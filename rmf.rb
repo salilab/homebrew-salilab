@@ -1,5 +1,3 @@
-require "formula"
-
 class Rmf < Formula
   desc "Rich Molecular Format library"
   homepage "https://integrativemodeling.org/rmf/"
@@ -18,12 +16,12 @@ class Rmf < Formula
 
   depends_on "boost"
   depends_on "hdf5"
-  depends_on "python@3.15"
   depends_on "numpy"
+  depends_on "python@3.15"
 
   def install
     ENV.cxx11
-    pybin = Formula["python@3.15"].opt_bin/"python3.15"
+    pybin = formula_opt_bin("python@3.15")/"python3.15"
     pyver = Language::Python.major_minor_version pybin
     args = std_cmake_args
     args << ".."
@@ -45,11 +43,11 @@ class Rmf < Formula
   end
 
   test do
-    pythons = [Formula["python@3.15"].opt_bin/"python3.15"]
+    pythons = [formula_opt_bin("python@3.15")/"python3.15"]
     pythons.each do |python|
       system python, "-c", "import RMF; assert(RMF.__version__ == '1.7.2')"
       system python, "-c", "import RMF; assert(hasattr(RMF, 'get_all_global_coordinates'))"
     end
-    system "rmf3_dump", "--version"
+    system "#{bin}/rmf3_dump", "--version"
   end
 end
