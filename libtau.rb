@@ -8,6 +8,9 @@ class Libtau < Formula
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
+    sha256 arm64_golden_gate: "658d85dde4d7e3a0ad9e4f8d75b9474c1ff090c8794c5c1205bd6bef5a35c6bd"
+    sha256 arm64_tahoe:       "206f06ad7e5689a2cc78e24b86f325cf45d018da05b661de80538d222467306f"
+    sha256 arm64_sequoia:     "7ee29715833de187966b2e62ac913f856bc8ea215c20121e8a8c88882d9474fc"
   end
 
   depends_on "python@3.15" => :build
