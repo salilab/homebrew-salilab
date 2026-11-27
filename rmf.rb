@@ -8,6 +8,9 @@ class Rmf < Formula
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
+    sha256 arm64_golden_gate: "59ec48fb9ff35ff1e5b3964798dfc27a49549a8ca258f1455856282332b8e351"
+    sha256 arm64_tahoe:       "0a13fd18facf92dc7c97041eeaaa1b8c288f07d8ec0a552dc219093f26345d7a"
+    sha256 arm64_sequoia:     "59dae6b72b19f4aa5f28a73948151a628a12d91034f9c29d73a4a5941a240c63"
   end
 
   depends_on "cmake" => :build
