@@ -1,11 +1,9 @@
-require "formula"
-
 class Imp < Formula
   desc "Integrative Modeling Platform"
   homepage "https://integrativemodeling.org/"
   url "https://integrativemodeling.org/2.25.0/download/imp-2.25.0.tar.gz"
   sha256 "2f7c1403524e8fa991e8b6cb59fa6c0d5d6c2005c41c20cabb66185f07ba3c5c"
-  license "LGPL/GPL"
+  license all_of: ["LGPL-2.1-only", "GPL-3.0-only"]
   revision 8
 
   bottle do
@@ -15,20 +13,20 @@ class Imp < Formula
     sha256 arm64_sequoia:     "9219cb85e70ffb73fd528591233a527ad658938d7c08e310ca89036d5ba0132c"
   end
 
+  depends_on "cereal" => :build
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
   depends_on "swig" => :build
-  depends_on "cereal" => :build
 
   depends_on "boost"
-  depends_on "salilab/salilab/rmf"
-  depends_on "salilab/salilab/ihm"
   depends_on "eigen"
   depends_on "fftw"
   depends_on "hdf5"
   depends_on "open-mpi"
   depends_on "protobuf"
   depends_on "python@3.15"
+  depends_on "salilab/salilab/ihm"
+  depends_on "salilab/salilab/rmf"
   depends_on "cgal" => :recommended
   depends_on "gsl" => :recommended
   depends_on "libtau" => :recommended
@@ -41,7 +39,7 @@ class Imp < Formula
   patch :DATA
 
   def install
-    pybin = Formula["python@3.15"].opt_bin/"python3.15"
+    pybin = formula_opt_bin("python@3.15")/"python3.15"
     pyver = Language::Python.major_minor_version pybin
     args = std_cmake_args
     args << "-DCMAKE_CXX_FLAGS='-std=c++17'"
@@ -77,13 +75,15 @@ class Imp < Formula
       system "make", "install"
       cd bin do
         # Make sure binaries use Homebrew Python
-        inreplace imppybins, %r{^#!.*python.*$}, "#!#{pybin}"
+        inreplace imppybins, /^#!.*python.*$/, "#!#{pybin}"
       end
+      # Don't record the Homebrew compiler shim in the installed CMake config
+      inreplace lib/"cmake/IMP/IMPConfig.cmake", Superenv.shims_path/ENV.cxx, ENV.cxx
     end
   end
 
   test do
-    pythons = [Formula["python@3.15"].opt_bin/"python3.15"]
+    pythons = [formula_opt_bin("python@3.15")/"python3.15"]
     pythons.each do |python|
       system python, "-c", "import IMP; assert(IMP.__version__ == '#{version}')"
       system python, "-c", "import IMP.em2d; assert(IMP.em2d.__version__ == '#{version}')"
@@ -93,12 +93,25 @@ class Imp < Formula
       system python, "-c", "import IMP.npctransport; assert(IMP.npctransport.__version__ == '#{version}')"
       system python, "-c", "import IMP.bayesianem; assert(IMP.bayesianem.__version__ == '#{version}')"
       system python, "-c", "import IMP.sampcon; assert(IMP.sampcon.__version__ == '#{version}')"
-      system python, "-c", "import IMP, RMF, os; name = IMP.create_temporary_file_name('assignments', '.hdf5'); root = RMF.HDF5.create_file(name); del root; os.unlink(name)"
-      system python, "-c", "import IMP.rmf, RMF; b = RMF.BufferHandle(); r = RMF.create_rmf_buffer(b); m = IMP.Model(); p = IMP.Particle(m); IMP.rmf.add_particle(r, p)"
+      system python, "-c", <<~PYTHON
+        import IMP, RMF, os
+        name = IMP.create_temporary_file_name('assignments', '.hdf5')
+        root = RMF.HDF5.create_file(name)
+        del root
+        os.unlink(name)
+      PYTHON
+      system python, "-c", <<~PYTHON
+        import IMP.rmf, RMF
+        b = RMF.BufferHandle()
+        r = RMF.create_rmf_buffer(b)
+        m = IMP.Model()
+        p = IMP.Particle(m)
+        IMP.rmf.add_particle(r, p)
+      PYTHON
       system python, "-c", "import IMP.mpi; assert(IMP.mpi.__version__ == '#{version}')"
     end
-    system "multifit"
-    system "foxs"
+    system "#{bin}/multifit"
+    system "#{bin}/foxs"
   end
 end
 
