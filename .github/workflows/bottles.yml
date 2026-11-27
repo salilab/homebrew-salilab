@@ -1,8 +1,6 @@
 name: Build bottles
 
 on:
-  push:
-    branches: [master]
   pull_request:
 
 concurrency:
