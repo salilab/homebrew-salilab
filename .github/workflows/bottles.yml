@@ -89,6 +89,7 @@ jobs:
         run: |
           brew test-bot --only-formulae \
             --root-url=https://salilab.org/homebrew/bottles \
+            --skip-dependents \
             --testing-formulae="$FORMULAE"
 
       - name: Upload bottles
