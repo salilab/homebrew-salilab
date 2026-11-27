@@ -17,7 +17,7 @@ jobs:
     outputs:
       formulae: ${{ steps.find.outputs.formulae }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -92,7 +92,7 @@ jobs:
 
       - name: Upload bottles
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bottles-${{ matrix.name }}
           path: '*.bottle.*'
