@@ -16,18 +16,18 @@ class Imp < Formula
   depends_on "swig" => :build
 
   depends_on "boost"
+  depends_on "cgal"
   depends_on "eigen"
   depends_on "fftw"
+  depends_on "gsl"
   depends_on "hdf5"
   depends_on "open-mpi"
+  depends_on "opencv"
   depends_on "protobuf"
   depends_on "python@3.15"
   depends_on "salilab/salilab/ihm"
+  depends_on "salilab/salilab/libtau"
   depends_on "salilab/salilab/rmf"
-  depends_on "cgal" => :recommended
-  depends_on "gsl" => :recommended
-  depends_on "opencv" => :recommended
-  depends_on "salilab/salilab/libtau" => :recommended
 
   # We need C++17 support for protobuf
   fails_with gcc: "5"
