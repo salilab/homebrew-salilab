@@ -26,8 +26,8 @@ class Imp < Formula
   depends_on "salilab/salilab/rmf"
   depends_on "cgal" => :recommended
   depends_on "gsl" => :recommended
-  depends_on "libtau" => :recommended
   depends_on "opencv" => :recommended
+  depends_on "salilab/salilab/libtau" => :recommended
 
   # We need C++17 support for protobuf
   fails_with gcc: "5"
