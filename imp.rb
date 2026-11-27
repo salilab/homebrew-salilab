@@ -4,13 +4,10 @@ class Imp < Formula
   url "https://integrativemodeling.org/2.25.0/download/imp-2.25.0.tar.gz"
   sha256 "2f7c1403524e8fa991e8b6cb59fa6c0d5d6c2005c41c20cabb66185f07ba3c5c"
   license all_of: ["LGPL-2.1-only", "GPL-3.0-only"]
-  revision 8
+  revision 9
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_golden_gate: "39a4737c81120859b1457696a8c5447637a30a1200c59a0f18ba029c986b3114"
-    sha256 arm64_tahoe:       "4eab85e01b84b31a1d12288b645f4b5a959b05c384430ca92c471eb0224d3428"
-    sha256 arm64_sequoia:     "9219cb85e70ffb73fd528591233a527ad658938d7c08e310ca89036d5ba0132c"
   end
 
   depends_on "cereal" => :build
