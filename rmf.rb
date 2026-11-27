@@ -6,13 +6,10 @@ class Rmf < Formula
   url "https://github.com/salilab/rmf/archive/refs/tags/1.7.2.tar.gz"
   sha256 "132599e2904e7533c433a3770dc0ceae25e989f7a4d9a0fbeda93623acfdba60"
   license "Apache-2.0"
-  revision 2
+  revision 3
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
-    sha256 arm64_golden_gate: "605fc005bc6da87ca021e6ceaa273845597302b4394e89a17f02ef2ddfca288b"
-    sha256 arm64_tahoe:       "5aedfb84ba66b47165a4562d3b2a79d5d5414930e24af33d74bea2a81bf057d0"
-    sha256 arm64_sequoia:     "b4a60ed9d380974484b1ef47c9055274f9abcce91865f49136bfad5773756799"
   end
 
   depends_on "cmake" => :build
