@@ -8,6 +8,9 @@ class Imp < Formula
 
   bottle do
     root_url "https://salilab.org/homebrew/bottles"
+    sha256 arm64_tahoe:       "d8f678fd0f679e54e1c939574dfdc3148d191d0a93742fc877f48eb8dee6b3dd"
+    sha256 arm64_sequoia:     "949d630cf30245b6ceb6c589e6ace2b9c0327d7481353cc463936e576126e328"
+    sha256 arm64_golden_gate: "41f424b36c39e0692a092066f9f71b071a20cbdaef850783b3e7bb7dccbf1c96"
   end
 
   depends_on "cereal" => :build
