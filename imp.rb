@@ -15,12 +15,15 @@ class Imp < Formula
   depends_on "pkg-config" => :build
   depends_on "swig" => :build
 
+  depends_on "abseil"
   depends_on "boost"
   depends_on "cgal"
   depends_on "eigen"
   depends_on "fftw"
+  depends_on "gmp"
   depends_on "gsl"
   depends_on "hdf5"
+  depends_on "mpfr"
   depends_on "open-mpi"
   depends_on "opencv"
   depends_on "protobuf"
